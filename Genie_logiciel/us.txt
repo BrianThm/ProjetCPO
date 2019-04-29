@@ -33,6 +33,8 @@ En tant qu'admin, je veux pouvoir ajouter une date et une heure à un tournoi af
 En tant qu'admin, je veux pouvoir ajouter un jeu à un tournoi afin qu'il soit visible.
 En tant qu'admin, je veux pouvoir ajouter une équipe à un tournoi afin que je sache quelle équipe participe au tournoi.
 En tant qu'admin, je veux pouvoir ajouter un jeu au gestionnaire afin qu'il soit consultable et disponible dans ma liste de jeux.
+=> taiga done
+
 En tant qu'admin, je veux pouvoir supprimer un jeu afin qu'il ne soit plus dans ma liste de jeux.
 En tant qu'admin, je veux pouvoir ajouter une équipe afin qu'elle soit consultable et disponible dans ma liste de jeux.
 En tant qu'admin, je veux pouvoir supprimer une équipe afin qu'elle ne soit plus dans ma liste d'équipes.
