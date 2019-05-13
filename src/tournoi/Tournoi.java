@@ -7,8 +7,8 @@ import participant.Participant;
  * @author Groupe
  * @version 1.0
  * 
- * Classe implémentant le terme générale de tournoi. 
- * Elle sera donc spécifié par les différents types de tournoi. 
+ * Classe implÃ©mentant le terme gÃ©nÃ©rale de tournoi. 
+ * Elle sera donc spÃ©cifiÃ© par les diffÃ©rents types de tournoi. 
  *
  */
 public abstract class Tournoi {
@@ -36,7 +36,7 @@ public abstract class Tournoi {
 	
 	public void ajoutParticipant(Participant p) {
 		assert (p != null) :
-			"Le participant a ajouté doit être initialisé !";
+			"Le participant a ajoutÃ© doit Ã©tre initialisÃ© !";
 		listeParticipants.add(p);
 	}
 	
