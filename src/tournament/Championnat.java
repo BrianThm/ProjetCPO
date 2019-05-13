@@ -1,6 +1,5 @@
-package tournoi;
+package tournament;
 import java.util.ArrayList;
-import participant.Participant;
 
 
 /**

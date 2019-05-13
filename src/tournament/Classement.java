@@ -1,5 +1,4 @@
-package tournoi;
-import participant.Participant;
+package tournament;
 
 public class Classement {
 	private Participant p; 

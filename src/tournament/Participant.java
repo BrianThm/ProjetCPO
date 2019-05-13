@@ -1,11 +1,11 @@
-package participant;
+package tournament;
 
 /**
  * @author 
  * @version 1.0
  * 
- * Classe définissant la notion de participant
- * Un participant sera spécifié par Equipe ou Joueur
+ * Classe dï¿½finissant la notion de participant
+ * Un participant sera spï¿½cifiï¿½ par Equipe ou Joueur
  *
  */
 public abstract class Participant {
@@ -19,12 +19,12 @@ public abstract class Participant {
 	
 	/**
 	 * Constructeur de la classe,
-	 * utilisé uniquement dans les sous-classes
+	 * utilisï¿½ uniquement dans les sous-classes
 	 * @param name le nom du participant
 	 */
 	protected Participant(String name) {
 		assert (name != null) : 
-			"Le nom doit être défini !";
+			"Le nom doit ï¿½tre dï¿½fini !";
 
 		this.Nom = name;
 	}

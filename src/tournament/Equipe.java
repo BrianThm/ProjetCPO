@@ -1,4 +1,4 @@
-package participant;
+package tournament;
 /**
  * 
  */
@@ -7,8 +7,8 @@ import java.util.ArrayList;
  * @author Groupe
  * @version 1.0 
  * 
- * Implémentant la notion d'equipe. 
- * L'equipe peut participer à un tournoi,
+ * Implï¿½mentant la notion d'equipe. 
+ * L'equipe peut participer ï¿½ un tournoi,
  * C'est donc un participant au tournoi!
  *
  */
@@ -17,7 +17,7 @@ public class Equipe extends Participant {
 	private ArrayList<Joueur> membres;
 	/**
 	 * Constructeur de la classe
-	 * @param name Nom de l'équipe
+	 * @param name Nom de l'ï¿½quipe
 	 */
 	public Equipe(String name) {
 		super(name);

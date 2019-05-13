@@ -1,4 +1,4 @@
-package tournoi;
+package tournament;
 
 public class Match {
 
