@@ -7,7 +7,7 @@ package tournament;
  * @author Groupe
  *
  */
-public class SimpleElim extends Tournoi {
+public class SimpleElim extends Tournament {
 
 	/**
 	 * @param lieu adresse du tournoi

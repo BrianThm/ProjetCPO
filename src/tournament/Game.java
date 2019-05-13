@@ -2,11 +2,9 @@ package tournament;
 import javax.swing.ImageIcon;
 
 /**
- * @author Groupe
+ * @author Group
  * @version 1.0
- *
- * Les jeux disponible dans notre application de gestion
- * 
+ * Class Game, each tournament has a game associated.
  */
 public class Game {
 	

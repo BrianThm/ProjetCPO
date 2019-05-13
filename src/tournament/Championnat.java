@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * de points obtenus
  *
  */
-public class Championnat extends Tournoi {
+public class Championnat extends Tournament {
 	
 	/**
 	 * Classement du tournoi
@@ -29,7 +29,7 @@ public class Championnat extends Tournoi {
 	}
 	
 	public void ajoutParticipant(Participant p) {
-		super.ajoutParticipant(p);
+		super.addParticipant(p);
 		Classement c = new Classement(p);
 		classement.add(c);
 	}
