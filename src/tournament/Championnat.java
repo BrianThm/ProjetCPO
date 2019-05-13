@@ -17,7 +17,7 @@ public class Championnat extends Tournoi {
 	/**
 	 * Classement du tournoi
 	 */
-	private ArrayList<Classement> classement;
+	private ArrayList<Ranking> classement;
 	
 	/**
 	 * Constructeur de la classe 
@@ -25,12 +25,12 @@ public class Championnat extends Tournoi {
 	 */
 	public Championnat(String adresse) {
 		super(adresse);
-		classement = new ArrayList<Classement>();
+		classement = new ArrayList<Ranking>();
 	}
 	
 	public void ajoutParticipant(Participant p) {
 		super.ajoutParticipant(p);
-		Classement c = new Classement(p);
+		Ranking c = new Ranking(p);
 		classement.add(c);
 	}
 	

@@ -12,16 +12,16 @@ import java.util.ArrayList;
  * C'est donc un participant au tournoi!
  *
  */
-public class Equipe extends Participant {
+public class Team extends Participant {
 
-	private ArrayList<Joueur> membres;
+	private ArrayList<Player> membres;
 	/**
 	 * Constructeur de la classe
 	 * @param name Nom de l'�quipe
 	 */
-	public Equipe(String name) {
+	public Team(String name) {
 		super(name);
-		membres = new ArrayList<Joueur>();
+		membres = new ArrayList<Player>();
 	}
 
 }
