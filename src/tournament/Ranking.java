@@ -1,10 +1,10 @@
 package tournament;
 
-public class Classement {
+public class Ranking {
 	private Participant p; 
 	private int points;
 	
-	public Classement(Participant part) {
+	public Ranking(Participant part) {
 		this.p = part;
 		this.points = 0;
 	}
