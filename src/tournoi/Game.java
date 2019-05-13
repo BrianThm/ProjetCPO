@@ -1,3 +1,4 @@
+package tournoi;
 import javax.swing.ImageIcon;
 
 /**

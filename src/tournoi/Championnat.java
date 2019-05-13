@@ -1,6 +1,5 @@
 package tournoi;
 import java.util.ArrayList;
-
 import participant.Participant;
 
 
@@ -8,7 +7,7 @@ import participant.Participant;
  * @author 
  * @version 1.0 
  *
- * Classe qui spécifie le type de tournoi Championnat
+ * Classe qui spÃ©cifie le type de tournoi Championnat
  * Dans ce type de tournoi tous les participants s'affrontent
  * deux fois et l'on construis le classement selon un nombre 
  * de points obtenus
