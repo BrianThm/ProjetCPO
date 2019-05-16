@@ -116,13 +116,14 @@ public class Player extends Participant {
 	 * @return The preferred team.
 	 */
 	public Team getPreferredTeam() {
-		Team team = new Team("");
+		Team team = null;
 		int nbGames = 0;
 		
 		for (Team t : teams.keySet()) {
-			if (teams.get(t) > nbGames) {
+			int nb = teams.get(t);
+			if (nb > nbGames) {
 				team = t;
-				nbGames = teams.get(t);
+				nbGames = nb;
 			}
 		}
 		
