@@ -3,30 +3,21 @@ package tournament;
 /**
  * @author 
  * @version 1.0
- * 
- * Classe d�finissant la notion de participant
- * Un participant sera sp�cifi� par Equipe ou Joueur
- *
+ * Class which defines a tournament participant. 
+ * A participant is either a Team or a Player.
  */
 public abstract class Participant {
 	
-	/**
-	 * Le nom du participant 
-	 * Pour le joueur (nom de famille ?)
-	 */
-	protected String Nom; 
-	
+	private String name; 
 	
 	/**
-	 * Constructeur de la classe,
-	 * utilis� uniquement dans les sous-classes
-	 * @param name le nom du participant
+	 * Participant constructor. 
+	 * Used only in the inherited classes.
+	 * @param name The participant name.
 	 */
-	protected Participant(String name) {
-		assert (name != null) : 
-			"Le nom doit �tre d�fini !";
-
-		this.Nom = name;
+	public Participant(String name) {
+		assert (name != null);
+		this.name = name;
 	}
 
 }
