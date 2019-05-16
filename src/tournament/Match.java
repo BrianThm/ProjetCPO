@@ -18,6 +18,10 @@ public class Match {
 	 * @param game The match game.
 	 */
 	public Match(Participant p1, Participant p2, Game game) {
+		assert p1 != null;
+		assert p2 != null;
+		assert game != null;
+		
 		this.part1 = p1;
 		this.part2 = p2;
 		this.game = game;
@@ -38,6 +42,8 @@ public class Match {
 	 * @param part The first participant.
 	 */
 	public void setParticipant1(Participant part) {
+		assert part != null;
+		
 		this.part1 = part;
 	}
 	
@@ -54,6 +60,8 @@ public class Match {
 	 * @param part The second participant.
 	 */
 	public void setParticipant2(Participant part) {
+		assert part != null;
+		
 		this.part2 = part;
 	}
 	
@@ -69,9 +77,11 @@ public class Match {
 	 * Method to indicate that the match ended with a draw.
 	 */
 	public void endGame() {
+		if (isPlayed()) {
+			this.part1.plays(game);
+			this.part2.plays(game);
+		}
 		this.draw = true;
-		this.part1.plays(game);
-		this.part2.plays(game);
 	}
 	
 	/**
@@ -79,9 +89,13 @@ public class Match {
 	 * @param winner The winner of the match.
 	 */
 	public void endGame(Participant winner) {
+		assert winner != null;
+		
+		if (isPlayed()) {
+			this.part1.plays(game);
+			this.part2.plays(game);
+		}
 		this.winner = winner;
-		this.part1.plays(game);
-		this.part2.plays(game);
 	}
 	
 	/**

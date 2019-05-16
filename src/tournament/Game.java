@@ -16,7 +16,9 @@ public class Game {
 	 * @param name The name of the game.
 	 */
 	public Game(String name) {
-		this(name, null);
+		assert name != null;
+		
+		this.name = name;
 	}
 	
 	/**
@@ -25,7 +27,9 @@ public class Game {
 	 * @param image The image associated to the game.
 	 */
 	public Game(String name, ImageIcon image) {
-		this.name = name;
+		this(name);
+		assert image != null;
+		
 		this.image = image;
 	}
 	
@@ -42,6 +46,8 @@ public class Game {
 	 * @param name The new name of the game.
 	 */
 	public void setName(String name) {
+		assert name != null;
+		
 		this.name = name;
 	}
 	
@@ -60,6 +66,8 @@ public class Game {
 	 * @param image The new image of the game.
 	 */
 	public void setImage(ImageIcon image) {
+		assert image != null;
+		
 		this.image = image;
 	}
 	
