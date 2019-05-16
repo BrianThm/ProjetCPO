@@ -18,7 +18,7 @@ public class Player extends Participant {
 	 * A player has a nickname and a list of teams he belongs to.
 	 * @param nickname The nickname of the player.
 	 */
-	public Player(String nickname) {
+	public Player(String nickname) {		
 		this("", "", nickname);
 	}
 	
@@ -42,6 +42,10 @@ public class Player extends Participant {
 	 */
 	public Player(String fname, String lname, String nickname) {
 		super(nickname);
+		
+		assert fname != null;
+		assert lname != null;
+		
 		this.fname = fname;
 		this.lname = lname;
 		teams = new HashMap<Team, Integer>();
@@ -58,6 +62,10 @@ public class Player extends Participant {
 	 */
 	public Player(String fname, String lname, String nickname, Game game) {
 		this(nickname, game);
+		
+		assert fname != null;
+		assert lname != null;
+		
 		this.fname = fname;
 		this.lname = lname;
 		teams = new HashMap<Team, Integer>();
@@ -77,6 +85,8 @@ public class Player extends Participant {
 	 * @param fname The forename to set.
 	 */
 	public void setFName(String fname) {
+		assert fname != null;
+		
 		this.fname = fname;
 	}
 	
@@ -93,6 +103,8 @@ public class Player extends Participant {
 	 * @param lname The lastname to set.
 	 */
 	public void setLName(String lname) {
+		assert lname != null;
+		
 		this.lname = lname;
 	}
 	
@@ -102,6 +114,8 @@ public class Player extends Participant {
 	 * @param team The team the player played with.
 	 */
 	public void playsIn(Team team) {
+		assert team != null;
+		
 		Integer nbGame = this.teams.get(team);
 		
 		if (nbGame == null) {
@@ -116,13 +130,14 @@ public class Player extends Participant {
 	 * @return The preferred team.
 	 */
 	public Team getPreferredTeam() {
-		Team team = new Team("");
+		Team team = null;
 		int nbGames = 0;
 		
 		for (Team t : teams.keySet()) {
-			if (teams.get(t) > nbGames) {
+			int nb = teams.get(t);
+			if (nb > nbGames) {
 				team = t;
-				nbGames = teams.get(t);
+				nbGames = nb;
 			}
 		}
 		

@@ -1,5 +1,6 @@
 package tournament;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Group
@@ -11,7 +12,7 @@ public abstract class Tournament {
 	/**
 	 * List of the participants of a tournament.
 	 */
-	protected ArrayList<Participant> participants;
+	private Set<Participant> participants;
 	
 	/**
 	 * Location of the tournament
@@ -30,7 +31,9 @@ public abstract class Tournament {
 	 * @param location The location of the tournament.
 	 */
 	public Tournament(String location) {
-		participants = new ArrayList<Participant>();
+		assert location != null;
+		
+		participants = new HashSet<Participant>();
 		this.location = location;
 	}
 	
@@ -47,6 +50,8 @@ public abstract class Tournament {
 	 * @param location The new location.
 	 */
 	public void setLocation(String location) {
+		assert location != null;
+		
 		this.location = location;
 	}
 	
@@ -58,6 +63,18 @@ public abstract class Tournament {
 		assert p != null;
 		
 		participants.add(p);
+		p.addTournament(this);
+	}
+	
+	/**
+	 * Remove a participant to a tournament.
+	 * @param p The participant to remove.
+	 */
+	public void removeParticipant(Participant p) {
+		assert p != null;
+		
+		participants.remove(p);
+		p.removeTournament(this);
 	}
 	
 }
