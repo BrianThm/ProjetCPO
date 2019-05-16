@@ -1,27 +1,22 @@
 package tournament;
-/**
- * 
- */
 import java.util.ArrayList;
+
 /**
  * @author Groupe
  * @version 1.0 
- * 
- * Impl�mentant la notion d'equipe. 
- * L'equipe peut participer � un tournoi,
- * C'est donc un participant au tournoi!
- *
+ * A team is composed of players.
+ * A team can participate to a tournament.
  */
 public class Team extends Participant {
 
-	private ArrayList<Player> membres;
+	private ArrayList<Player> members;
+	
 	/**
-	 * Constructeur de la classe
-	 * @param name Nom de l'�quipe
+	 * Create a new team with a name.
+	 * @param name The name of the team.
 	 */
 	public Team(String name) {
 		super(name);
-		membres = new ArrayList<Player>();
+		members = new ArrayList<Player>();
 	}
-
 }
