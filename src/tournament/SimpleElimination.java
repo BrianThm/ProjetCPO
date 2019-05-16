@@ -1,7 +1,7 @@
 package tournament;
 
 /**
- * @author Groupe
+ * @author Group
  * @version 1.0
  * A type of tournament.
  * This is the most simple tournament, where the looser of a match loose the tournament.
