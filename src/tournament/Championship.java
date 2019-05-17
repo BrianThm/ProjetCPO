@@ -18,8 +18,8 @@ public class Championship extends Tournament {
 	 * Championship constructor.
 	 * @param adresse Tournament address.
 	 */
-	public Championship(String location) {
-		super(location);
+	public Championship(Game game, String location) {
+		super(game, location);
 		this.ranking = new HashMap<Participant, Integer>();
 	}
 	

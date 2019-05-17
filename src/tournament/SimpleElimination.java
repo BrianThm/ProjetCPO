@@ -12,17 +12,16 @@ public class SimpleElimination extends Tournament {
 	/**
 	 * Create an empty SimpleElimination tournament.
 	 */
-	public SimpleElimination() {
-		this("");
+	public SimpleElimination(Game game) {
+		this(game, "");
 	}
 	
 	/**
 	 * Create a SimpleElimination tournament.
 	 * @param location The location of the tournament.
 	 */
-	public SimpleElimination(String location) {
-		super(location);
+	public SimpleElimination(Game game, String location) {
+		super(game, location);
 		// TODO Auto-generated constructor stub
 	}
-
 }

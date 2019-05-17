@@ -73,6 +73,13 @@ public abstract class Participant {
 		}
 	}
 	
+	// TODO javadoc
+	public void removeGame(Game game) {
+		assert game != null;
+		
+		this.games.remove(game);
+	}
+	
 	/**
 	 * Get the most played game of a participant. 
 	 * If the participant was created with a base game, 

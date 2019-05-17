@@ -9,32 +9,41 @@ import java.util.Set;
  */
 public abstract class Tournament {
 	
-	/**
-	 * List of the participants of a tournament.
-	 */
+	private Game game;
+	private String location;
 	private Set<Participant> participants;
 	
 	/**
-	 * Location of the tournament
+	 * Constructor of an empty tournament, composed of a game.
 	 */
-	private String location;
-	
-	/**
-	 * Constructor of an empty tournament.
-	 */
-	public Tournament() {
-		this("");
+	public Tournament(Game game) {
+		this(game, "");
 	}
 	
 	/**
-	 * Constructor of a tournament with a location.
+	 * Constructor of a tournament with a location and a game.
+	 * @param game The game of the tournament.
 	 * @param location The location of the tournament.
 	 */
-	public Tournament(String location) {
+	public Tournament(Game game, String location) {
+		assert game != null;
 		assert location != null;
 		
-		participants = new HashSet<Participant>();
+		this.game = game;
 		this.location = location;
+		participants = new HashSet<Participant>();
+	}
+	
+	// TODO javadoc
+	public Game getGame() {
+		return this.game;
+	}
+	
+	// TODO javadoc
+	public void setGame(Game game) {
+		assert game != null;
+		
+		this.game = game;
 	}
 	
 	/**
