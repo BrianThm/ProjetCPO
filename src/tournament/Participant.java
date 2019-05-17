@@ -1,14 +1,15 @@
 package tournament;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * @author Group
- * @version 1.0
  * Class which defines a tournament participant. 
  * A participant is either a Team or a Player.
+ * @author Group
+ * @version 1.0
  */
 public abstract class Participant {
 	

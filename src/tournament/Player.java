@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Group
  * Class Player. 
  * A player has one or several team(s) and game(s).
+ * @author Group
+ * @version 1.0
  */
 public class Player extends Participant {
 	

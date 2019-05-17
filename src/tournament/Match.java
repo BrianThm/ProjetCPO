@@ -1,9 +1,10 @@
 package tournament;
 
 /**
- * @author Group
  * Class Match. A match is played by two Participant. 
  * It can have a winner, or be a draw.
+ * @author Group
+ * @version 1.0
  */
 public class Match {
 	
