@@ -9,32 +9,41 @@ import java.util.Set;
  */
 public abstract class Tournament {
 	
-	/**
-	 * List of the participants of a tournament.
-	 */
+	private Game game;
+	private String location;
 	private Set<Participant> participants;
 	
 	/**
-	 * Location of the tournament
+	 * Constructor of an empty tournament, composed of a game.
 	 */
-	private String location;
-	
-	/**
-	 * Constructor of an empty tournament.
-	 */
-	public Tournament() {
-		this("");
+	public Tournament(Game game) {
+		this(game, "");
 	}
 	
 	/**
-	 * Constructor of a tournament with a location.
+	 * Constructor of a tournament with a location and a game.
+	 * @param game The game of the tournament.
 	 * @param location The location of the tournament.
 	 */
-	public Tournament(String location) {
+	public Tournament(Game game, String location) {
+		assert game != null;
 		assert location != null;
 		
-		participants = new HashSet<Participant>();
+		this.game = game;
 		this.location = location;
+		participants = new HashSet<Participant>();
+	}
+	
+	// TODO javadoc
+	public Game getGame() {
+		return this.game;
+	}
+	
+	// TODO javadoc
+	public void setGame(Game game) {
+		assert game != null;
+		
+		this.game = game;
 	}
 	
 	/**
@@ -57,26 +66,30 @@ public abstract class Tournament {
 	
 	/**
 	 * Add a participant to a tournament.
-	 * @param p The new participant.
+	 * @param participant The new participant.
 	 */
-	public void addParticipant(Participant p) {
-		assert p != null;
+	public void addParticipant(Participant participant) {
+		assert participant != null;
 		
-		participants.add(p);
-		p.addTournament(this);
+		participants.add(participant);
+		participant.addTournament(this);
 	}
 	
 	/**
 	 * Remove a participant to a tournament.
-	 * @param p The participant to remove.
+	 * @param participant The participant to remove.
 	 */
-	public void removeParticipant(Participant p) {
-		assert p != null;
+	public void removeParticipant(Participant participant) {
+		assert participant != null;
 		
-		participants.remove(p);
-		p.removeTournament(this);
+		participants.remove(participant);
+		participant.removeTournament(this);
 	}
 	
+	/**
+	 * Get the participants of this tournament.
+	 * @return A set of the participants.
+	 */
 	public Set<Participant> getParticipants() {
 		return participants;
 	}

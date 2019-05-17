@@ -74,6 +74,16 @@ public abstract class Participant {
 	}
 	
 	/**
+	 * Remove a game from the list of games played.
+	 * @param game The game no longer played.
+	 */
+	public void removeGame(Game game) {
+		assert game != null;
+		
+		this.games.remove(game);
+	}
+	
+	/**
 	 * Get the most played game of a participant. 
 	 * If the participant was created with a base game, 
 	 * this will return it even if it has never been played.
