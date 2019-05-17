@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import controller.Controller;
 
+@SuppressWarnings("serial")
 public class ViewGame extends JPanel {
 	
 	private Controller controller;
