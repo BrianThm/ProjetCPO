@@ -123,6 +123,10 @@ public class Controller {
 		this.participants.remove(participant);
 	}
 	
+	/**
+	 * Get the participants.
+	 * @return A set of participants.
+	 */
 	public Set<Participant> getParticipants() {
 		return this.participants;
 	}
