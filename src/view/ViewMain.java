@@ -1,6 +1,5 @@
 package view;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +12,7 @@ import javax.swing.JPanel;
 
 import controller.Controller;
 
+@SuppressWarnings("serial")
 public class ViewMain extends JFrame {
 	
 	Controller controller;
@@ -57,15 +57,27 @@ public class ViewMain extends JFrame {
 		menuPlayer.add(displayPlayers);
 		menuPlayer.add(managePlayers);
 		
+		cont.setLayout(new BorderLayout());
 		displayGames.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				new ViewListGame(controller, true);
+				JPanel viewList = new ViewListGame(controller, true);
+				cont.add(viewList, BorderLayout.CENTER);
+				viewList.updateUI();
+				refresh();
 			}
 		});
 		
 		this.setJMenuBar(menubar);
-		this.setSize(500, 500);
+		//this.setSize(500, 500);
+		this.pack();
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+	}
+	
+	private void refresh() {
+		this.revalidate();
+		this.repaint();
+		this.pack();
 	}
 }
