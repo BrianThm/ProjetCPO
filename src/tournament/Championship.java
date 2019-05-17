@@ -26,5 +26,4 @@ public class Championship extends Tournament {
 	public void addParticipant(Participant p) {
 		super.addParticipant(p);
 	}
-	
 }
