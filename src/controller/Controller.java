@@ -133,4 +133,23 @@ public class Controller {
 	public Set<Participant> getParticipants() {
 		return this.participants;
 	}
+	
+	/**
+	 * Save all informations in a file.
+	 * @param filename The filename to save (path included).
+	 * @throws SaveImpossibleException If the save is impossible.
+	 */
+	public void save(String filename) throws SaveImpossibleException {
+		FileOperation.save(filename, tournaments, games, participants);
+	}
+	
+	/**
+	 * Load all informations from a file. 
+	 * This emtpies the tournaments, games and participants before loading the file.
+	 * @param filename The filename used to load (path included).
+	 * @throws LoadImpossibleException If the save is impossible.
+	 */
+	public void load(String filename) throws LoadImpossibleException {
+		FileOperation.load(filename, tournaments, games, participants);
+	}
 }
