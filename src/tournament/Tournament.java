@@ -66,24 +66,24 @@ public abstract class Tournament {
 	
 	/**
 	 * Add a participant to a tournament.
-	 * @param p The new participant.
+	 * @param participant The new participant.
 	 */
-	public void addParticipant(Participant p) {
-		assert p != null;
+	public void addParticipant(Participant participant) {
+		assert participant != null;
 		
-		participants.add(p);
-		p.addTournament(this);
+		participants.add(participant);
+		participant.addTournament(this);
 	}
 	
 	/**
 	 * Remove a participant to a tournament.
-	 * @param p The participant to remove.
+	 * @param participant The participant to remove.
 	 */
-	public void removeParticipant(Participant p) {
-		assert p != null;
+	public void removeParticipant(Participant participant) {
+		assert participant != null;
 		
-		participants.remove(p);
-		p.removeTournament(this);
+		participants.remove(participant);
+		participant.removeTournament(this);
 	}
 	
 	public Set<Participant> getParticipants() {

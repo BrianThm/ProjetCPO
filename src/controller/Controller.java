@@ -28,6 +28,10 @@ public class Controller {
 	public void removeTournament(Tournament tournament) {
 		assert tournament != null;
 		
+		for (Participant participant : this.participants) {
+			participant.removeTournament(tournament);
+		}
+		
 		this.tournaments.remove(tournament);
 	}
 	
@@ -69,6 +73,10 @@ public class Controller {
 	
 	public void removeParticipant(Participant participant) {
 		assert participant != null;
+		
+		for (Tournament tournament : this.tournaments) {
+			tournament.removeParticipant(participant);
+		}
 		
 		this.participants.remove(participant);
 	}
