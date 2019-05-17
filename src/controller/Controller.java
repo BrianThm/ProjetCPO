@@ -8,8 +8,9 @@ import tournament.Participant;
 import tournament.Tournament;
 
 /**
- * @author Group
  * A controller of tournaments.
+ * @author Group
+ * @version 1.0
  */
 public class Controller {
 	

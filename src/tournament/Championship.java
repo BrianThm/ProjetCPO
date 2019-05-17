@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author 
- * @version 1.0 
  * Class which defines the tournament type Championship. 
  * In this case of tournament, every participant are facing 
  * two times and we build the ranking according to the scores obtained.
+ * @author Group
+ * @version 1.0
  */
 public class Championship extends Tournament {
 	

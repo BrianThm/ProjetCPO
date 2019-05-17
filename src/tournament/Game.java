@@ -3,9 +3,9 @@ package tournament;
 import javax.swing.ImageIcon;
 
 /**
+ * Class Game, each tournament has a game associated.
  * @author Group
  * @version 1.0
- * Class Game, each tournament has a game associated.
  */
 public class Game {
 	
