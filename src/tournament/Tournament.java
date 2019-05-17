@@ -86,6 +86,10 @@ public abstract class Tournament {
 		participant.removeTournament(this);
 	}
 	
+	/**
+	 * Get the participants of this tournament.
+	 * @return A set of the participants.
+	 */
 	public Set<Participant> getParticipants() {
 		return participants;
 	}

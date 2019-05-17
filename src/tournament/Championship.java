@@ -1,5 +1,4 @@
 package tournament;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,14 +15,11 @@ public class Championship extends Tournament {
 	
 	/**
 	 * Championship constructor.
-	 * @param adresse Tournament address.
+	 * @param game The game of the tournament.
+	 * @param location The tournament location.
 	 */
 	public Championship(Game game, String location) {
 		super(game, location);
 		this.ranking = new HashMap<Participant, Integer>();
-	}
-	
-	public void addParticipant(Participant p) {
-		super.addParticipant(p);
 	}
 }

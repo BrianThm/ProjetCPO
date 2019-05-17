@@ -73,7 +73,10 @@ public abstract class Participant {
 		}
 	}
 	
-	// TODO javadoc
+	/**
+	 * Remove a game from the list of games played.
+	 * @param game The game no longer played.
+	 */
 	public void removeGame(Game game) {
 		assert game != null;
 		
