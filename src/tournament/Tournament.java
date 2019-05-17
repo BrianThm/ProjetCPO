@@ -77,4 +77,7 @@ public abstract class Tournament {
 		p.removeTournament(this);
 	}
 	
+	public Set<Participant> getParticipant() {
+		return participants;
+	}
 }
