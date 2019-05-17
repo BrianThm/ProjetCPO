@@ -18,7 +18,7 @@ public class Player extends Participant {
 	 * A player has a nickname and a list of teams he belongs to.
 	 * @param nickname The nickname of the player.
 	 */
-	public Player(String nickname) {		
+	public Player(String nickname) {
 		this("", "", nickname);
 	}
 	
