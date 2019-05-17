@@ -132,4 +132,17 @@ public abstract class Participant {
 	public Set<Tournament> getTournaments() {
 		return this.tournaments;
 	}
+	
+	@Override
+	public String toString() {
+		Game preferred = this.getPreferredGame();
+		
+		String str = "Participant " + this.name;
+		
+		if (preferred != null) {
+			str += ", Game: " + preferred.getName();
+		}
+		
+		return str;
+	}
 }
