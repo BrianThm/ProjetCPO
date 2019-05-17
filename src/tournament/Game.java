@@ -58,6 +58,7 @@ public class Game {
 	 */
 	public ImageIcon getImage() {
 		assert hasImage();
+		
 		return this.image;
 	}
 	
