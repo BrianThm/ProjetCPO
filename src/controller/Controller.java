@@ -4,7 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import tournament.Game;
-import tournament.Participant;
+import tournament.Player;
+import tournament.Team;
 import tournament.Tournament;
 
 /**
@@ -16,7 +17,8 @@ public class Controller {
 	
 	private Set<Tournament> tournaments;
 	private Set<Game> games;
-	private Set<Participant> participants;
+	private Set<Player> players;
+	private Set<Team> teams;
 	
 	/**
 	 * Create a new controller of tournaments.
@@ -24,7 +26,8 @@ public class Controller {
 	public Controller() {
 		this.tournaments = new HashSet<Tournament>();
 		this.games = new HashSet<Game>();
-		this.participants = new HashSet<Participant>();
+		this.players = new HashSet<Player>();
+		this.teams = new HashSet<Team>();
 	}
 	
 	/**
@@ -45,8 +48,11 @@ public class Controller {
 	public void removeTournament(Tournament tournament) {
 		assert tournament != null;
 		
-		for (Participant participant : this.participants) {
-			participant.removeTournament(tournament);
+		for (Player player : this.players) {
+			player.removeTournament(tournament);
+		}
+		for (Team team : this.teams) {
+			team.removeTournament(tournament);
 		}
 		
 		this.tournaments.remove(tournament);
@@ -58,6 +64,14 @@ public class Controller {
 	 */
 	public Set<Tournament> getTournaments() {
 		return this.tournaments;
+	}
+	
+	/**
+	 * Get the number of tournaments.
+	 * @return The number of tournaments.
+	 */
+	public int getNbTournaments() {
+		return this.tournaments.size();
 	}
 	
 	/**
@@ -86,8 +100,11 @@ public class Controller {
 			}
 		}
 		
-		for (Participant participant : this.participants) {
-			participant.removeGame(game);
+		for (Player player : this.players) {
+			player.removeGame(game);
+		}
+		for(Team team : this.teams) {
+			team.removeGame(game);
 		}
 		
 		this.games.remove(game);
@@ -102,36 +119,93 @@ public class Controller {
 	}
 	
 	/**
-	 * Add a participant in order to save it and use it later.
-	 * @param participant The participant to save.
+	 * Get the number of games.
+	 * @return The number of games.
 	 */
-	public void addParticipant(Participant participant) {
-		assert participant != null;
-		
-		this.participants.add(participant);
+	public int getNbGames() {
+		return this.games.size();
 	}
 	
 	/**
-	 * Remove a participant from the participants saved. 
-	 * The participant is also removed from each of the tournaments he played in.
-	 * @param participant The participant to remove.
+	 * Add a player in order to save it and use it later.
+	 * @param player The player to save.
 	 */
-	public void removeParticipant(Participant participant) {
-		assert participant != null;
+	public void addPlayer(Player player) {
+		assert player != null;
+		
+		this.players.add(player);
+	}
+	
+	/**
+	 * Remove a player from the players saved. 
+	 * The player is also removed from each of the tournaments he played in.
+	 * @param player The player to remove.
+	 */
+	public void removePlayer(Player player) {
+		assert player != null;
 		
 		for (Tournament tournament : this.tournaments) {
-			tournament.removeParticipant(participant);
+			tournament.removeParticipant(player);
 		}
 		
-		this.participants.remove(participant);
+		this.players.remove(player);
 	}
 	
 	/**
-	 * Get the participants.
-	 * @return A set of participants.
+	 * Get the players.
+	 * @return A set of players.
 	 */
-	public Set<Participant> getParticipants() {
-		return this.participants;
+	public Set<Player> getPlayers() {
+		return this.players;
+	}
+	
+	/**
+	 * Get the number of players.
+	 * @return The number of players.
+	 */
+	public int getNbPlayers() {
+		return this.players.size();
+	}
+	
+	/**
+	 * Add a team in order to save it and use it later.
+	 * @param team The team to save.
+	 */
+	public void addTeam(Team team) {
+		assert team != null;
+		
+		this.teams.add(team);
+	}
+	
+	/**
+	 * Remove a team from the teams saved. 
+	 * The team is also removed from each of the tournaments he played in.
+	 * @param team The team to remove.
+	 */
+	public void removeTeam(Team team) {
+		assert team != null;
+		
+		for (Tournament tournament : this.tournaments) {
+			tournament.removeParticipant(team);
+		}
+		
+		this.teams.remove(team);
+	}
+	
+	/**
+	 * Get the teams.
+	 * @return A set of teams.
+	 */
+	public Set<Team> getTeams() {
+		return this.teams;
+	}
+	
+	/**
+	 * Get the number of teams.
+	 * @return The number of team.
+	 */
+	public int getNbTeams() {
+		return this.teams.size();
 	}
 	
 	/**
@@ -140,7 +214,7 @@ public class Controller {
 	 * @throws SaveImpossibleException If the save is impossible.
 	 */
 	public void save(String filename) throws SaveImpossibleException {
-		FileOperation.save(filename, tournaments, games, participants);
+		FileOperation.save(filename, tournaments, games, players, teams);
 	}
 	
 	/**
@@ -150,6 +224,6 @@ public class Controller {
 	 * @throws LoadImpossibleException If the save is impossible.
 	 */
 	public void load(String filename) throws LoadImpossibleException {
-		FileOperation.load(filename, tournaments, games, participants);
+		FileOperation.load(filename, tournaments, games, players, teams);
 	}
 }
