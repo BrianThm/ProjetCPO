@@ -1,6 +1,8 @@
 package view;
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,6 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import controller.Controller;
 
@@ -62,15 +65,17 @@ public class ViewMain extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JPanel viewList = new ViewListGame(controller, true);
-				cont.add(viewList, BorderLayout.CENTER);
+				JScrollPane scrollPane = new JScrollPane(viewList);
+				cont.add(scrollPane, BorderLayout.CENTER);
 				viewList.updateUI();
 				refresh();
 			}
 		});
 		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setBounds(0, 0, screenSize.width, screenSize.height);
+		
 		this.setJMenuBar(menubar);
-		//this.setSize(500, 500);
-		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
@@ -78,6 +83,5 @@ public class ViewMain extends JFrame {
 	private void refresh() {
 		this.revalidate();
 		this.repaint();
-		this.pack();
 	}
 }
