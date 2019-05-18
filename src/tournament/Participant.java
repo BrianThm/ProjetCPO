@@ -75,6 +75,14 @@ public abstract class Participant {
 	}
 	
 	/**
+	 * Get the games played by the participant, with the number of times played.
+	 * @return A map of the games and number of times played.
+	 */
+	public Map<Game, Integer> getGames() {
+		return this.games;
+	}
+	
+	/**
 	 * Remove a game from the list of games played.
 	 * @param game The game no longer played.
 	 */
