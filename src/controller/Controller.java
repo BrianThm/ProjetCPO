@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import tournament.Game;
-import tournament.Participant;
 import tournament.Player;
 import tournament.Team;
 import tournament.Tournament;
