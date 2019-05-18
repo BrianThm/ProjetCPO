@@ -1,12 +1,13 @@
 package tournament;
+
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author Groupe
- * @version 1.0 
- * A team is composed of players.
+ * A team is composed of players. 
  * A team can participate to a tournament.
+ * @author Group
+ * @version 1.0
  */
 public class Team extends Participant {
 	

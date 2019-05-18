@@ -1,14 +1,15 @@
 package tournament;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * @author Group
- * @version 1.0
  * Class which defines a tournament participant. 
  * A participant is either a Team or a Player.
+ * @author Group
+ * @version 1.0
  */
 public abstract class Participant {
 	
@@ -74,6 +75,14 @@ public abstract class Participant {
 	}
 	
 	/**
+	 * Get the games played by the participant, with the number of times played.
+	 * @return A map of the games and number of times played.
+	 */
+	public Map<Game, Integer> getGames() {
+		return this.games;
+	}
+	
+	/**
 	 * Remove a game from the list of games played.
 	 * @param game The game no longer played.
 	 */
@@ -130,5 +139,18 @@ public abstract class Participant {
 	 */
 	public Set<Tournament> getTournaments() {
 		return this.tournaments;
+	}
+	
+	@Override
+	public String toString() {
+		Game preferred = this.getPreferredGame();
+		
+		String str = "Participant " + this.name;
+		
+		if (preferred != null) {
+			str += ", Game: " + preferred.getName();
+		}
+		
+		return str;
 	}
 }

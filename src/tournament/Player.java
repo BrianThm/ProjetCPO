@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Group
  * Class Player. 
  * A player has one or several team(s) and game(s).
+ * @author Group
+ * @version 1.0
  */
 public class Player extends Participant {
 	
@@ -142,5 +143,31 @@ public class Player extends Participant {
 		}
 		
 		return team;
+	}
+	
+	@Override
+	public String toString() {
+		Game gPreferred = this.getPreferredGame();
+		Team tPreferred = this.getPreferredTeam();
+		String first = this.fname;
+		String last = this.lname;
+		
+		if (!first.isEmpty()) {
+			first += " ";
+		}
+		if (!last.isEmpty()) {
+			last = " " + last;
+		}
+		
+		String str = "Player " + first + "\"" + this.getName() + "\"" + last;
+		
+		if (gPreferred != null) {
+			str += ", Game: " + gPreferred.getName();
+		}
+		if (tPreferred != null) {
+			str += ", Team: " + tPreferred.getName();
+		}
+		
+		return str;
 	}
 }

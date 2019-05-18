@@ -1,11 +1,12 @@
 package tournament;
+
 import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Class Tournament, will be specified by each type of tournament.
  * @author Group
  * @version 1.0
- * Class Tournament, will be specified by each type of tournament.
  */
 public abstract class Tournament {
 	
