@@ -18,19 +18,38 @@ public class FileOperationTest {
 	@Before
 	public void setup() {
 		controller = new Controller();
-		Game j1 = new Game("jeux 1");
-		Player j = new Player("joueur 1", j1);
-		Team t = new Team("team 1", j1);
-		t.addMember(j);
-		controller.addGame(j1);
-		controller.addPlayer(j);
-		controller.addTeam(t);
+		
+		Game cs = new Game("CSGO");
+		Game tm = new Game("Trackmania");
+		Game lol = new Game("League of Legends");
+		
+		Player mo = new Player("Morgane", "Cadeau", "Enaxom", cs);
+		Player wi = new Player("William", "Mateille", "Wyzedix", cs);
+		Player vi = new Player("Ravioli");
+		Player ep = new Player("Epsilon");
+		
+		Team famille = new Team("Famille");
+		famille.addMember(mo);
+		famille.addMember(wi);
+		famille.addMember(vi);
+		famille.addMember(ep);
+		
+		controller.addGame(cs);
+		controller.addGame(tm);
+		controller.addGame(lol);
+		
+		controller.addPlayer(mo);
+		controller.addPlayer(wi);
+		controller.addPlayer(vi);
+		controller.addPlayer(ep);
+		
+		controller.addTeam(famille);
 	}
 
 	@Test
-	public void test() {
+	public void testSimpleSave() {
 		try {
-			controller.save("/tmp/save1.txt");
+			controller.save("/tmp/save_test1.txt");
 		} catch (SaveImpossibleException e) {
 			fail(e.getMessage());
 		}

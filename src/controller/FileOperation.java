@@ -107,7 +107,7 @@ public class FileOperation {
 			for (Player member : team.getMembers()) {
 				tPlayers += ";" + players.indexOf(member);
 			}
-			line = i + ";" + name + ";" + game + ";" + tPlayers;
+			line = i + ";" + name + ";" + game + tPlayers;
 			file.write(line);
 		}
 	}
