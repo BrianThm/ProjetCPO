@@ -30,7 +30,7 @@ public class Player extends Participant {
 	 * @param game The default/preferred game of the player.
 	 */
 	public Player(String nickname, Game game) {
-		super(nickname, game);
+		this("", "", nickname, game);
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class Player extends Participant {
 	 * @param game The default/preferred game of the player.
 	 */
 	public Player(String fname, String lname, String nickname, Game game) {
-		this(nickname, game);
+		super(nickname, game);
 		
 		assert fname != null;
 		assert lname != null;
