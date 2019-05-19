@@ -61,10 +61,10 @@ public class ViewListGame extends JPanel {
 			line.add(label, BorderLayout.CENTER);
 			if (deleteGame)
 				line.add(labelImg, BorderLayout.EAST);
-			//line.setMaximumSize(new Dimension(this.getWidth(), 550));
+			// line.setPreferredSize(new Dimension(this.getWidth(), 100));
 			this.add(line);
 		}
-		if (games.size() == 0) {
+		if (controller.getNbGames() == 0) {
 			noGame();
 		}
 		this.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -79,9 +79,7 @@ public class ViewListGame extends JPanel {
 				this.controller.removeGame(game);
 				this.remove(line);
 				
-				// To change
-				Set<Game> games = this.controller.getGames();
-				if (games.size() == 0)
+				if (controller.getNbGames() == 0)
 					noGame();
 				
 				refreshList();
