@@ -77,9 +77,16 @@ public class Controller {
 	/**
 	 * Add a game in order to save it and use it later.
 	 * @param game The game saved.
+	 * @throws GameAlreadyExistsException If the game already exists
 	 */
-	public void addGame(Game game) {
+	public void addGame(Game game) throws GameAlreadyExistsException {
 		assert game != null;
+		
+		for (Game g : this.games) {
+			if (game.getName().equals(g.getName())) {
+				throw new GameAlreadyExistsException();
+			}
+		}
 		
 		this.games.add(game);
 	}

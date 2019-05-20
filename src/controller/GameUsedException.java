@@ -9,6 +9,6 @@ package controller;
 public class GameUsedException extends Exception {
 	
 	public GameUsedException() {
-		super("The game is used, it can't be removed");
+		super("The game is used, it can't be removed.");
 	}
 }
