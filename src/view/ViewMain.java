@@ -64,8 +64,9 @@ public class ViewMain extends JFrame {
 		displayGames.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JPanel viewList = new ViewListGame(controller, true);
+				JPanel viewList = new ViewListGame(controller, false);
 				JScrollPane scrollPane = new JScrollPane(viewList);
+				cont.removeAll();
 				cont.add(scrollPane, BorderLayout.CENTER);
 				viewList.updateUI();
 				refresh();
@@ -77,8 +78,33 @@ public class ViewMain extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				JPanel viewGame = new ViewGame(controller);
 				JScrollPane scrollPane = new JScrollPane(viewGame);
+				cont.removeAll();
 				cont.add(scrollPane, BorderLayout.CENTER);
 				viewGame.updateUI();
+				refresh();
+			}
+		});
+		
+		deleteGame.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JPanel viewList = new ViewListGame(controller, true);
+				JScrollPane scrollPane = new JScrollPane(viewList);
+				cont.removeAll();
+				cont.add(scrollPane, BorderLayout.CENTER);
+				viewList.updateUI();
+				refresh();
+			}
+		});
+		
+		addGame.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JPanel viewAdd = new ViewAddGame(controller);
+				JScrollPane scrollPane = new JScrollPane(viewAdd);
+				cont.removeAll();
+				cont.add(scrollPane, BorderLayout.CENTER);
+				viewAdd.updateUI();
 				refresh();
 			}
 		});

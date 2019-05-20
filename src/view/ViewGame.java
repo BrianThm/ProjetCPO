@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
@@ -13,12 +13,12 @@ public class ViewGame extends JPanel {
 	
 	public ViewGame(Controller controller) {
 		this.controller = controller;
-		this.setLayout(new BorderLayout());
+		this.setLayout(new GridLayout(0, 2));
 		
 		ViewListGame listGame = new ViewListGame(this.controller, true);
 		ViewAddGame addGame = new ViewAddGame(this.controller);
 		
-		this.add(listGame, BorderLayout.WEST);
-		this.add(addGame, BorderLayout.EAST);
+		this.add(listGame);
+		this.add(addGame);
 	}
 }

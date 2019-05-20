@@ -29,13 +29,16 @@ public class ViewListGame extends JPanel {
 		this.controller = controller;
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
-		controller.addGame(new Game("Game 1 ----------------------------A"));
-		controller.addGame(new Game("Game 2 ----------------------------B"));
-		controller.addGame(new Game("Game 3 ----------------------------B"));
-		controller.addGame(new Game("Game 4 ----------------------------B"));
-		controller.addGame(new Game("Game 5 ----------------------------B"));
-		controller.addGame(new Game("Game 6 -----------B"));
-		controller.addGame(new Game("Game 5 ----------------------------------------C"));
+		try {
+			controller.addGame(new Game("Game 1 ----------------------------A"));
+			controller.addGame(new Game("Game 2 ----------------------------B"));
+			controller.addGame(new Game("Game 3 ----------------------------B"));
+			controller.addGame(new Game("Game 4 ----------------------------B"));
+			controller.addGame(new Game("Game 5 ----------------------------B"));
+			controller.addGame(new Game("Game 6 -----------B"));
+			controller.addGame(new Game("Game 5 ----------------------------------------C"));
+		} catch (Exception e) { }
+		
 		Set<Game> games = this.controller.getGames();
 		
 		ImageIcon imgDelete = new ImageIcon(getClass().getResource("/res/delete.png"));
