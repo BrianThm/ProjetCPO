@@ -2,11 +2,14 @@ package test;
 
 import static org.junit.Assert.fail;
 
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import controller.Controller;
 import controller.GameAlreadyExistsException;
+import controller.LoadImpossibleException;
 import controller.SaveImpossibleException;
 import tournament.Game;
 import tournament.Player;
@@ -46,7 +49,7 @@ public class FileOperationTest {
 		
 		controller.addTeam(famille);
 	}
-
+	
 	@Test
 	public void testSimpleSave() {
 		try {
@@ -55,5 +58,30 @@ public class FileOperationTest {
 			fail(e.getMessage());
 		}
 	}
-
+	
+	@Test
+	public void testSimpleLoad() {
+		try {
+			controller.save("/tmp/save_test2.txt");
+			controller.load("/tmp/save_test2.txt");
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testLoadInchanged() throws SaveImpossibleException, LoadImpossibleException {
+		Set<Game> games = controller.getGames();
+		Set<Player> players = controller.getPlayers();
+		Set<Team> teams = controller.getTeams();
+		
+		controller.save("/tmp/save_test3.txt");
+		controller.load("/tmp/save_test3.txt");
+		
+		Set<Game> gamesAfter = controller.getGames();
+		Set<Player> playersAfter = controller.getPlayers();
+		Set<Team> teamsAfter = controller.getTeams();
+		
+		
+	}
 }

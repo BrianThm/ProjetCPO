@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -66,11 +67,11 @@ public class FileOperation {
 	private static void saveGames(FileWriter file, List<Game> games) throws IOException {
 		String line, game;
 		file.write("# games #\n");
-		// index of game ; name
+		// name of game
 		
 		for (int i = 0; i < games.size(); i++) {
 			game = games.get(i).getName().replace(';', ',');
-			line = i + ";" + game + "\n";
+			line = game + "\n";
 			file.write(line);
 		}
 	}
@@ -80,7 +81,7 @@ public class FileOperation {
 		Player player;
 		int game;
 		file.write("# players #\n");
-		// index of player ; fname ; name ; lname ; index of game (if there is one played 0 time)
+		// fname ; name ; lname ; index of game (if there is one played 0 time)
 		
 		for (int i = 0; i < players.size(); i++) {
 			player = players.get(i);
@@ -88,7 +89,7 @@ public class FileOperation {
 			fname = player.getFName().replace(';', ',');
 			name = player.getName().replace(';', ',');
 			lname = player.getLName().replace(';', ',');
-			line = i + ";" + fname + ";" + name + ";" + lname + ";" + game + "\n";
+			line = fname + ";" + name + ";" + lname + ";" + game + "\n";
 			file.write(line);
 		}
 	}
@@ -98,7 +99,7 @@ public class FileOperation {
 		Team team;
 		int game;
 		file.write("# teams #\n");
-		// index of team ; name ; index of game (if there is one played 0 time) [; indexes of players member]
+		// name ; index of game (if there is one played 0 time) [; indexes of players member]
 		
 		for (int i = 0; i < teams.size(); i++) {
 			team = teams.get(i);
@@ -108,7 +109,7 @@ public class FileOperation {
 			for (Player member : team.getMembers()) {
 				tPlayers += ";" + players.indexOf(member);
 			}
-			line = i + ";" + name + ";" + game + tPlayers;
+			line = name + ";" + game + tPlayers;
 			file.write(line);
 		}
 	}
@@ -142,12 +143,18 @@ public class FileOperation {
 		List<Player> idPlayers = new ArrayList<Player>();
 		List<Team> idTeams = new ArrayList<Team>();
 		FileReader file = null;
+		BufferedReader buffer = null;
 		
 		try {
 			file = new FileReader(filename);
-			loadGames(file, idGames);
+			buffer = new BufferedReader(file);
+			loadGames(buffer, idGames);
+			loadPlayers(buffer, idPlayers, idGames);
+			loadTeams(buffer, idTeams, idPlayers, idGames);
 		} catch (IOException e) {
 			throw new LoadImpossibleException(e.getMessage());
+		} catch (Throwable e) {
+			throw new LoadImpossibleException("File format incorrect.");
 		} finally {
 			if (file != null) {
 				try {
@@ -159,8 +166,73 @@ public class FileOperation {
 		}
 	}
 
-	private static void loadGames(FileReader file, List<Game> games) {
-		// TODO Auto-generated method stub
+	private static void loadGames(BufferedReader buffer, List<Game> games) throws IOException, LoadImpossibleException {
+		String[] args;
+		String line = buffer.readLine();
+		if (!line.equals("# games #")) {
+			throw new LoadImpossibleException("File format incorrect, delimiter '# games #' not found.");
+		}
 		
+		while (!(line = buffer.readLine()).equals("# players #")) {
+			if (line == null || line.startsWith("#")) {
+				throw new LoadImpossibleException("File format incorrect, delimiter '# players #' not found.");
+			}
+			
+			args = line.split(";");
+			games.add(new Game(args[0]));
+		}
+	}
+
+	private static void loadPlayers(BufferedReader buffer, List<Player> idPlayers, List<Game> idGames) throws IOException, LoadImpossibleException {
+		String[] args;
+		String line, fname, name, lname;
+		Game game;
+		Player player;
+		
+		while (!(line = buffer.readLine()).equals("# teams #")) {
+			if (line == null || line.startsWith("#")) {
+				throw new LoadImpossibleException("File format incorecct, delimiter '# teams #' not found");
+			}
+			
+			args = line.split(";");
+			fname = args[0];
+			name = args[1];
+			lname = args[2];
+			if (!args[3].equals("-1")) {
+				game = idGames.get(Integer.parseInt(args[3]));
+				player = new Player(fname, lname, name, game);
+			} else {
+				player = new Player(fname, lname, name);
+			}
+			
+			idPlayers.add(player);
+		}
+	}
+
+	private static void loadTeams(BufferedReader buffer, List<Team> idTeams, List<Player> idPlayers,
+			List<Game> idGames) throws IOException, LoadImpossibleException {
+		String[] args;
+		String line, name;
+		Player player;
+		Game game;
+		Team team;
+		
+		while ((line = buffer.readLine()) != null && !line.equals("")) {
+			args = line.split(";");
+			name = args[0];
+			if (!args[1].equals("-1")) {
+				game = idGames.get(Integer.parseInt(args[1]));
+				team = new Team(name, game);
+			} else {
+				team = new Team(name);
+			}
+			
+			for (int i = 2; i < args.length; i++) {
+				player = idPlayers.get(Integer.parseInt(args[i]));
+				team.addMember(player);
+			}
+			
+			idTeams.add(team);
+		}
 	}
 }
