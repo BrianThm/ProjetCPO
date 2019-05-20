@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import controller.Controller;
+import controller.GameAlreadyExistsException;
 import controller.SaveImpossibleException;
 import tournament.Game;
 import tournament.Player;
@@ -16,7 +17,7 @@ public class FileOperationTest {
 	Controller controller;
 	
 	@Before
-	public void setup() {
+	public void setup() throws GameAlreadyExistsException {
 		controller = new Controller();
 		
 		Game cs = new Game("CSGO");

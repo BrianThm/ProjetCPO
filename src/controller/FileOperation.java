@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -136,5 +137,30 @@ public class FileOperation {
 		games.clear();
 		players.clear();
 		teams.clear();
+		
+		List<Game> idGames = new ArrayList<Game>();
+		List<Player> idPlayers = new ArrayList<Player>();
+		List<Team> idTeams = new ArrayList<Team>();
+		FileReader file = null;
+		
+		try {
+			file = new FileReader(filename);
+			loadGames(file, idGames);
+		} catch (IOException e) {
+			throw new LoadImpossibleException(e.getMessage());
+		} finally {
+			if (file != null) {
+				try {
+					file.close();
+				} catch (IOException e) {
+					throw new LoadImpossibleException(e.getMessage());
+				}
+			}
+		}
+	}
+
+	private static void loadGames(FileReader file, List<Game> games) {
+		// TODO Auto-generated method stub
+		
 	}
 }
