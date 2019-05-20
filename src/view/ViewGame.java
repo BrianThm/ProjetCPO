@@ -13,6 +13,7 @@ public class ViewGame extends JPanel {
 	
 	public ViewGame(Controller controller) {
 		this.controller = controller;
+		this.setLayout(new BorderLayout());
 		
 		ViewListGame listGame = new ViewListGame(this.controller, true);
 		ViewAddGame addGame = new ViewAddGame(this.controller);

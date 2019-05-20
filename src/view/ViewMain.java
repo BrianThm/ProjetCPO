@@ -72,6 +72,17 @@ public class ViewMain extends JFrame {
 			}
 		});
 		
+		manageGames.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JPanel viewGame = new ViewGame(controller);
+				JScrollPane scrollPane = new JScrollPane(viewGame);
+				cont.add(scrollPane, BorderLayout.CENTER);
+				viewGame.updateUI();
+				refresh();
+			}
+		});
+		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setBounds(0, 0, screenSize.width, screenSize.height);
 		
