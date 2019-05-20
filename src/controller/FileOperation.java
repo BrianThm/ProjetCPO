@@ -134,10 +134,10 @@ public class FileOperation {
 	 * @throws LoadImpossibleException If the load is impossible.
 	 */
 	public static void load(String filename, Set<Tournament> tournaments, Set<Game> games, Set<Player> players, Set<Team> teams) throws LoadImpossibleException {
-		tournaments.clear();
 		games.clear();
 		players.clear();
 		teams.clear();
+		tournaments.clear();
 		
 		List<Game> idGames = new ArrayList<Game>();
 		List<Player> idPlayers = new ArrayList<Player>();
@@ -164,6 +164,10 @@ public class FileOperation {
 				}
 			}
 		}
+		
+		games.addAll(idGames);
+		players.addAll(idPlayers);
+		teams.addAll(idTeams);
 	}
 
 	private static void loadGames(BufferedReader buffer, List<Game> games) throws IOException, LoadImpossibleException {
