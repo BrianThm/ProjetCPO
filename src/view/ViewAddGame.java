@@ -1,5 +1,6 @@
 package view;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -15,11 +16,20 @@ public class ViewAddGame extends JPanel {
 	
 	public ViewAddGame(Controller controller) {
 		this.controller = controller;
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		JLabel labelAdd = new JLabel("Add a game");
 		JTextField textGame = new JTextField(100);
 		JCheckBox hasImage = new JCheckBox("Image associated to the game");
 		JButton btnAddImg = new JButton("Add an image");
 		JButton btnSave = new JButton("Save the game");
+		
+		this.add(labelAdd);
+		this.add(textGame);
+		this.add(hasImage);
+		this.add(btnAddImg);
+		this.add(btnSave);
+		
+		
 	}
 }
