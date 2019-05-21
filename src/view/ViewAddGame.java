@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -22,8 +23,9 @@ public class ViewAddGame extends JPanel {
 	
 	public ViewAddGame(Controller controller) {
 		this.controller = controller;
-		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		this.setLayout(new BorderLayout());
 		
+		JPanel content = new JPanel();
 		JLabel labelAdd = new JLabel("Add a game");
 		JLabel nameGame = new JLabel("Name : ");
 		JTextField textGame = new JTextField(20);
@@ -41,12 +43,15 @@ public class ViewAddGame extends JPanel {
 		nameText.add(textGame);
 		checkBtn.add(hasImage);
 		checkBtn.add(btnAddImg);
+		content.setLayout(new BoxLayout(content, BoxLayout.PAGE_AXIS));
 		
-		this.add(labelAdd);
-		this.add(separator);
-		this.add(nameText);
-		this.add(checkBtn);
-		this.add(btnSave);
+		content.add(labelAdd);
+		content.add(separator);
+		content.add(nameText);
+		content.add(checkBtn);
+		content.add(btnSave);
+		content.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.gray));
+		this.add(content, BorderLayout.CENTER);
 		this.setBorder(BorderFactory.createEmptyBorder(10, 20, 50, 20));
 	}
 }
