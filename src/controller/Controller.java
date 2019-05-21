@@ -83,7 +83,7 @@ public class Controller {
 		assert game != null;
 		
 		for (Game g : this.games) {
-			if (game.getName().equals(g.getName())) {
+			if (game.equals(g)) {
 				throw new GameAlreadyExistsException();
 			}
 		}
@@ -136,9 +136,16 @@ public class Controller {
 	/**
 	 * Add a player in order to save it and use it later.
 	 * @param player The player to save.
+	 * @throws PlayerAlreadyExistsException If the player already exists.
 	 */
-	public void addPlayer(Player player) {
+	public void addPlayer(Player player) throws PlayerAlreadyExistsException {
 		assert player != null;
+		
+		for (Player p : this.players) {
+			if (player.equals(p)) {
+				throw new PlayerAlreadyExistsException();
+			}
+		}
 		
 		this.players.add(player);
 	}
