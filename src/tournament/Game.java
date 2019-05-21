@@ -80,4 +80,21 @@ public class Game {
 	public boolean hasImage() {
 		return this.image != null;
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Game)) {
+			return false;
+		}
+		
+		Game game = (Game) object;
+		
+		if (!this.name.equals(game.name)) {
+			return false;
+		}
+		
+		// Two games with the same name and a different image are equals
+		
+		return true;
+	}
 }

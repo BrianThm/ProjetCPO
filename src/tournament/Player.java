@@ -170,4 +170,29 @@ public class Player extends Participant {
 		
 		return str;
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Player)) {
+			return false;
+		}
+		
+		Player player = (Player) object;
+		
+		if (!this.getName().equals(player.getName())) {
+			return false;
+		}
+		
+		if (!this.fname.equals(player.fname)) {
+			return false;
+		}
+		
+		if (!this.lname.equals(player.lname)) {
+			return false;
+		}
+		
+		// If they have different teams and games, it's still the same player.
+		
+		return true;
+	}
 }

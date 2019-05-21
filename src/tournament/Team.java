@@ -92,4 +92,32 @@ public class Team extends Participant {
 			member.removeTournament(tournament);
 		}
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Team)) {
+			return false;
+		}
+		
+		Team team = (Team) object;
+		
+		if (!this.getName().equals(team.getName())) {
+			return false;
+		}
+		
+		boolean found;
+		for (Player m1 : this.members) {
+			found = false;
+			for (Player m2 : team.members) {
+				if (m1.equals(m2)) {
+					found = true;
+				}
+			}
+			if (!found) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 }
