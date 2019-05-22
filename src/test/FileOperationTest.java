@@ -1,5 +1,6 @@
 package test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -22,6 +23,7 @@ import tournament.Team;
 public class FileOperationTest {
 	
 	Controller controller;
+	String filename = "/tmp/FileOperationTestSave.txt";
 	
 	@Before
 	public void setup() throws GameAlreadyExistsException, PlayerAlreadyExistsException {
@@ -42,6 +44,14 @@ public class FileOperationTest {
 		famille.addMember(vi);
 		famille.addMember(ep);
 		
+		Team chats = new Team("Chats");
+		chats.addMember(vi);
+		chats.addMember(ep);
+		
+		Team epsilon = new Team("Epsilon", cs);
+		epsilon.addMember(mo);
+		epsilon.addMember(wi);
+		
 		controller.addGame(cs);
 		controller.addGame(tm);
 		controller.addGame(lol);
@@ -52,11 +62,12 @@ public class FileOperationTest {
 		controller.addPlayer(ep);
 		
 		controller.addTeam(famille);
+		controller.addTeam(chats);
+		controller.addTeam(epsilon);
 	}
 	
 	@Test
 	public void testSimpleSave() {
-		String filename = "/tmp/testSave1.txt";
 		try {
 			controller.save(filename);
 		} catch (SaveImpossibleException e) {
@@ -66,7 +77,6 @@ public class FileOperationTest {
 	
 	@Test
 	public void testSimpleLoad() {
-		String filename = "/tmp/testLoad1.txt";
 		try {
 			controller.save(filename);
 			controller.load(filename);
@@ -77,8 +87,6 @@ public class FileOperationTest {
 	
 	@Test
 	public void testLoadInchanged1() throws SaveImpossibleException, LoadImpossibleException {
-		String filename = "/tmp/testLoad2.txt";
-		
 		Set<Game> games = controller.getGames();
 		Set<Player> players = controller.getPlayers();
 		Set<Team> teams = controller.getTeams();
@@ -90,7 +98,9 @@ public class FileOperationTest {
 		Set<Player> playersAfter = controller.getPlayers();
 		Set<Team> teamsAfter = controller.getTeams();
 		
-		
+		assertTrue("Games not corresponding after load.", gamesMatch(games, gamesAfter));
+		assertTrue("Players not corresponding after load.", playersMatch(players, playersAfter));
+		assertTrue("Teams not corresponding after load.", teamsMatch(teams, teamsAfter));
 	}
 	
 	private boolean gamesMatch(Set<Game> games1, Set<Game> games2) {
@@ -134,11 +144,68 @@ public class FileOperationTest {
 		return true;
 	}
 	
+	private boolean teamsMatch(Set<Team> teams1, Set<Team> teams2) {
+		boolean found;
+		Set<Player> players1, players2;
+		
+		for (Team team1 : teams1) {
+			found = false;
+			for (Team team2 : teams2) {
+				if (team1.equals(team2)) {
+					players1 = team1.getMembers();
+					players2 = team2.getMembers();
+					found = playersMatch(players1, players2);
+					break;
+				}
+			}
+			if (!found) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	@Test (expected = LoadImpossibleException.class)
 	public void testLoadFail1() throws IOException, LoadImpossibleException {
-		String filename = "/tmp/TestLoadFail.txt";
 		FileWriter file = new FileWriter(filename);
 		file.write("This is a file impossible to load.\n");
-		controller.load(filename);
+		try {
+			controller.load(filename);
+		} finally {
+			file.close();
+		}
+	}
+	
+	@Test
+	public void testLoadComa() throws PlayerAlreadyExistsException, GameAlreadyExistsException, SaveImpossibleException, LoadImpossibleException {
+		Controller miniC = new Controller();
+		
+		Game game = new Game("a;game;with;some;semicolon");
+		Player player = new Player("a;player;with;some;semicolon");
+		Team team = new Team("a;team;with;some;semicolon");
+		
+		miniC.addGame(game);
+		miniC.addPlayer(player);
+		miniC.addTeam(team);
+		
+		miniC.save(filename);
+		miniC.load(filename);
+		
+		Set<Game> games2 = miniC.getGames();
+		Set<Player> players2 = miniC.getPlayers();
+		Set<Team> teams2 = miniC.getTeams();
+		
+		for (Game game2 : games2) {
+			assertEquals("Incorrect translation of the game.", "a,game,with,some,semicolon", game2.getName());
+		}
+		
+		for (Player player2 : players2) {
+			assertEquals("Incorrect translation of the player.", "a,player,with,some,semicolon", player2.getName());
+		}
+		
+		for (Team team2 : teams2) {
+			assertEquals("Incorrect translation of the team.", "a,team,with,some,semicolon", team2.getName());
+		}
 	}
 }
