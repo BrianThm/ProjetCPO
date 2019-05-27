@@ -134,6 +134,26 @@ public class Controller {
 	}
 	
 	/**
+	 * Tells if a game already exists in the controller after modifying it.
+	 * @param oldG The old game.
+	 * @param newG The new game.
+	 * @return true if the game exists, else false.
+	 */
+	public boolean gameExists(Game oldG, Game newG) {
+		if (oldG.equals(newG)) {
+			return false;
+		}
+		
+		for (Game game : this.games) {
+			if (oldG.equals(game)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Add a player in order to save it and use it later.
 	 * @param player The player to save.
 	 * @throws PlayerAlreadyExistsException If the player already exists.
