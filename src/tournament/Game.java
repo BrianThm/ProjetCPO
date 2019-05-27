@@ -89,6 +89,11 @@ public class Game {
 	}
 	
 	@Override
+	public String toString() {
+		return this.name;
+	}
+	
+	@Override
 	public boolean equals(Object object) {
 		if (!(object instanceof Game)) {
 			return false;
