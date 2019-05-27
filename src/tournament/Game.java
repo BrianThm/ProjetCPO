@@ -74,6 +74,13 @@ public class Game {
 	}
 	
 	/**
+	 * Remove the image associated to the game if there is one.
+	 */
+	public void removeImage() {
+		this.image = null;
+	}
+	
+	/**
 	 * Tell if the game has an image or not.
 	 * @return True if the game has an image, false if not.
 	 */

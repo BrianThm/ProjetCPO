@@ -16,7 +16,8 @@ public class ViewGame extends JPanel {
 		this.setLayout(new GridLayout(0, 2));
 		
 		ViewListGame listGame = new ViewListGame(this.controller, true);
-		ViewAddGame addGame = new ViewAddGame(this.controller);
+		ViewAddGame addGame = new ViewAddGame(this.controller, listGame);
+		listGame.setViewAddGame(addGame);
 		
 		this.add(listGame);
 		this.add(addGame);
