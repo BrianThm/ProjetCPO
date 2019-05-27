@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import tournament.Game;
+import tournament.GamePlayedException;
 import tournament.Player;
 import tournament.Team;
 import tournament.Tournament;
@@ -108,10 +109,20 @@ public class Controller {
 		}
 		
 		for (Player player : this.players) {
-			player.removeGame(game);
+			try {
+				player.removeGame(game);
+			} catch (GamePlayedException e) {
+				// This can't happen because there is no tournament with
+				// this game.
+			}
 		}
-		for(Team team : this.teams) {
-			team.removeGame(game);
+		for (Team team : this.teams) {
+			try {
+				team.removeGame(game);
+			} catch (GamePlayedException e) {
+				// This can't happen because there is no tournament with
+				// this game.
+			}
 		}
 		
 		this.games.remove(game);
