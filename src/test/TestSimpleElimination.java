@@ -12,7 +12,7 @@ import tournament.*;
 public class TestSimpleElimination {
 
 	private static Game game;
-	private Tournament tournament;
+	private Tournament tournament = new SimpleElimination(game);
 	private Set<Participant> participants;
 	
 	private Team team1;
@@ -32,7 +32,6 @@ public class TestSimpleElimination {
 	@Before
 	public void setUp() {
 		game = new Game("Overwatch");
-		this.tournament = new SimpleElimination(game);
 		
 		player1 = new Player("Sanchez");
 		player2 = new Player("Miguel");
@@ -71,6 +70,6 @@ public class TestSimpleElimination {
 	
 	@Test
 	public void testInit() {
-		
+		//TODO
 	}
 }
