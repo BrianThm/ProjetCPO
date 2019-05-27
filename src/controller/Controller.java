@@ -145,7 +145,7 @@ public class Controller {
 		}
 		
 		for (Game game : this.games) {
-			if (oldG.equals(game)) {
+			if (newG.equals(game)) {
 				return true;
 			}
 		}
