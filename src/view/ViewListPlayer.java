@@ -46,7 +46,8 @@ public class ViewListPlayer extends JPanel {
 		Image image = imgDelete.getImage().getScaledInstance(28, 28, Image.SCALE_SMOOTH);
 		imgDelete = new ImageIcon(image);
 
-		/* FILL LIST OF PLAYER */
+		/* Fill list of players */
+		makeList();
 
 		/* Empty border for the outside (kind of margin) and gray border for the inside */
 		this.setBorder(new CompoundBorder(
@@ -91,20 +92,20 @@ public class ViewListPlayer extends JPanel {
 
 		/* Listener for the delete button */
 		labelImgDel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                deletePlayer(player, line);
-            }
-        });
-		
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				deletePlayer(player, line);
+			}
+		});
+
 		/* Listener for the edit button */
 		labelImgEdit.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                viewAdd.displayEditPlayer(player);
-            }
-        });
-		
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				viewAdd.displayEditPlayer(player);
+			}
+		});
+
 		// If the user can edit a game, he can also delete it
 		if (editPlayer) {
 			JPanel panelImg = new JPanel(new GridLayout(0, 2));
@@ -117,17 +118,17 @@ public class ViewListPlayer extends JPanel {
 
 		return line;
 	}
-	
+
 	/**
 	 * This is used if the list of games is used next to the view to add a game.
 	 * @param viewAdd The viewAddGame to set.
 	 */
 	void setViewAddPlayer(ViewAddPlayer viewAdd) {
 		this.viewAdd = viewAdd;
-		
+
 		// Adding a viewAddPlayer means that the players can be edited.
 		this.editPlayer = true;
-		
+
 		// The list has to be made again.
 		makeList();
 	}
@@ -146,7 +147,7 @@ public class ViewListPlayer extends JPanel {
 
 		refreshList();
 	}
-	
+
 	private void deletePlayer(Player player, JPanel line) {
 		System.out.println("Delete player " + player.getName());
 	}
