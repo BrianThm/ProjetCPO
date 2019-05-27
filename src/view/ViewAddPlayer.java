@@ -28,7 +28,7 @@ public class ViewAddPlayer extends JPanel {
 	private Controller controller;
 	private ViewListPlayer viewList;
 	private Player playerToEdit;
-	private JPanel content, panelSave, panelEditCancel, panelNN, panelFN, panelLN;
+	private JPanel content, panelSave, panelEditCancel, panelNN, panelFN, panelLN, panelCB;
 	private JTextField nickname, fname, lname;
 	private JComboBox<Game> comboBox;
 	private boolean isEditing;
@@ -52,11 +52,12 @@ public class ViewAddPlayer extends JPanel {
 		this.lname = new JTextField(20);
 
 		/* Initialization of the components */
-		JPanel formStr = new JPanel(new GridLayout(3, 2));
+		//JPanel formStr = new JPanel(new GridLayout(3, 2));
 		JLabel labelAdd = new JLabel("Add a player");
 		JLabel labelN = new JLabel("Nickname: *");
 		JLabel labelF = new JLabel("Firstname: ");
 		JLabel labelL = new JLabel("Lastname: ");
+		JLabel labelGame = new JLabel("Preferred game: ");
 		JButton save = new CustomButton("Save the player");
 		JButton edit = new CustomButton("Edit the player");
 		JButton cancel = new CustomButton("Cancel");
@@ -64,22 +65,30 @@ public class ViewAddPlayer extends JPanel {
 		comboBox = new JComboBox<Game>();
 		labelAdd.setFont(new Font("defaultFont", Font.BOLD, 15));
 
+		panelNN = new JPanel(new FlowLayout());
+		panelFN = new JPanel(new FlowLayout());
+		panelLN = new JPanel(new FlowLayout());
+		panelCB = new JPanel(new FlowLayout());
 		panelSave = new JPanel(new FlowLayout());
 		panelEditCancel = new JPanel(new FlowLayout());
 
-		formStr.add(labelN);
-		formStr.add(nickname);
-		formStr.add(labelF);
-		formStr.add(fname);
-		formStr.add(labelL);
-		formStr.add(lname);
+		panelNN.add(labelN);
+		panelNN.add(nickname);
+		panelFN.add(labelF);
+		panelFN.add(fname);
+		panelLN.add(labelL);
+		panelLN.add(lname);
+		panelCB.add(labelGame);
+		panelCB.add(comboBox);
 		panelSave.add(save);
 		panelEditCancel.add(edit);
 		panelEditCancel.add(cancel);
 		
 		content.add(labelAdd);
 		content.add(Box.createRigidArea(new Dimension(0, 20)));
-		content.add(formStr);
+		content.add(panelNN);
+		content.add(panelFN);
+		content.add(panelLN);
 		this.add(content, BorderLayout.CENTER);
 		
 		displayAddPlayer();
@@ -109,7 +118,7 @@ public class ViewAddPlayer extends JPanel {
 		for (Game g : games) {
 			comboBox.addItem(g);
 		}
-		content.add(comboBox);
+		content.add(panelCB);
 		this.add(panelSave, BorderLayout.SOUTH);
 		// TODO
 	}
