@@ -1,29 +1,24 @@
-/**
- * 
- */
 package test;
 
-import tournament.Game;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import javax.swing.ImageIcon;
+
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * @author Brian
- * @version 1.0
- * 
- * Class which test, with unit tests, methods of the class Game.
- *
- */
-public class TestGame {
+import tournament.Game;
 
+/**
+ * Class which test, with unit tests, methods of the class Game.
+ * @author Group
+ * @version 1.0
+ */
+public class GameTest {
 	
-	private static Game jeu; 
+	private static Game jeu;
 	private static Game jeu1;
-	/**
-	 * @throws java.lang.Exception
-	 */
+	
 	@Before
 	public void setUp() throws Exception {
 		jeu = new Game("Morpion");
@@ -35,8 +30,8 @@ public class TestGame {
 	 */
 	@Test
 	public void testGameString() {
-		assertEquals("Le nom doit être Morpion !", "Morpion", jeu.getName()); 
-		assertEquals("L'image doit être nulle", false, jeu.hasImage());
+		assertEquals("Le nom doit Ãªtre Morpion !", "Morpion", jeu.getName()); 
+		assertEquals("L'image doit Ãªtre nulle", false, jeu.hasImage());
 	}
 
 	/**
@@ -44,8 +39,8 @@ public class TestGame {
 	 */
 	@Test
 	public void testGameStringImageIcon() {
-		assertEquals("Le nom doit être Tetris !", "Tetris", jeu1.getName());
-		assertEquals("L'image doit être la même que 'image test.jpg'", new ImageIcon("Image test.jpg").getImage(), jeu1.getImage().getImage());
+		assertEquals("Le nom doit Ãªtre Tetris !", "Tetris", jeu1.getName());
+		assertEquals("L'image doit Ãªtre la mÃªme que 'image test.jpg'", new ImageIcon("Image test.jpg").getImage(), jeu1.getImage().getImage());
 	}
 
 	/**
@@ -53,8 +48,8 @@ public class TestGame {
 	 */
 	@Test
 	public void testGetName() {
-		assertEquals("Le nom doit être Morpion", "Morpion", jeu.getName());
-		assertEquals("Le nom doit être Tetris", "Tetris", jeu1.getName());
+		assertEquals("Le nom doit Ãªtre Morpion", "Morpion", jeu.getName());
+		assertEquals("Le nom doit Ãªtre Tetris", "Tetris", jeu1.getName());
 	}
 
 	/**
@@ -74,8 +69,8 @@ public class TestGame {
 	@Test
 	public void testGetImage() {
 		jeu.setImage(new ImageIcon("ImageTest2.jpg"));
-		assertEquals("L'image doit être ImageTest2.jpg !", new ImageIcon("ImageTest2.jpg").getImage(), jeu.getImage().getImage());
-		assertEquals("L'image doit être Image test.jpg !", new ImageIcon("Image test.jpg").getImage(), jeu1.getImage().getImage());
+		assertEquals("L'image doit Ãªtre ImageTest2.jpg !", new ImageIcon("ImageTest2.jpg").getImage(), jeu.getImage().getImage());
+		assertEquals("L'image doit Ãªtre Image test.jpg !", new ImageIcon("Image test.jpg").getImage(), jeu1.getImage().getImage());
 	}
 
 	/**
@@ -85,8 +80,8 @@ public class TestGame {
 	public void testSetImage() {
 		jeu.setImage(new ImageIcon("Image test.jpg"));
 		jeu1.setImage(new ImageIcon("ImageTest2.jpg"));
-		assertEquals("L'image doit être Image test.jpg !", new ImageIcon("Image test.jpg").getImage(), jeu.getImage().getImage());
-		assertEquals("L'image doit être ImageTest2.jpg !", new ImageIcon("ImageTest2.jpg").getImage(), jeu1.getImage().getImage());
+		assertEquals("L'image doit Ãªtre Image test.jpg !", new ImageIcon("Image test.jpg").getImage(), jeu.getImage().getImage());
+		assertEquals("L'image doit Ãªtre ImageTest2.jpg !", new ImageIcon("ImageTest2.jpg").getImage(), jeu1.getImage().getImage());
 	}
 
 	/**
@@ -103,7 +98,7 @@ public class TestGame {
 	 */
 	@Test
 	public void testEqualsObject() {
-		assertEquals("Il doit renvoyer faux car les deux jeux sont différents ! ", false, jeu.equals(jeu1));
+		assertEquals("Il doit renvoyer faux car les deux jeux sont diffï¿½rents ! ", false, jeu.equals(jeu1));
 		jeu.setName("Tetris");
 		jeu.setImage(new ImageIcon("Image test.jpg"));
 		assertEquals("Il doit renvoyer vrai car ils sont egaux maintenant !", true, jeu.equals(jeu1));
