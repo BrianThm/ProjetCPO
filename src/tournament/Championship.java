@@ -2,6 +2,7 @@ package tournament;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Class which defines the tournament type Championship. 
@@ -48,5 +49,11 @@ public class Championship extends Tournament {
 	public void removeParticipant(Participant participant) {
 		super.removeParticipant(participant);
 		this.ranking.remove(participant);
+	}
+
+	@Override
+	public void initializeMatchs(Set<Participant> participants) {
+		// TODO Auto-generated method stub
+		
 	}
 }
