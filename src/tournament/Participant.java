@@ -85,9 +85,16 @@ public abstract class Participant {
 	/**
 	 * Remove a game from the list of games played.
 	 * @param game The game no longer played.
+	 * @throws GamePlayedException If the participant plays in a tournament with this game.
 	 */
-	public void removeGame(Game game) {
+	public void removeGame(Game game) throws GamePlayedException {
 		assert game != null;
+		
+		for (Tournament tournament : this.tournaments) {
+			if (tournament.getGame() == game) {
+				throw new GamePlayedException();
+			}
+		}
 		
 		this.games.remove(game);
 	}
