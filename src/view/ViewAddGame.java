@@ -94,10 +94,6 @@ public class ViewAddGame extends JPanel {
 		JButton btnEdit = new CustomButton("Edit the game");
 		JButton btnCancel = new CustomButton("Cancel");
 
-		btnSave.setBackground(Color.darkGray);
-		btnSave.setOpaque(true);
-		btnSave.setForeground(Color.white);
-
 		editCancel = new JPanel(new FlowLayout());
 		btnAddImg = new CustomButton("Add an image");
 		hasImage = new JCheckBox("Image associated to the game");

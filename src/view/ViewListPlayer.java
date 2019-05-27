@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 
@@ -149,7 +150,22 @@ public class ViewListPlayer extends JPanel {
 	}
 
 	private void deletePlayer(Player player, JPanel line) {
-		System.out.println("Delete player " + player.getName());
+		int answer = JOptionPane.showConfirmDialog(this,
+				"The player " + player.getName() + " will be removed from the list of players. Are you sure?",
+				"Delete " + player.getName(), JOptionPane.YES_NO_OPTION);
+		if (answer == 0) {
+			this.controller.removePlayer(player);
+			this.remove(line);
+
+			if (controller.getNbGames() == 0)
+				noPlayer();
+
+			refreshList();
+
+			// Signal to the viewAddGame that the game has been deleted
+			if (viewAdd != null)
+				viewAdd.playerDeleted(player);
+		}
 	}
 
 	/**
