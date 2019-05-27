@@ -14,8 +14,6 @@ import controller.NotEnoughPartsException;
  * @version 1.0
  */
 public class SimpleElimination extends Tournament {
-
-	private Match[] matchs;
 	
 	/**
 	 * Create an empty SimpleElimination tournament.
@@ -33,10 +31,8 @@ public class SimpleElimination extends Tournament {
 		// TODO Auto-generated constructor stub
 	}
 	
-	/**
-	 * Initialize the SimpleElimination tournament tree.
-	 * @param partipants The parcipants of the tournament.
-	 */
+	
+	@Override
 	public void initializeMatchs(Set<Participant> participants) {
 		assert participants != null;
 
@@ -52,15 +48,15 @@ public class SimpleElimination extends Tournament {
 					+ "equal to a power of 2 (2, 4, 8, 16...)");
 		}
 		
-		this.matchs = new Match[nbParts-1];
+		super.matchs = new Match[nbParts-1];
 		List<Participant> parts = new ArrayList<>(participants);
 		
 		for (int i=1; i<(nbParts/2); i++) {
-			this.matchs[i] = null;
+			super.matchs[i] = null;
 		}
 		for (int i=(nbParts/2); i<(nbParts-1); i++) {
-			this.matchs[i] = new Match(parts.get((i*2)-nbParts), 
-										parts.get(((i*2)-nbParts)-1), 
+			super.matchs[i] = new Match(parts.get((i*2)-nbParts), 
+										parts.get(((i*2)-nbParts)+1), 
 										this.getGame());
 		}
 	}

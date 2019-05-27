@@ -1,5 +1,6 @@
 package test;
 
+import java.util.HashSet;
 import java.util.Set;
 import org.junit.*;
 import tournament.*;
@@ -12,7 +13,7 @@ import tournament.*;
 public class TestSimpleElimination {
 
 	private static Game game;
-	private Tournament tournament = new SimpleElimination(game);
+	private Tournament tournament;
 	private Set<Participant> participants;
 	
 	private Team team1;
@@ -32,15 +33,17 @@ public class TestSimpleElimination {
 	@Before
 	public void setUp() {
 		game = new Game("Overwatch");
+		tournament = new SimpleElimination(game);
+		participants = new HashSet<Participant>();
 		
 		player1 = new Player("Sanchez");
 		player2 = new Player("Miguel");
 		player3 = new Player("Bakari");
 		player4 = new Player("Bamacko");
-		player1 = new Player("Jean-Mi");
-		player2 = new Player("Jean-Jean");
-		player3 = new Player("Francis");
-		player4 = new Player("Patrick");
+		player5 = new Player("Jean-Mi");
+		player6 = new Player("Jean-Jean");
+		player7 = new Player("Francis");
+		player8 = new Player("Patrick");
 		
 		participants.add(player1);
 		participants.add(player2);
@@ -70,6 +73,6 @@ public class TestSimpleElimination {
 	
 	@Test
 	public void testInit() {
-		//TODO
+		tournament.initializeMatchs(participants);
 	}
 }
