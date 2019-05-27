@@ -33,6 +33,11 @@ import controller.Controller;
 import controller.GameAlreadyExistsException;
 import tournament.Game;
 
+/**
+ * The ViewAddGame is the view which allows to create and edit a game.
+ * @author Group
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 public class ViewAddGame extends JPanel {
 
@@ -41,19 +46,29 @@ public class ViewAddGame extends JPanel {
 	private JPanel content, editCancel, panelSave;
 	private ImageIcon imgGame;
 	private JTextField textGame;
-	private boolean hasChecked, isEditing;
 	private ViewListGame viewList;
 	private JCheckBox hasImage;
 	private JButton btnAddImg, btnSave;
 	private Game gameToEdit;
+	private boolean hasChecked, isEditing;
 
+	/**
+	 * Constructor for the view when it is associated to the view which displays the list of games.
+	 * @param controller The controller.
+	 * @param viewList The view which displays the games and allow the user to edit a game.
+	 */
 	public ViewAddGame(Controller controller, ViewListGame viewList) {
 		this(controller);
 		this.viewList = viewList;
 	}
 
+	/**
+	 * Constructor for the view when it's displayed alone.
+	 * @param controller The controller.
+	 */
 	public ViewAddGame(Controller controller) {
 		super();
+		/* Initialization of the attributes */
 		this.controller = controller;
 		this.viewList = null;
 		this.setLayout(new BorderLayout());
@@ -64,7 +79,8 @@ public class ViewAddGame extends JPanel {
 		this.hasChecked = false;
 		this.panelSave = new JPanel(new FlowLayout());
 		this.isEditing = false;
-
+		
+		/* Initialization of the components */
 		JLabel labelAdd = new JLabel("Add a game");
 		JLabel nameGame = new JLabel("Name: ");
 		JPanel nameText = new JPanel(new FlowLayout());
@@ -85,13 +101,15 @@ public class ViewAddGame extends JPanel {
 		checkBtn.add(btnAddImg);
 		editCancel.add(btnEdit);
 		editCancel.add(btnCancel);
-
+		
+		/* All is centered */
 		labelAdd.setAlignmentX(Component.CENTER_ALIGNMENT);
 		nameText.setAlignmentX(Component.CENTER_ALIGNMENT);
 		checkBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		labelImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnSave.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+		
+		/* Adding the components to the main panel (panel without buttons save/edit) */
 		content.add(labelAdd);
 		content.add(Box.createRigidArea(new Dimension(0, 20)));
 		content.add(nameText);
@@ -100,7 +118,10 @@ public class ViewAddGame extends JPanel {
 		panelSave.add(btnSave);
 		btnAddImg.setEnabled(false);
 		content.setBorder(BorderFactory.createEmptyBorder(10, 5, 15, 5));
-
+		
+		/* Listeners */
+		
+		/* When the checkbox to associate an image is clicked */
 		hasImage.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -113,13 +134,15 @@ public class ViewAddGame extends JPanel {
 			}
 		});
 
+		/* When the button to add an image is clicked */
 		btnAddImg.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				addImage();
 			}
 		});
-
+		
+		/* When the button to save a game is clicked */
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -128,13 +151,15 @@ public class ViewAddGame extends JPanel {
 			}
 		});
 
+		/* When the button to edit a game is clicked */
 		btnEdit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				editGame();
 			}
 		});
-
+		
+		/* When the button to cancel an editing is clicked */
 		btnCancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -142,13 +167,20 @@ public class ViewAddGame extends JPanel {
 			}
 		});
 		
+		/* Adding all the components to the main panel */
 		this.add(content, BorderLayout.CENTER);
 		this.add(panelSave, BorderLayout.SOUTH);
+		
+		/* Empty border outside, gray border inside */
 		this.setBorder(new CompoundBorder(
 				BorderFactory.createEmptyBorder(20, 20, 20, 20),
 				BorderFactory.createMatteBorder(2, 2, 2, 2, Color.gray)));
 	}
-
+	
+	/**
+	 * Displays the edit and cancel buttons and fill the fields with the game to edit.
+	 * @param game The game to edit.
+	 */
 	void displayEditGame(Game game) {
 		gameToEdit = game;
 		isEditing = true;
@@ -166,16 +198,23 @@ public class ViewAddGame extends JPanel {
 			imgGame = null;
 			labelImage.setIcon(imgGame);
 		}
-		
+
 		refreshPanel();
 	}
 	
+	/**
+	 * Check if the game deleted is displayed in the edit panel. If it is, displays the add panel.
+	 * @param game The game which has been deleted.
+	 */
 	void gameDeleted(Game game) {
 		if (isEditing && gameToEdit == game) {
 			displayAddGame();
 		}
 	}
-
+	
+	/**
+	 * Display the view to add a game, remove the edit and cancel buttons and displays the save button.
+	 */
 	private void displayAddGame() {
 		this.isEditing = false;
 		clear();
@@ -184,38 +223,71 @@ public class ViewAddGame extends JPanel {
 		this.add(panelSave, BorderLayout.SOUTH);
 		refreshPanel();
 	}
-
+	
+	/**
+	 * Edits the game whith the filled fields.
+	 */
 	private void editGame() {
-		if (checkFields()) {
-			gameToEdit.setName(textGame.getText());
-
-			if (imgGame != null) {
-				gameToEdit.setImage(imgGame);
-			} else if (gameToEdit.hasImage() && imgGame == null) {
-				gameToEdit.removeImage();
-			}
-
-			JOptionPane.showMessageDialog(this, "The game " + gameToEdit.getName() + " has successfully been updated!", "Game edited", JOptionPane.INFORMATION_MESSAGE);
-			isEditing = false;
-			
-			if (viewList != null)
-				viewList.makeList();
+		if (!checkFields()) // Check all the fields
+			return;
+		
+		// Check if the game the user is trying to edit already exists
+		Game game = new Game(textGame.getText());
+		if (controller.gameExists(gameToEdit, game)) {
+			JOptionPane.showMessageDialog(this, "The game " + textGame.getText() + " already exists!", "Editing not possible", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
+
+		gameToEdit.setName(textGame.getText());
+
+		if (imgGame != null) {
+			gameToEdit.setImage(imgGame);
+		} else if (gameToEdit.hasImage() && imgGame == null) {
+			gameToEdit.removeImage();
+		}
+
+		JOptionPane.showMessageDialog(this, "The game " + gameToEdit.getName() + " has successfully been updated!", "Game edited", JOptionPane.INFORMATION_MESSAGE);
+		isEditing = false;
+		displayAddGame();
+
+		if (viewList != null)
+			viewList.makeList();
 	}
 
+	/**
+	 * Method which is executed when the user clicks on the add image button.
+	 * Opens a file chooser and let the user choose an image. He can't choose something else.
+	 */
 	private void addImage() {
+		/* Opens a file chooser for image files */
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes()));
 		fileChooser.showOpenDialog(this);
 		File fileImg = fileChooser.getSelectedFile();
+		
+		/* If the cancel button is pressed */
+		if (fileImg == null)
+			return;
+		
+		/* Traitment of the image */
 		BufferedImage bimg = null;
 		try {
 			bimg = ImageIO.read(fileImg);
 			int width = bimg.getWidth();
 			int height = bimg.getHeight();
-			int newHeight = (500 * height) / width;
+			int newHeight = 300, newWidth = 500;
+			
+			if (height > width) {
+				newWidth = (newHeight * width) / height;
+			} else {
+				newHeight = (newWidth * height) / width;
+			}
+			
+			// Resized image
 			ImageIcon img = new ImageIcon(bimg);
-			Image imgResize = img.getImage().getScaledInstance(500, newHeight, Image.SCALE_SMOOTH);
+			Image imgResize = img.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+			
+			// Save the image
 			imgGame = new ImageIcon(imgResize);
 			labelImage.setIcon(imgGame);
 		} catch (Exception e) {
@@ -223,6 +295,10 @@ public class ViewAddGame extends JPanel {
 		}
 	}
 
+	/**
+	 * Check the fields when the user wants to save or edit a game.
+	 * @return False if all the fields aren't well filled, true if all is ok.
+	 */
 	private boolean checkFields() {
 		String name = textGame.getText();
 		if (name.length() == 0) {
@@ -241,7 +317,13 @@ public class ViewAddGame extends JPanel {
 		return true;
 	}
 
+	/**
+	 * Add a game with the user inputs.
+	 * @param image The image of the game (can be null).
+	 * @param name The name of the game.
+	 */
 	private void addGame(ImageIcon image, String name) {
+		// Create a game with an image if it isn't null.
 		Game game = (image == null) ? new Game(name) : new Game(name, image);
 		try {
 			controller.addGame(game);
@@ -256,11 +338,17 @@ public class ViewAddGame extends JPanel {
 		}
 	}
 
+	/**
+	 * Clear all the fields.
+	 */
 	private void clear() {
 		textGame.setText("");
 		hasImage.setSelected(false);
 	}
 
+	/**
+	 * Refresh the panel when the display changes.
+	 */
 	private void refreshPanel() {
 		this.repaint();
 		this.revalidate();
