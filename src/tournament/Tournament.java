@@ -13,6 +13,7 @@ public abstract class Tournament {
 	private Game game;
 	private String location;
 	private Set<Participant> participants;
+	protected Match[] matchs;
 	
 	/**
 	 * Constructor of an empty tournament, composed of a game.
@@ -94,4 +95,18 @@ public abstract class Tournament {
 	public Set<Participant> getParticipants() {
 		return participants;
 	}
+	
+	/**
+	 * Get the matchs of this tournament.
+	 * @return A tree of matchs.
+	 */
+	public final Match[] getMatchs() {
+		return this.matchs;
+	}
+	
+	/**
+	 * Initialize the SimpleElimination tournament tree.
+	 * @param partipants The parcipants of the tournament.
+	 */
+	public abstract void initializeMatchs(Set<Participant> participants);
 }
