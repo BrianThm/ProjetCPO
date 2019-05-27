@@ -1,6 +1,9 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -60,5 +63,51 @@ public class ParticipantTest {
 		assertEquals(g2, p2.getPreferredGame());
 		assertEquals(g1, p3.getPreferredGame());
 		assertEquals(null, p4.getPreferredGame());
+	}
+	
+	@Test
+	public void testGetGames() {
+		Map<Game, Integer> games;
+		int played;
+		
+		games = p1.getGames();
+		assertEquals(1, games.size());
+		played = games.get(g1);
+		assertEquals(0, played);
+		
+		games = p2.getGames();
+		assertEquals(1, games.size());
+		played = games.get(g2);
+		assertEquals(2, played);
+		
+		games = p3.getGames();
+		assertEquals(2, games.size());
+		played = games.get(g1);
+		assertEquals(1, played);
+		played = games.get(g2);
+		assertEquals(0, played);
+		
+		games = p4.getGames();
+		assertEquals(0, games.size());
+	}
+	
+	@Test
+	public void testPlays() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testRemoveGame() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testTournament() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testToString() {
+		fail("Not yet implemented");
 	}
 }
