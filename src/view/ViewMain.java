@@ -5,15 +5,22 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
+import controller.LoadImpossibleException;
+import controller.SaveImpossibleException;
 
 @SuppressWarnings("serial")
 public class ViewMain extends JFrame {
@@ -25,12 +32,15 @@ public class ViewMain extends JFrame {
 		this.controller = controller;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		Container cont = this.getContentPane();		
+		Container cont = this.getContentPane();
 		
 		JMenuBar menubar = new JMenuBar();
+		JMenu menuFile = new JMenu("File");
 		JMenu menuGame = new JMenu("Game");
 		JMenu menuTeam = new JMenu("Team");
 		JMenu menuPlayer = new JMenu("Player");
+		JMenuItem saveData = new JMenuItem("Save the data");
+		JMenuItem loadData = new JMenuItem("Load the data");
 		JMenuItem addGame = new JMenuItem("Add a game");
 		JMenuItem deleteGame = new JMenuItem("Delete a game");
 		JMenuItem displayGames = new JMenuItem("Display all games");
@@ -44,9 +54,12 @@ public class ViewMain extends JFrame {
 		JMenuItem displayPlayers = new JMenuItem("Display all players");
 		JMenuItem managePlayers = new JMenuItem("Manage players");
 		
+		menubar.add(menuFile);
 		menubar.add(menuGame);
 		menubar.add(menuTeam);
 		menubar.add(menuPlayer);
+		menuFile.add(saveData);
+		menuFile.add(loadData);
 		menuGame.add(addGame);
 		menuGame.add(deleteGame);
 		menuGame.add(displayGames);
@@ -61,6 +74,49 @@ public class ViewMain extends JFrame {
 		menuPlayer.add(managePlayers);
 		
 		cont.setLayout(new BorderLayout());
+		
+		saveData.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileFilter(new FileNameExtensionFilter("Tournaments save", "txt"));
+				fileChooser.showSaveDialog(null);
+				
+				File file = fileChooser.getSelectedFile();
+				if (file == null) {
+					return;
+				}
+				
+				String filename = file + ".txt";
+				try {
+					controller.save(filename);
+				} catch (SaveImpossibleException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
+		loadData.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileFilter(new FileNameExtensionFilter("Tournaments save", "txt"));
+				fileChooser.showOpenDialog(null);
+				
+				File file = fileChooser.getSelectedFile();
+				if (file == null) {
+					return;
+				}
+				
+				String filename = file.toString();
+				try {
+					controller.load(filename);
+				} catch (LoadImpossibleException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
 		displayGames.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
