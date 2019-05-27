@@ -77,8 +77,8 @@ public class ViewListGame extends JPanel {
 		for (Game game : games) {
 			JPanel line = new JPanel(new BorderLayout());
 			JLabel label = new JLabel(game.getName());
-			JLabel labelImg = new JLabel(imgDelete); // The that which contains the delete image
-			JLabel labelImgEdit = new JLabel(imgEdit); // The that whihch contains the edit image
+			JLabel labelImg = new JLabel(imgDelete); // The label that contains the delete image
+			JLabel labelImgEdit = new JLabel(imgEdit); // The label that contains the edit image
 			
 			/* Listener for the delete button */
 			labelImg.addMouseListener(new MouseAdapter() {
