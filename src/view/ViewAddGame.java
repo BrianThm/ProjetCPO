@@ -43,7 +43,7 @@ import tournament.Game;
 public class ViewAddGame extends JPanel {
 
 	private Controller controller;
-	private JLabel labelImage;
+	private JLabel labelImage, labelAdd;
 	private JPanel content, editCancel, panelSave;
 	private ImageIcon imgGame;
 	private JTextField textGame;
@@ -86,7 +86,6 @@ public class ViewAddGame extends JPanel {
 		this.isEditing = false;
 
 		/* Initialization of the components */
-		JLabel labelAdd = new JLabel("Add a game");
 		JLabel nameGame = new JLabel("Name: ");
 		JPanel nameText = new JPanel(new FlowLayout());
 		JPanel checkBtn = new JPanel(new FlowLayout());
@@ -94,6 +93,7 @@ public class ViewAddGame extends JPanel {
 		JButton btnEdit = new CustomButton("Edit the game");
 		JButton btnCancel = new CustomButton("Cancel");
 
+		labelAdd = new JLabel("Add a game");
 		editCancel = new JPanel(new FlowLayout());
 		btnAddImg = new CustomButton("Add an image");
 		hasImage = new JCheckBox("Image associated to the game");
@@ -106,13 +106,14 @@ public class ViewAddGame extends JPanel {
 		checkBtn.add(btnAddImg);
 		editCancel.add(btnEdit);
 		editCancel.add(btnCancel);
+		panelSave.add(btnSave);
 
 		/* All is centered */
 		labelAdd.setAlignmentX(Component.CENTER_ALIGNMENT);
 		nameText.setAlignmentX(Component.CENTER_ALIGNMENT);
 		checkBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		labelImage.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnSave.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panelSave.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		/* Adding the components to the main panel (panel without buttons save/edit) */
 		content.add(labelAdd);
@@ -120,10 +121,11 @@ public class ViewAddGame extends JPanel {
 		content.add(nameText);
 		content.add(checkBtn);
 		content.add(labelImage);
-		panelSave.add(btnSave);
 		btnAddImg.setEnabled(false);
-		content.setBorder(BorderFactory.createEmptyBorder(10, 5, 15, 5));
-
+		content.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 5));
+		panelSave.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
+		editCancel.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
+		
 		/* Listeners */
 
 		/* When the checkbox to associate an image is clicked */
@@ -193,6 +195,7 @@ public class ViewAddGame extends JPanel {
 		this.remove(panelSave);
 		this.add(editCancel, BorderLayout.SOUTH);
 
+		labelAdd.setText("Edit a game");
 		textGame.setText(game.getName());
 
 		if (game.hasImage()) {
@@ -226,6 +229,7 @@ public class ViewAddGame extends JPanel {
 	 */
 	private void displayAddGame() {
 		this.isEditing = false;
+		labelAdd.setText("Add a game");
 		clear();
 		imgGame = null;
 		this.remove(editCancel);

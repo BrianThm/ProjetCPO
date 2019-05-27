@@ -29,6 +29,7 @@ public class ViewListPlayer extends JPanel {
 	private boolean deletePlayer, editPlayer;
 	private ImageIcon imgDelete, imgEdit;
 	private ViewAddPlayer viewAdd;
+	private JLabel title;
 
 	public ViewListPlayer(Controller controller, boolean deletePlayer) {
 		super();
@@ -36,6 +37,7 @@ public class ViewListPlayer extends JPanel {
 		this.deletePlayer = deletePlayer;
 		this.editPlayer = false;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.title = new JLabel("List of players");
 
 		/* Creation of the edit image button */
 		imgEdit = new ImageIcon(getClass().getResource("/res/edit.png"));
@@ -136,6 +138,13 @@ public class ViewListPlayer extends JPanel {
 
 	void makeList() {
 		Set<Player> players = controller.getPlayers();
+
+		this.add(title);
+
+		/* Empty border for the outside (kind of margin) and gray border for the inside */
+		title.setBorder(new CompoundBorder(
+				BorderFactory.createEmptyBorder(15, 0, 15, 0),
+				BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray)));
 
 		for (Player p : players) {
 			this.add(getPanel(p));

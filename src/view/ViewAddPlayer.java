@@ -31,6 +31,7 @@ public class ViewAddPlayer extends JPanel {
 	private JPanel content, panelSave, panelEditCancel, panelNN, panelFN, panelLN, panelCB;
 	private JTextField nickname, fname, lname;
 	private JComboBox<Game> comboBox;
+	private JLabel labelAdd;
 	private boolean isEditing;
 
 	public ViewAddPlayer(Controller controller, ViewListPlayer viewList) {
@@ -53,15 +54,15 @@ public class ViewAddPlayer extends JPanel {
 
 		/* Initialization of the components */
 		//JPanel formStr = new JPanel(new GridLayout(3, 2));
-		JLabel labelAdd = new JLabel("Add a player");
-		JLabel labelN = new JLabel("Nickname: *");
-		JLabel labelF = new JLabel("Firstname: ");
-		JLabel labelL = new JLabel("Lastname: ");
-		JLabel labelGame = new JLabel("Preferred game: ");
+		JLabel labelN = new JLabel("Nickname* ");
+		JLabel labelF = new JLabel("Firstname ");
+		JLabel labelL = new JLabel("Lastname ");
+		JLabel labelGame = new JLabel("Preferred game ");
 		JButton save = new CustomButton("Save the player");
 		JButton edit = new CustomButton("Edit the player");
 		JButton cancel = new CustomButton("Cancel");
 
+		labelAdd = new JLabel("Add a player");
 		comboBox = new JComboBox<Game>();
 		labelAdd.setFont(new Font("defaultFont", Font.BOLD, 15));
 
@@ -83,6 +84,8 @@ public class ViewAddPlayer extends JPanel {
 		panelSave.add(save);
 		panelEditCancel.add(edit);
 		panelEditCancel.add(cancel);
+		panelSave.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
+		panelEditCancel.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
 		
 		content.add(labelAdd);
 		content.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -90,6 +93,17 @@ public class ViewAddPlayer extends JPanel {
 		content.add(panelFN);
 		content.add(panelLN);
 		this.add(content, BorderLayout.CENTER);
+		this.labelAdd.setBorder(new CompoundBorder(
+				BorderFactory.createEmptyBorder(15, 0, 15, 0),
+				BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray)));
+		
+		labelAdd.setAlignmentX(CENTER_ALIGNMENT);
+		panelNN.setAlignmentX(CENTER_ALIGNMENT);
+		panelFN.setAlignmentX(CENTER_ALIGNMENT);
+		panelLN.setAlignmentX(CENTER_ALIGNMENT);
+		panelCB.setAlignmentX(CENTER_ALIGNMENT);
+		panelSave.setAlignmentX(CENTER_ALIGNMENT);
+		panelEditCancel.setAlignmentX(CENTER_ALIGNMENT);
 		
 		displayAddPlayer();
 
@@ -99,6 +113,7 @@ public class ViewAddPlayer extends JPanel {
 	}
 
 	void displayEditPlayer(Player player) {
+		this.labelAdd.setText("Edit a player");
 		content.remove(comboBox);
 		this.remove(panelSave);
 		
@@ -112,6 +127,7 @@ public class ViewAddPlayer extends JPanel {
 	}
 
 	private void displayAddPlayer() {
+		this.labelAdd.setText("Add a player");
 		this.remove(panelEditCancel);
 		Set<Game> games = this.controller.getGames();
 		comboBox.addItem(null);
