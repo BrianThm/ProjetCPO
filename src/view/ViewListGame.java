@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -31,6 +32,7 @@ public class ViewListGame extends JPanel {
 
 	private Controller controller;
 	private ImageIcon imgDelete, imgEdit;
+	private JLabel title;
 	private boolean deleteGame, editGame;
 	private ViewAddGame viewAdd;
 
@@ -46,6 +48,9 @@ public class ViewListGame extends JPanel {
 		this.deleteGame = deleteGame;
 		this.editGame = false;
 
+		title = new JLabel("List of games");
+		title.setFont(new Font("defaultFont", Font.BOLD, 15));
+		
 		/* Creation of the edit image button */
 		imgEdit = new ImageIcon(getClass().getResource("/res/edit.png"));
 		Image imageEdit = imgEdit.getImage().getScaledInstance(28, 28, Image.SCALE_SMOOTH);
@@ -58,7 +63,7 @@ public class ViewListGame extends JPanel {
 
 		/* Creates and displays the list of games */
 		makeList();
-
+		
 		/* Empty border for the outside (kind of margin) and gray border for the inside */
 		this.setBorder(new CompoundBorder(
 				BorderFactory.createEmptyBorder(20, 20, 20, 20),
@@ -72,8 +77,13 @@ public class ViewListGame extends JPanel {
 	void makeList() {
 		Set<Game> games = this.controller.getGames();
 		this.removeAll();
-		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.add(title);
+		
+		/* Empty border for the outside (kind of margin) and gray border for the inside */
+		title.setBorder(new CompoundBorder(
+				BorderFactory.createEmptyBorder(15, 0, 15, 0),
+				BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray)));
 		for (Game game : games) {
 			JPanel line = new JPanel(new BorderLayout());
 			JLabel label = new JLabel(game.getName());
