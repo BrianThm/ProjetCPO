@@ -86,8 +86,11 @@ public class ViewMain extends JFrame {
 				if (file == null) {
 					return;
 				}
+				String filename = file.toString();
 				
-				String filename = file + ".txt";
+				if (!filename.endsWith(".txt")) {
+					filename += ".txt";
+				}
 				try {
 					controller.save(filename);
 				} catch (SaveImpossibleException e) {
