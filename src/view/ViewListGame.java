@@ -21,44 +21,54 @@ import controller.Controller;
 import controller.GameUsedException;
 import tournament.Game;
 
+/**
+ * View which displays the list of the games.
+ * @author Group
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 public class ViewListGame extends JPanel {
 	
 	private Controller controller;
-	private ImageIcon imgDelete;
-	private ImageIcon imgEdit;
-	private boolean deleteGame;
-	private boolean editGame;
+	private ImageIcon imgDelete, imgEdit;
+	private boolean deleteGame, editGame;
 	private ViewAddGame viewAdd;
 	
+	/**
+	 * Creates a new view to list the games. The view can displays delete or edit buttons according to way to open it.
+	 * @param controller The controller.
+	 * @param deleteGame True if the games can be deleted, else if not.
+	 */
 	public ViewListGame(Controller controller, boolean deleteGame) {
+		/* Initialization of the attributes */
 		this.controller = controller;
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.deleteGame = deleteGame;
 		this.editGame = false;
 		
-//		try {
-//			Game g1 = new Game("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-//			Game g2 = new Game("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-//			this.controller.addGame(g1);
-//			this.controller.addGame(g2);
-//		} catch (Exception e) {}
-		
+		/* Creation of the edit image button */
 		imgEdit = new ImageIcon(getClass().getResource("/res/edit.png"));
-		Image imageEdit = imgEdit.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		Image imageEdit = imgEdit.getImage().getScaledInstance(28, 28, Image.SCALE_SMOOTH);
 		imgEdit = new ImageIcon(imageEdit);
 		
+		/* Creation of the delete image button */
 		imgDelete = new ImageIcon(getClass().getResource("/res/delete.png"));
-		Image image = imgDelete.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		Image image = imgDelete.getImage().getScaledInstance(28, 28, Image.SCALE_SMOOTH);
 		imgDelete = new ImageIcon(image);
 		
+		/* Creates and displays the list of games */
 		makeList();
 		
+		/* Empty border for the outside (kind of margin) and gray border for the inside */
 		this.setBorder(new CompoundBorder(
 				BorderFactory.createEmptyBorder(20, 20, 20, 20),
 				BorderFactory.createMatteBorder(2, 2, 2, 2, Color.gray)));
 	}
 	
+	/**
+	 * Get the games of the controller and displays it.
+	 * Displays edit or delete buttons according to the way to open the viewListGame.
+	 */
 	void makeList() {
 		Set<Game> games = this.controller.getGames();
 		this.removeAll();
@@ -67,9 +77,10 @@ public class ViewListGame extends JPanel {
 		for (Game game : games) {
 			JPanel line = new JPanel(new BorderLayout());
 			JLabel label = new JLabel(game.getName());
-			JLabel labelImg = new JLabel(imgDelete);
-			JLabel labelImgEdit = new JLabel(imgEdit);
+			JLabel labelImg = new JLabel(imgDelete); // The that which contains the delete image
+			JLabel labelImgEdit = new JLabel(imgEdit); // The that whihch contains the edit image
 			
+			/* Listener for the delete button */
 			labelImg.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -77,6 +88,7 @@ public class ViewListGame extends JPanel {
                 }
             });
 			
+			/* Listener for the edit button */
 			labelImgEdit.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -84,11 +96,16 @@ public class ViewListGame extends JPanel {
                 }
             });
 			
+			/* Empty borders to set some margins */
 			label.setBorder(BorderFactory.createEmptyBorder(2, 8, 2, 50));
-			labelImg.setBorder(BorderFactory.createEmptyBorder(3, 2, 3, 15));
-			labelImgEdit.setBorder(BorderFactory.createEmptyBorder(3, 2, 3, 5));
+			labelImg.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 15));
+			labelImgEdit.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 5));
 			line.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
+			
+			// Adding all the right components to the line
 			line.add(label, BorderLayout.CENTER);
+			
+			// If the user can edit a game, he can also delete it
 			if (editGame) {
 				JPanel panelImg = new JPanel(new GridLayout(0, 2));
 				panelImg.add(labelImgEdit);
@@ -97,20 +114,37 @@ public class ViewListGame extends JPanel {
 			} else if (deleteGame) {
 				line.add(labelImg, BorderLayout.EAST);
 			}
+			// Each line is add to the main panel
 			this.add(line);
 		}
+		
+		// When there isn't any game, the panel displays a sentence.
 		if (controller.getNbGames() == 0) {
 			noGame();
 		}
+		
 		refreshList();
 	}
 	
+	/**
+	 * This is used if the list of games is used next to the view to add a game.
+	 * @param viewAdd The viewAddGame to set.
+	 */
 	void setViewAddGame(ViewAddGame viewAdd) {
 		this.viewAdd = viewAdd;
+		
+		// Adding a viewAddGame means that the games can be edited.
 		this.editGame = true;
+		
+		// The list has to be made again.
 		makeList();
 	}
 	
+	/**
+	 * Delete a game from the list of games.
+	 * @param game The game to delete.
+	 * @param line The JPanel line where the game is displayed.
+	 */
 	private void deleteGame(Game game, JPanel line) {
 		try {
 			int answer = JOptionPane.showConfirmDialog(this,
@@ -125,6 +159,7 @@ public class ViewListGame extends JPanel {
 				
 				refreshList();
 				
+				// Signal to the viewAddGame that the game has been deleted
 				if (viewAdd != null)
 					viewAdd.gameDeleted(game);
 			}
@@ -136,11 +171,17 @@ public class ViewListGame extends JPanel {
 		}
 	}
 	
+	/**
+	 * Refresh the list when a displays changes.
+	 */
 	private void refreshList() {
 		this.repaint();
 		this.revalidate();
 	}
 	
+	/**
+	 * This is called when there isn't any game to display.
+	 */
 	private void noGame() {
 		this.removeAll();
 		this.setLayout(new GridBagLayout());
