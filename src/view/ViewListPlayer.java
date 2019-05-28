@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -38,6 +39,12 @@ public class ViewListPlayer extends JPanel {
 		this.editPlayer = false;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.title = new JLabel("List of players");
+		this.title.setAlignmentX(CENTER_ALIGNMENT);
+		this.title.setFont(new Font("defaultFont", Font.BOLD, 15));
+		/* Empty border for the outside (kind of margin) and gray border for the inside */
+		this.title.setBorder(new CompoundBorder(
+				BorderFactory.createEmptyBorder(15, 0, 15, 0),
+				BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray)));
 
 		/* Creation of the edit image button */
 		imgEdit = new ImageIcon(getClass().getResource("/res/edit.png"));
@@ -61,10 +68,12 @@ public class ViewListPlayer extends JPanel {
 	private JPanel getPanel(Player player) {
 		JPanel line = new JPanel(new BorderLayout());
 		JPanel infosPlayer = new JPanel(new GridLayout(0, 2));
-		JPanel textNames = new JPanel(new BoxLayout(line, BoxLayout.Y_AXIS));
-		JPanel textGameTeam = new JPanel(new BoxLayout(line, BoxLayout.Y_AXIS));
+		JPanel textNames = new JPanel();
+		JPanel textGameTeam = new JPanel();
 		JLabel labelImgDel = new JLabel(imgDelete); // The label that contains the delete image
 		JLabel labelImgEdit = new JLabel(imgEdit); // The label that contains the edit image
+		textNames.setLayout(new BoxLayout(textNames, BoxLayout.Y_AXIS));
+		textGameTeam.setLayout(new BoxLayout(textGameTeam, BoxLayout.Y_AXIS));
 
 		String nickname = player.getName();
 		String fname = player.getFName();
@@ -73,10 +82,10 @@ public class ViewListPlayer extends JPanel {
 		Game game = player.getPreferredGame();
 		Team team = player.getPreferredTeam();
 
-		textNames.add(new JLabel("Pseudo: " + nickname));
+		textNames.add(new JLabel("Nickname: " + nickname));
 		if (!fname.isEmpty()) {
-			textNames.add(new JLabel("First name: " + fname));
-			textNames.add(new JLabel("Last name: " + lname));
+			textNames.add(new JLabel("Firstname: " + fname));
+			textNames.add(new JLabel("Lastname: " + lname));
 		}
 
 		if (game != null)
@@ -87,6 +96,8 @@ public class ViewListPlayer extends JPanel {
 
 		infosPlayer.add(textNames);
 		infosPlayer.add(textGameTeam);
+		textNames.setBorder(BorderFactory.createEmptyBorder(2, 8, 2, 10));
+		textGameTeam.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 40));
 
 		line.add(infosPlayer, BorderLayout.CENTER);
 
@@ -123,8 +134,8 @@ public class ViewListPlayer extends JPanel {
 	}
 
 	/**
-	 * This is used if the list of games is used next to the view to add a game.
-	 * @param viewAdd The viewAddGame to set.
+	 * This is used if the list of players is used next to the view to add a player.
+	 * @param viewAdd The viewAddPlayer to set.
 	 */
 	void setViewAddPlayer(ViewAddPlayer viewAdd) {
 		this.viewAdd = viewAdd;
@@ -138,13 +149,9 @@ public class ViewListPlayer extends JPanel {
 
 	void makeList() {
 		Set<Player> players = controller.getPlayers();
-
+		this.removeAll();
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(title);
-
-		/* Empty border for the outside (kind of margin) and gray border for the inside */
-		title.setBorder(new CompoundBorder(
-				BorderFactory.createEmptyBorder(15, 0, 15, 0),
-				BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray)));
 
 		for (Player p : players) {
 			this.add(getPanel(p));
