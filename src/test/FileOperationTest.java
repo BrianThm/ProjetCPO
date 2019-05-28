@@ -17,8 +17,8 @@ import tournament.*;
 
 public class FileOperationTest {
 	
-	Controller controller;
-	String filename = "/tmp/FileOperationTestSave.txt";
+	private Controller controller;
+	private String filename = "/tmp/FileOperationTestSave.txt";
 	
 	@Before
 	public void setup() throws GameAlreadyExistsException, PlayerAlreadyExistsException {

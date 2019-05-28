@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -72,8 +73,7 @@ public class ViewListPlayer extends JPanel {
 		JPanel textGameTeam = new JPanel();
 		JLabel labelImgDel = new JLabel(imgDelete); // The label that contains the delete image
 		JLabel labelImgEdit = new JLabel(imgEdit); // The label that contains the edit image
-		textNames.setLayout(new BoxLayout(textNames, BoxLayout.Y_AXIS));
-		textGameTeam.setLayout(new BoxLayout(textGameTeam, BoxLayout.Y_AXIS));
+		String labelTextName, labelTextGame = "<html>";
 
 		String nickname = player.getName();
 		String fname = player.getFName();
@@ -82,22 +82,28 @@ public class ViewListPlayer extends JPanel {
 		Game game = player.getPreferredGame();
 		Team team = player.getPreferredTeam();
 
-		textNames.add(new JLabel("Nickname: " + nickname));
+		labelTextName = "<html>Nickname: " + nickname + "<br/>";
 		if (!fname.isEmpty()) {
-			textNames.add(new JLabel("Firstname: " + fname));
-			textNames.add(new JLabel("Lastname: " + lname));
+			labelTextName += "Firstname: " + fname + "<br/>";
+			labelTextName += "Lastname: " + lname;
+		}
+		labelTextName += "</html>";
+
+		if (game != null) {
+			labelTextGame += "Preferred game: " + game.getName() + "<br>";
 		}
 
-		if (game != null)
-			textGameTeam.add(new JLabel("Preferred game: " + game.getName()));
+		if (team != null) {
+			labelTextGame += "Preferred team: " + team.getName();
+		}
+		labelTextGame += "</html>";
 
-		if (team != null)
-			textGameTeam.add(new JLabel("Preferred team: " + team.getName()));
-
-		infosPlayer.add(textNames);
-		infosPlayer.add(textGameTeam);
-		textNames.setBorder(BorderFactory.createEmptyBorder(2, 8, 2, 10));
-		textGameTeam.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 40));
+		JLabel textName = new JLabel(labelTextName);
+		JLabel textGame = new JLabel(labelTextGame);
+		infosPlayer.add(textName);
+		infosPlayer.add(textGame);
+		textName.setBorder(BorderFactory.createEmptyBorder(2, 8, 2, 10));
+		textGame.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 40));
 
 		line.add(infosPlayer, BorderLayout.CENTER);
 
@@ -130,6 +136,7 @@ public class ViewListPlayer extends JPanel {
 			line.add(labelImgDel, BorderLayout.EAST);
 		}
 
+		line.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
 		return line;
 	}
 
@@ -173,7 +180,7 @@ public class ViewListPlayer extends JPanel {
 			this.controller.removePlayer(player);
 			this.remove(line);
 
-			if (controller.getNbGames() == 0)
+			if (controller.getNbPlayers() == 0)
 				noPlayer();
 
 			refreshList();

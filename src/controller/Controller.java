@@ -211,6 +211,26 @@ public class Controller {
 	}
 	
 	/**
+	 * Tells if a player already exists in the controller after modifying it.
+	 * @param oldP The old player.
+	 * @param newP The new player.
+	 * @return true if the player exists, else false.
+	 */
+	public boolean playerExists(Player oldP, Player newP) {
+		if (oldP.equals(newP)) {
+			return false;
+		}
+		
+		for (Player player : this.players) {
+			if (newP.equals(player)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Add a team in order to save it and use it later.
 	 * @param team The team to save.
 	 */
