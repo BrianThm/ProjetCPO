@@ -61,7 +61,7 @@ public class ParticipantTest extends TestSetup{
 		
 		games = participants.get(0).getGames();
 		assertEquals(1, games.size());
-		played = games.get(g1);
+		played = games.get(game);
 		assertEquals(0, played);
 		
 		games = p2.getGames();
