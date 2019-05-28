@@ -9,12 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tournament.Game;
-import tournament.GamePlayedException;
 import tournament.Participant;
 import tournament.Player;
 import tournament.SimpleElimination;
 import tournament.Team;
 import tournament.Tournament;
+import tournament.exceptions.GamePlayedException;
 
 public class ParticipantTest {
 	

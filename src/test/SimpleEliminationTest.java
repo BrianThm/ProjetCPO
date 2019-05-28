@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import org.junit.*;
 import tournament.*;
+import tournament.exceptions.NotEnoughParticipantsException;
 
 /**
  * Class which test, with unit test, methods of the 

@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 
 import controller.Controller;
-import controller.GameUsedException;
+import controller.exceptions.GameUsedException;
 import tournament.Game;
 
 /**

@@ -18,8 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
-import controller.LoadImpossibleException;
-import controller.SaveImpossibleException;
+import controller.exceptions.LoadImpossibleException;
+import controller.exceptions.SaveImpossibleException;
 
 @SuppressWarnings("serial")
 public class ViewMain extends JFrame {

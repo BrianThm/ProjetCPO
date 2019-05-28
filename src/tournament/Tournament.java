@@ -3,6 +3,8 @@ package tournament;
 import java.util.HashSet;
 import java.util.Set;
 
+import tournament.exceptions.NotEnoughParticipantsException;
+
 /**
  * Class Tournament, will be specified by each type of tournament.
  * @author Group

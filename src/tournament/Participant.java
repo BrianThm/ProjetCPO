@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import tournament.exceptions.GamePlayedException;
+
 /**
  * Class which defines a tournament participant. 
  * A participant is either a Team or a Player.

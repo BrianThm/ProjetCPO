@@ -3,11 +3,16 @@ package controller;
 import java.util.HashSet;
 import java.util.Set;
 
+import controller.exceptions.GameAlreadyExistsException;
+import controller.exceptions.GameUsedException;
+import controller.exceptions.LoadImpossibleException;
+import controller.exceptions.PlayerAlreadyExistsException;
+import controller.exceptions.SaveImpossibleException;
 import tournament.Game;
-import tournament.GamePlayedException;
 import tournament.Player;
 import tournament.Team;
 import tournament.Tournament;
+import tournament.exceptions.GamePlayedException;
 
 /**
  * A controller of tournaments.

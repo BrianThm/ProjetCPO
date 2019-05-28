@@ -12,10 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import controller.Controller;
-import controller.GameAlreadyExistsException;
-import controller.LoadImpossibleException;
-import controller.PlayerAlreadyExistsException;
-import controller.SaveImpossibleException;
+import controller.exceptions.GameAlreadyExistsException;
+import controller.exceptions.LoadImpossibleException;
+import controller.exceptions.PlayerAlreadyExistsException;
+import controller.exceptions.SaveImpossibleException;
 import tournament.Game;
 import tournament.Player;
 import tournament.Team;

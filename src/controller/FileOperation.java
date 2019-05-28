@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import controller.exceptions.LoadImpossibleException;
+import controller.exceptions.SaveImpossibleException;
 import tournament.Game;
 import tournament.Participant;
 import tournament.Player;

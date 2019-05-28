@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import tournament.exceptions.NotEnoughParticipantsException;
+
 /**
  * A type of tournament. 
  * This is the most simple tournament, where the looser of a match loose the tournament. 

@@ -30,7 +30,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
-import controller.GameAlreadyExistsException;
+import controller.exceptions.GameAlreadyExistsException;
 import tournament.Game;
 
 /**

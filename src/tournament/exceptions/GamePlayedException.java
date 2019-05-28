@@ -1,4 +1,4 @@
-package tournament;
+package tournament.exceptions;
 
 @SuppressWarnings("serial")
 /**
