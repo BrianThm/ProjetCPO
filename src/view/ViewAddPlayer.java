@@ -71,7 +71,6 @@ public class ViewAddPlayer extends JPanel {
 		JButton cancel = new CustomButton("Cancel");
 
 		labelAdd = new JLabel("Add a player");
-		comboBox = new JComboBox<Game>();
 		labelAdd.setFont(new Font("defaultFont", Font.BOLD, 15));
 
 		panelNN = new JPanel(new FlowLayout());
@@ -80,6 +79,7 @@ public class ViewAddPlayer extends JPanel {
 		panelCB = new JPanel(new FlowLayout());
 		panelSave = new JPanel(new FlowLayout());
 		panelEditCancel = new JPanel(new FlowLayout());
+		comboBox = new JComboBox<Game>();
 
 		panelNN.add(labelN);
 		panelNN.add(nickname);
@@ -182,7 +182,7 @@ public class ViewAddPlayer extends JPanel {
 		this.labelAdd.setText("Add a player");
 		this.remove(panelEditCancel);
 		Set<Game> games = this.controller.getGames();
-		comboBox.removeAll();
+		comboBox.removeAllItems();
 		comboBox.addItem(null);
 		for (Game g : games) {
 			comboBox.addItem(g);
