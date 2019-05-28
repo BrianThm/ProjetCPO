@@ -16,7 +16,7 @@ import javax.swing.border.CompoundBorder;
 import controller.Controller;
 
 /**
- * The ViewAddTeam is the view wich allow to create an edit a team.
+ * The ViewAddTeam is the view wich allow to create and edit a team.
  * @author Group
  * @version 1.0
  */

@@ -182,6 +182,7 @@ public class ViewAddPlayer extends JPanel {
 		this.labelAdd.setText("Add a player");
 		this.remove(panelEditCancel);
 		Set<Game> games = this.controller.getGames();
+		comboBox.removeAll();
 		comboBox.addItem(null);
 		for (Game g : games) {
 			comboBox.addItem(g);
