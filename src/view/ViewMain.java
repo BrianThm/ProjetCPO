@@ -24,14 +24,15 @@ import controller.exceptions.SaveImpossibleException;
 @SuppressWarnings("serial")
 public class ViewMain extends JFrame {
 
-	Controller controller;
+	private Controller controller;
+	private Container cont;
 
 	public ViewMain(Controller controller, String title) {
 		super(title);
 		this.controller = controller;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		Container cont = this.getContentPane();
+		cont = this.getContentPane();
 
 		JMenuBar menubar = new JMenuBar();
 		JMenu menuFile = new JMenu("File");
@@ -122,96 +123,63 @@ public class ViewMain extends JFrame {
 		addGame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JPanel viewAdd = new ViewAddGame(controller);
-				JScrollPane scrollPane = new JScrollPane(viewAdd);
-				cont.removeAll();
-				cont.add(scrollPane, BorderLayout.CENTER);
-				viewAdd.updateUI();
-				refresh();
+				changeView(new ViewAddGame(controller));
 			}
 		});
 
 		deleteGame.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JPanel viewList = new ViewListGame(controller, true);
-				JScrollPane scrollPane = new JScrollPane(viewList);
-				cont.removeAll();
-				cont.add(scrollPane, BorderLayout.CENTER);
-				viewList.updateUI();
-				refresh();
+				changeView(new ViewListGame(controller, true));
 			}
 		});
 
 		displayGames.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JPanel viewList = new ViewListGame(controller, false);
-				JScrollPane scrollPane = new JScrollPane(viewList);
-				cont.removeAll();
-				cont.add(scrollPane, BorderLayout.CENTER);
-				viewList.updateUI();
-				refresh();
+				changeView(new ViewListGame(controller, false));
 			}
 		});
 
 		manageGames.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JPanel viewGame = new ViewGame(controller);
-				JScrollPane scrollPane = new JScrollPane(viewGame);
-				cont.removeAll();
-				cont.add(scrollPane, BorderLayout.CENTER);
-				viewGame.updateUI();
-				refresh();
+				changeView(new ViewGame(controller));
 			}
 		});
 
 		addPlayer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JPanel viewAdd = new ViewAddPlayer(controller);
-				JScrollPane scrollPane = new JScrollPane(viewAdd);
-				cont.removeAll();
-				cont.add(scrollPane, BorderLayout.CENTER);
-				viewAdd.updateUI();
-				refresh();
+				changeView(new ViewAddPlayer(controller));
 			}
 		});
 
 		deletePlayer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JPanel viewList = new ViewListPlayer(controller, true);
-				JScrollPane scrollPane = new JScrollPane(viewList);
-				cont.removeAll();
-				cont.add(scrollPane, BorderLayout.CENTER);
-				viewList.updateUI();
-				refresh();
+				changeView(new ViewListPlayer(controller, true));
 			}
 		});
 
 		displayPlayers.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JPanel viewList = new ViewListPlayer(controller, false);
-				JScrollPane scrollPane = new JScrollPane(viewList);
-				cont.removeAll();
-				cont.add(scrollPane, BorderLayout.CENTER);
-				viewList.updateUI();
-				refresh();
+				changeView(new ViewListPlayer(controller, false));
 			}
 		});
 
 		managePlayers.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JPanel viewPlayer = new ViewPlayer(controller);
-				JScrollPane scrollPane = new JScrollPane(viewPlayer);
-				cont.removeAll();
-				cont.add(scrollPane, BorderLayout.CENTER);
-				viewPlayer.updateUI();
-				refresh();
+				changeView(new ViewPlayer(controller));
+			}
+		});
+		
+		addTeam.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				changeView(new ViewAddTeam(controller));
 			}
 		});
 
@@ -221,6 +189,14 @@ public class ViewMain extends JFrame {
 		this.setJMenuBar(menubar);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+	}
+	
+	private void changeView(JPanel view) {
+		JScrollPane scrollPane = new JScrollPane(view);
+		cont.removeAll();
+		cont.add(scrollPane, BorderLayout.CENTER);
+		view.updateUI();
+		refresh();
 	}
 
 	private void refresh() {
