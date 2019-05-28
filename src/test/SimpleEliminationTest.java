@@ -2,9 +2,11 @@ package test;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import org.junit.*;
+
 import tournament.*;
-import tournament.exceptions.NotEnoughParticipantsException;
+import tournament.exceptions.*;
 
 /**
  * Class which test, with unit test, methods of the 

@@ -8,13 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import controller.exceptions.LoadImpossibleException;
-import controller.exceptions.SaveImpossibleException;
-import tournament.Game;
-import tournament.Participant;
-import tournament.Player;
-import tournament.Team;
-import tournament.Tournament;
+import controller.exceptions.*;
+import tournament.*;
 
 /**
  * This class permits to save & load a list of tournaments, games and participant.

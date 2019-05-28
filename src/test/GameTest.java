@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import org.junit.Before;
 import org.junit.Test;
 
-import tournament.Game;
+import tournament.*;
 
 /**
  * Class which test, with unit tests, methods of the class Game.

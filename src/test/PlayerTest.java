@@ -1,11 +1,11 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
-import tournament.Game;
-import tournament.Player;
-import tournament.Team;
+
+import tournament.*;
 
 /**
  * Class which test, with unit test, methods of the class Player
