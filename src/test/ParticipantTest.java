@@ -2,11 +2,10 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import tournament.*;
@@ -46,37 +45,36 @@ public class ParticipantTest extends TestSetup{
 		assertEquals(game1, participants.get(0).getPreferredGame());
 		assertEquals(game3, participants.get(1).getPreferredGame());
 		assertEquals(game, participants.get(8).getPreferredGame());
-		assertEquals(null, participants.get(11).getPreferredGame());
+		assertEquals(null, participants.get(9).getPreferredGame());
 	}
 	
 	@Test
 	public void testGetGames() {
 		Map<Game, Integer> games;
-		
-		participants.get(0).plays(game1);
-		participants.get(1).plays(game3);
-		participants.get(8).plays(game);
-		
 		int played;
 		
+		games = participants.get(1).getGames();
+		assertEquals(1, games.size());
+		played = games.get(game1);
+		assertEquals(0, played);
+		
+		participants.get(0).plays(game);
+		participants.get(0).plays(game);
 		games = participants.get(0).getGames();
 		assertEquals(1, games.size());
 		played = games.get(game);
-		assertEquals(0, played);
-		
-		games = p2.getGames();
-		assertEquals(1, games.size());
-		played = games.get(g2);
 		assertEquals(2, played);
 		
-		games = p3.getGames();
+		participants.get(11).plays(game2);
+		
+		games = participants.get(11).getGames();
 		assertEquals(2, games.size());
-		played = games.get(g1);
+		played = games.get(game2);
 		assertEquals(1, played);
-		played = games.get(g2);
+		played = games.get(game3);
 		assertEquals(0, played);
 		
-		games = p4.getGames();
+		games = participants.get(8).getGames();
 		assertEquals(0, games.size());
 	}
 	
@@ -86,9 +84,9 @@ public class ParticipantTest extends TestSetup{
 		int played;
 		
 		for (int i = 1; i < 100; i++) {
-			p4.plays(g1);
-			games = p4.getGames();
-			played = games.get(g1);
+			participants.get(3).plays(game2);
+			games = participants.get(3).getGames();
+			played = games.get(game2);
 			assertEquals(i, played);
 		}
 	}
@@ -97,54 +95,86 @@ public class ParticipantTest extends TestSetup{
 	public void testRemoveGame() throws GamePlayedException {
 		Map<Game, Integer> games;
 		
-		p1.removeGame(g1);
-		games = p1.getGames();
+		participants.get(1).removeGame(game1);
+		games = participants.get(1).getGames();
 		assertEquals(0, games.size());
 		
-		p2.removeGame(g2);
-		games = p2.getGames();
+		participants.get(0).plays(game);
+		participants.get(0).plays(game);
+		participants.get(0).removeGame(game);
+		games = participants.get(0).getGames();
 		assertEquals(0, games.size());
 		
-		p3.removeGame(g1);
-		p3.removeGame(g2);
-		games = p3.getGames();
+		participants.get(11).plays(game2);
+		participants.get(11).removeGame(game1);
+		participants.get(11).removeGame(game2);
+		games = participants.get(11).getGames();
 		assertEquals(0, games.size());
 	}
 	
 	@Test
-	public void testTournament() {
-		Set<Tournament> tournaments = p1.getTournaments();
-		assertEquals(0, tournaments.size());
+	public void testAddTournament() {
 		
-		Tournament t = new SimpleElimination(g1);
+		participants.get(0).addTournament(tournament);
+		for (Tournament t : participants.get(0).getTournaments()) {
+			assertEquals("The tournament is not good !",tournament,t);
+		}
 		
-		p1.addTournament(t);
-		tournaments = p1.getTournaments();
-		assertEquals(1, tournaments.size());
+		participants.get(0).addTournament(tournament1); 
+		assertEquals("The tournaments are not good !",tournaments,participants.get(0).getTournaments());
 		
-		p1.removeTournament(t);
-		tournaments = p1.getTournaments();
-		assertEquals(0, tournaments.size());
+	}
+	
+	@Test
+	public void testGetTournament() {
+		
+		HashSet<Tournament> t = new HashSet<Tournament>(); 
+		t.add(tournament);
+		participants.get(0).addTournament(tournament);
+		assertEquals("The set returns is not good !",t,participants.get(0).getTournaments());
+		
+		t.add(tournament1); 
+		participants.get(8).addTournament(tournament);
+		participants.get(8).addTournament(tournament1);
+		assertEquals("The set returns is not good !",t,participants.get(8).getTournaments());
+		
+	}
+	
+	@Test
+	public void testRemoveTournament() {
+		//already test
+		HashSet<Tournament> t = new HashSet<Tournament>();
+		participants.get(0).addTournament(tournament);
+		participants.get(0).removeTournament(tournament);
+		assertEquals("The set returns is not good !",t,participants.get(0).getTournaments());
+		
+		participants.get(8).addTournament(tournament);
+		participants.get(8).addTournament(tournament1);
+		participants.get(8).removeTournament(tournament);
+		participants.get(8).removeTournament(tournament1);
+		assertEquals("The set returns is not good !",t,participants.get(8).getTournaments());
+		
 	}
 	
 	@Test (expected = GamePlayedException.class)
 	public void testGamePlayedException() throws GamePlayedException {
-		Tournament t = new SimpleElimination(g1);
-		p1.addTournament(t);
-		p1.removeGame(g1);
+		participants.get(0).addTournament(tournament);
+		participants.get(0).removeGame(game);
 	}
 	
 	@Test
 	public void testToString() {
-		assertEquals("Player \"player\", Game: game1", p1.toString());
-		assertEquals("Player \"player2\", Game: game2", p2.toString());
-		assertEquals("Participant team2", p4.toString());
+		assertEquals("Player \""+pseudo1+"\", Game: "+game1, participants.get(1).toString());
+		assertEquals("Participant \""+nomTeam3+"\", Game: "+game3, participants.get(11).toString());
+		assertEquals("Participant \""+nomTeam+"\"", participants.get(8).toString());
 		
 		boolean found = false;
-		if (p3.toString().equals("Participant team1, Game: game1")) {
+		if (participants.get(3).toString().equals("Player \""+pseudo3+"\", Game: "+ game3)) {
 			found = true;
 		}
-		if (p3.toString().equals("Participant team1, Game: game2")) {
+		assertEquals(true, found);
+		found = false;
+		if (participants.get(9).toString().equals("Participant \""+ nomTeam2+"\", Game: "+game2)) {
 			found = true;
 		}
 		assertEquals(true, found);
