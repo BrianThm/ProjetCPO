@@ -24,17 +24,6 @@ public class SimpleEliminationTest extends SetupTest{
 			setPlayer.add(participants.get(i)); 
 		}
 		
-		team.addMember(player);
-		team.addMember(player1);
-		
-		team1.addMember(player2);
-		team1.addMember(player3);
-
-		team2.addMember(player4);
-		team2.addMember(player5);
-		
-		team3.addMember(player6);
-		team3.addMember(player7);
 	}
 	
 	@Test
