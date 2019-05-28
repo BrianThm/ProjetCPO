@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -24,7 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 
 import controller.Controller;
-import controller.PlayerAlreadyExistsException;
+import controller.exceptions.PlayerAlreadyExistsException;
 import tournament.Game;
 import tournament.Player;
 
