@@ -288,7 +288,7 @@ public class ViewAddPlayer extends JPanel {
 		nickname.setText("");
 		fname.setText("");
 		lname.setText("");
-		comboBox.setSelectedIndex(0);
+		comboBox.setSelectedItem(null);
 	}
 
 	/**
