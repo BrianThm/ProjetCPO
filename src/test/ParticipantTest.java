@@ -106,7 +106,7 @@ public class ParticipantTest extends TestSetup{
 		assertEquals(0, games.size());
 		
 		participants.get(11).plays(game2);
-		participants.get(11).removeGame(game1);
+		participants.get(11).removeGame(game3);
 		participants.get(11).removeGame(game2);
 		games = participants.get(11).getGames();
 		assertEquals(0, games.size());
@@ -169,12 +169,12 @@ public class ParticipantTest extends TestSetup{
 		assertEquals("Participant \""+nomTeam+"\"", participants.get(8).toString());
 		
 		boolean found = false;
-		if (participants.get(3).toString().equals("Player \""+pseudo3+"\", Game: "+ game3)) {
+		if (participants.get(3).toString().equals("Player "+firstname3+" \""+pseudo3+"\" "+name3+", Game: "+ game3)) {
 			found = true;
 		}
 		assertEquals(true, found);
 		found = false;
-		if (participants.get(9).toString().equals("Participant \""+ nomTeam2+"\", Game: "+game2)) {
+		if (participants.get(9).toString().equals("Participant \""+ nomTeam1+"\"")) {
 			found = true;
 		}
 		assertEquals(true, found);
