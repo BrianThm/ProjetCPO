@@ -50,6 +50,7 @@ public class ViewListGame extends JPanel {
 
 		title = new JLabel("List of games");
 		title.setFont(new Font("defaultFont", Font.BOLD, 15));
+		title.setAlignmentX(CENTER_ALIGNMENT);
 		
 		/* Creation of the edit image button */
 		imgEdit = new ImageIcon(getClass().getResource("/res/edit.png"));
