@@ -156,7 +156,7 @@ public class ViewAddPlayer extends JPanel {
 
 	void displayEditPlayer(Player player) {
 		this.labelAdd.setText("Edit a player");
-		content.remove(comboBox);
+		content.remove(panelCB);
 		this.remove(panelSave);
 		this.isEditing = true;
 		this.playerToEdit = player;
