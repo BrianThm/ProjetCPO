@@ -1,7 +1,12 @@
 package test;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 import org.junit.*;
+
 
 import tournament.*;
 import tournament.exceptions.*;
@@ -13,10 +18,15 @@ import tournament.exceptions.*;
  */
 public class SimpleEliminationTest extends TestSetup{
 
-
+	HashSet<Participant> setPlayer;
+	
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
+		for (int i = 0; i<8; i++) {
+			setPlayer.add(participants.get(i)); 
+		}
+		
 		team.addMember(player);
 		team.addMember(player1);
 		
@@ -32,6 +42,6 @@ public class SimpleEliminationTest extends TestSetup{
 	
 	@Test
 	public void testInit() throws NotEnoughParticipantsException {
-		tournament.initializeMatchs(participants);
+		tournament.initializeMatchs(setPlayer);
 	}
 }
