@@ -2,10 +2,12 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -44,7 +46,7 @@ public class ViewAddTeam extends JPanel {
 		
 		/* Initialization of the components */
 		JPanel panelName = new JPanel(new FlowLayout());
-		JLabel nameTeam = new JLabel("Name: ");
+		JLabel nameTeam = new JLabel("Name ");
 		JPanel panelSave = new JPanel(new FlowLayout());
 		JButton btnSave = new CustomButton("Save the team");
 		JButton btnEdit = new CustomButton("Edit the team");
@@ -58,9 +60,19 @@ public class ViewAddTeam extends JPanel {
 		editCancel.add(btnEdit);
 		editCancel.add(btnCancel);
 		panelSave.add(btnSave);
+		content.add(title);
+		content.add(Box.createRigidArea(new Dimension(0, 20)));
+		content.add(panelName);
+		
+		content.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 5));
+		panelSave.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
+		editCancel.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
 		
 		/* All is centered */
-		// TODO
+		title.setAlignmentX(CENTER_ALIGNMENT);
+		panelName.setAlignmentX(CENTER_ALIGNMENT);
+		editCancel.setAlignmentX(CENTER_ALIGNMENT);
+		panelSave.setAlignmentX(CENTER_ALIGNMENT);
 		
 		/* Adding all the components to the main panel */
 		this.add(content, BorderLayout.CENTER);
@@ -69,5 +81,11 @@ public class ViewAddTeam extends JPanel {
 		/* Empty border outside, gray border inside */
 		this.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20),
 				BorderFactory.createMatteBorder(2, 2, 2, 2, Color.gray)));
+	}
+	
+	private void displayAddTeam() {
+		title.setText("Add a game");
+		this.remove(editCancel);
+		this.add(panelSave, BorderLayout.SOUTH);
 	}
 }
