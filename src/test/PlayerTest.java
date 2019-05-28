@@ -12,7 +12,7 @@ import tournament.*;
  * @author Group
  * @version 1.0
  */
-public class PlayerTest extends TestSetup {
+public class PlayerTest extends SetupTest {
 
 
 	@Test

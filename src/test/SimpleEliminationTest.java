@@ -13,7 +13,7 @@ import tournament.exceptions.*;
  * class SimpleElimination
  * @author Romain Tixier
  */
-public class SimpleEliminationTest extends TestSetup{
+public class SimpleEliminationTest extends SetupTest{
 
 	HashSet<Participant> setPlayer;
 	

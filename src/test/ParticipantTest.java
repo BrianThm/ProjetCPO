@@ -11,7 +11,7 @@ import org.junit.Test;
 import tournament.*;
 import tournament.exceptions.*;
 
-public class ParticipantTest extends TestSetup{
+public class ParticipantTest extends SetupTest{
 	
 	private Game g1, g2;
 	private Participant p1, p2, p3, p4;

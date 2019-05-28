@@ -20,7 +20,7 @@ import tournament.Tournament;
  * @author Brian
  *
  */
-public abstract class TestSetup {
+public abstract class SetupTest {
 	
 	protected Player player;
 	protected Player player1;
