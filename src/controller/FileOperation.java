@@ -62,17 +62,23 @@ public class FileOperation {
 	}
 	
 	private static void saveGames(FileWriter file, List<Game> games) throws IOException {
-		String line, game;
+		String line, game, image;
 		file.write("# games #\n");
 		// name of game
 		
 		for (int i = 0; i < games.size(); i++) {
 			game = games.get(i).getName().replace(';', ',');
-			line = game + "\n";
+			image = saveImage(game, i);
+			line = game + image + "\n"; // TODO
 			file.write(line);
 		}
 	}
 	
+	private static String saveImage(String game, int i) {
+		// TODO
+		return "";
+	}
+
 	private static void savePlayers(FileWriter file, List<Player> players, List<Game> games) throws IOException {
 		String line, fname, name, lname;
 		Player player;
