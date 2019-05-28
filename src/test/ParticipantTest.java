@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,64 +12,54 @@ import org.junit.Test;
 import tournament.*;
 import tournament.exceptions.*;
 
-public class ParticipantTest {
+public class ParticipantTest extends TestSetup{
 	
 	private Game g1, g2;
 	private Participant p1, p2, p3, p4;
-	
-	@Before
-	public void setup() {
-		g1 = new Game("game1");
-		g2 = new Game("game2");
-		
-		p1 = new Player("player1", g1);
-		p2 = new Player("player2");
-		p3 = new Team("team1", g2);
-		p4 = new Team("team2");
-		
-		// p2 plays 2 times g2
-		p2.plays(g2);
-		p2.plays(g2);
-		
-		// p3 plays 1 time g1
-		p3.plays(g1);
-	}
+
 
 	@Test
 	public void testGetName() {
-		assertEquals("player1", p1.getName());
-		assertEquals("player2", p2.getName());
-		assertEquals("team1", p3.getName());
-		assertEquals("team2", p4.getName());
+		assertEquals(pseudo, participants.get(0).getName() );
+		assertEquals(pseudo1, participants.get(1).getName());
+		assertEquals(nomTeam, participants.get(8).getName());
+		assertEquals(nomTeam3, participants.get(11).getName());
 	}
 	
 	@Test
 	public void testSetName() {
-		p1.setName("test");
-		p2.setName("test");
-		p3.setName("test");
-		p4.setName("test");
-		
-		assertEquals("test", p1.getName());
-		assertEquals("test", p2.getName());
-		assertEquals("test", p3.getName());
-		assertEquals("test", p4.getName());
+		participants.get(0).setName(name3);
+		participants.get(1).setName(name2);
+		participants.get(8).setName(nomTeam2);
+		participants.get(11).setName(nomTeam1);
+		assertEquals(name3, participants.get(0).getName());
+		assertEquals(name2, participants.get(1).getName());
+		assertEquals(nomTeam2, participants.get(8).getName());
+		assertEquals(nomTeam1, participants.get(11).getName());
 	}
 	
 	@Test
 	public void testGetPreferredGame() {
-		assertEquals(g1, p1.getPreferredGame());
-		assertEquals(g2, p2.getPreferredGame());
-		assertEquals(g1, p3.getPreferredGame());
-		assertEquals(null, p4.getPreferredGame());
+		participants.get(0).plays(game1);
+		participants.get(1).plays(game3);
+		participants.get(8).plays(game);
+		assertEquals(game1, participants.get(0).getPreferredGame());
+		assertEquals(game3, participants.get(1).getPreferredGame());
+		assertEquals(game, participants.get(8).getPreferredGame());
+		assertEquals(null, participants.get(11).getPreferredGame());
 	}
 	
 	@Test
 	public void testGetGames() {
 		Map<Game, Integer> games;
+		
+		participants.get(0).plays(game1);
+		participants.get(1).plays(game3);
+		participants.get(8).plays(game);
+		
 		int played;
 		
-		games = p1.getGames();
+		games = participants.get(0).getGames();
 		assertEquals(1, games.size());
 		played = games.get(g1);
 		assertEquals(0, played);
@@ -145,7 +136,7 @@ public class ParticipantTest {
 	
 	@Test
 	public void testToString() {
-		assertEquals("Player \"player1\", Game: game1", p1.toString());
+		assertEquals("Player \"player\", Game: game1", p1.toString());
 		assertEquals("Player \"player2\", Game: game2", p2.toString());
 		assertEquals("Participant team2", p4.toString());
 		
