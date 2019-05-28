@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import controller.NotEnoughPartsException;
-
 /**
  * A type of tournament. 
  * This is the most simple tournament, where the looser of a match loose the tournament. 
@@ -33,19 +31,13 @@ public class SimpleElimination extends Tournament {
 	
 	
 	@Override
-	public void initializeMatchs(Set<Participant> participants) {
+	public void initializeMatchs(Set<Participant> participants) throws NotEnoughParticipantsException {
 		assert participants != null;
 
 		int nbParts = participants.size();
 		
-		try {
-			if (!(nbParts > 2) && ((nbParts & (nbParts - 1)) == 0 )) {
-				throw new NotEnoughPartsException();
-			}
-		} catch (NotEnoughPartsException e) {
-			System.out.println(e.getMessage());
-			System.out.println("There must be a number of participants "
-					+ "equal to a power of 2 (2, 4, 8, 16...)");
+		if (!(nbParts > 2) && ((nbParts & (nbParts - 1)) == 0 )) {
+			throw new NotEnoughParticipantsException();
 		}
 		
 		super.matchs = new Match[nbParts-1];
@@ -55,9 +47,7 @@ public class SimpleElimination extends Tournament {
 			super.matchs[i] = null;
 		}
 		for (int i=(nbParts/2); i<(nbParts-1); i++) {
-			super.matchs[i] = new Match(parts.get((i*2)-nbParts), 
-										parts.get(((i*2)-nbParts)+1), 
-										this.getGame());
+			super.matchs[i] = new Match(parts.get((i*2)-nbParts), parts.get(((i*2)-nbParts)+1), this.getGame());
 		}
 	}
 	
