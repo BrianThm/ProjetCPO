@@ -19,6 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 
@@ -118,6 +119,8 @@ public class ViewAddPlayer extends JPanel {
 			public void itemStateChanged(ItemEvent event) {
 				if (event.getStateChange() == ItemEvent.SELECTED) {
 					preferredGame = (Game) event.getItem();
+				} else {
+					preferredGame = null;
 				}
 			}
 		});
@@ -130,6 +133,22 @@ public class ViewAddPlayer extends JPanel {
 			}
 		});
 
+		/* When the button to cancel an editing is clicked */
+		cancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				displayAddPlayer();
+			}
+		});
+
+		/* When the button to edit a player is clicked */
+		edit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				editPlayer();
+			}
+		});
+
 		/* Empty border outside, gray border inside */
 		this.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20),
 				BorderFactory.createMatteBorder(2, 2, 2, 2, Color.gray)));
@@ -139,17 +158,27 @@ public class ViewAddPlayer extends JPanel {
 		this.labelAdd.setText("Edit a player");
 		content.remove(comboBox);
 		this.remove(panelSave);
+		this.isEditing = true;
+		this.playerToEdit = player;
 
-		// TODO add the combobox with checkbox for the games
+		nickname.setText(playerToEdit.getName());
+		fname.setText(playerToEdit.getFName());
+		lname.setText(playerToEdit.getLName());
+
+		// TODO add the combobox with checkbox for the games, finish getGamesPlayer
 
 		this.add(panelEditCancel, BorderLayout.SOUTH);
+		refreshPanel();
 	}
 
 	public void playerDeleted(Player player) {
-		// TODO
+		if (isEditing && playerToEdit == player) {
+			displayAddPlayer();
+		}
 	}
 
 	private void displayAddPlayer() {
+		clear();
 		this.labelAdd.setText("Add a player");
 		this.remove(panelEditCancel);
 		Set<Game> games = this.controller.getGames();
@@ -159,14 +188,31 @@ public class ViewAddPlayer extends JPanel {
 		}
 		content.add(panelCB);
 		this.add(panelSave, BorderLayout.SOUTH);
-		// TODO
+		refreshPanel();
 	}
 
 	private void editPlayer() {
 		if (!checkFields()) // Check all the fields
 			return;
 
+		Player player = new Player(fname.getText(), lname.getText(), nickname.getText());
+		if (controller.playerExists(playerToEdit, player)) {
+			JOptionPane.showMessageDialog(this, "The player " + nickname.getText() + " already exists!",
+					"Editing not possible", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 
+		playerToEdit.setName(nickname.getText());
+		playerToEdit.setFName(fname.getText());
+		playerToEdit.setLName(lname.getText());
+
+		JOptionPane.showMessageDialog(this, "The player " + playerToEdit.getName() + " has successfully been updated!",
+				"Player edited", JOptionPane.INFORMATION_MESSAGE);
+		isEditing = false;
+		displayAddPlayer();
+
+		if (viewList != null)
+			viewList.makeList();
 	}
 
 	private boolean checkFields() {
@@ -204,7 +250,7 @@ public class ViewAddPlayer extends JPanel {
 
 	private void addPlayer(String nn, String fn, String ln, Game game) {
 		Player player = null;
-		
+
 		if (fn.isEmpty() && ln.isEmpty() && game == null)
 			player = new Player(nn);
 		else if (!fn.isEmpty() && !ln.isEmpty() && game == null)
@@ -213,11 +259,11 @@ public class ViewAddPlayer extends JPanel {
 			player = new Player(nn, game);
 		else if (!fn.isEmpty() && !ln.isEmpty() && game != null)
 			player = new Player(fn, ln, nn, game);
-		
+
 		try {
 			this.controller.addPlayer(player);
 			JOptionPane.showMessageDialog(this, "The player " + nn + " has been successfully added!", "Player " + nn + " added", JOptionPane.INFORMATION_MESSAGE);
-			
+
 			if (viewList != null)
 				viewList.makeList();
 
@@ -227,11 +273,22 @@ public class ViewAddPlayer extends JPanel {
 		}
 	}
 
+	// TODO
+	private JScrollPane getGamesPlayer(Player p) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		Set<Game> gamesPlayer = p.getGames().keySet();
+
+
+		return new JScrollPane(panel);
+	}
+
 	private void clear() {
 		nickname.setText("");
 		fname.setText("");
 		lname.setText("");
-		comboBox.setSelectedIndex(0);
+		comboBox.setSelectedItem(null);
 	}
 
 	/**

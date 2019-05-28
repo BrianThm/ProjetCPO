@@ -125,7 +125,7 @@ public class ViewAddGame extends JPanel {
 		content.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 5));
 		panelSave.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
 		editCancel.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
-		
+
 		/* Listeners */
 
 		/* When the checkbox to associate an image is clicked */
