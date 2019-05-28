@@ -10,7 +10,7 @@ import tournament.*;
  * class SimpleElimination
  * @author Romain Tixier
  */
-public class TestSimpleElimination {
+public class SimpleEliminationTest {
 
 	private static Game game;
 	private Tournament tournament;
@@ -31,7 +31,7 @@ public class TestSimpleElimination {
 	private Player player8;
 	
 	@Before
-	public void setUp() {
+	public void setup() {
 		game = new Game("Overwatch");
 		tournament = new SimpleElimination(game);
 		participants = new HashSet<Participant>();
@@ -72,7 +72,7 @@ public class TestSimpleElimination {
 	}
 	
 	@Test
-	public void testInit() {
+	public void testInit() throws NotEnoughParticipantsException {
 		tournament.initializeMatchs(participants);
 	}
 }

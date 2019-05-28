@@ -1,4 +1,4 @@
-package controller;
+package tournament;
 
 @SuppressWarnings("serial")
 /**
@@ -7,9 +7,9 @@ package controller;
  * @author Group
  * @version 1.0
  */
-public class NotEnoughPartsException extends Exception {
+public class NotEnoughParticipantsException extends Exception {
 
-	public NotEnoughPartsException() {
+	public NotEnoughParticipantsException() {
 		super("There is not enough participants to organise this tournament.");
 	}
 }

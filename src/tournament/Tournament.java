@@ -36,12 +36,18 @@ public abstract class Tournament {
 		participants = new HashSet<Participant>();
 	}
 	
-	// TODO javadoc
+	/**
+	 * Get the game of the tournament.
+	 * @return The game of the tournament.
+	 */
 	public Game getGame() {
 		return this.game;
 	}
 	
-	// TODO javadoc
+	/**
+	 * Change the game of the tournament.
+	 * @param game The new game of the tournament.
+	 */
 	public void setGame(Game game) {
 		assert game != null;
 		
@@ -107,6 +113,7 @@ public abstract class Tournament {
 	/**
 	 * Initialize the SimpleElimination tournament tree.
 	 * @param partipants The parcipants of the tournament.
+	 * @throws NotEnoughParticipantsException If there is not enough participants to start the tournament.
 	 */
-	public abstract void initializeMatchs(Set<Participant> participants);
+	public abstract void initializeMatchs(Set<Participant> participants) throws NotEnoughParticipantsException;
 }
