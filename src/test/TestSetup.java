@@ -66,7 +66,9 @@ public abstract class TestSetup {
 	protected Team team3;
 	
 	protected Tournament tournament;
+	protected Tournament tournament1;
 	protected ArrayList<Participant> participants;
+	protected Set<Tournament> tournaments;
 	
 	/**
 	 * Class SetUp that initialize the variable for all the test classes.
@@ -87,10 +89,11 @@ public abstract class TestSetup {
 		
 		team = new Team(nomTeam);
 		team1 = new Team(nomTeam1);
-		team2 = new Team(nomTeam2);
-		team3 = new Team(nomTeam3);
+		team2 = new Team(nomTeam2,game2);
+		team3 = new Team(nomTeam3,game3);
 		
 		tournament = new SimpleElimination(game);
+		tournament1 = new SimpleElimination(game1);
 		
 		participants = new ArrayList<Participant>();
 		
@@ -134,6 +137,10 @@ public abstract class TestSetup {
 		participants.add(team1);
 		participants.add(team2);
 		participants.add(team3);
+		
+		tournaments = new HashSet<Tournament>();
+		tournaments.add(tournament); 
+		tournaments.add(tournament1);
 		
 	}
 

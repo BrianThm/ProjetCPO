@@ -154,7 +154,7 @@ public abstract class Participant {
 	public String toString() {
 		Game preferred = this.getPreferredGame();
 		
-		String str = "Participant " + this.name;
+		String str = "Participant \"" + this.name+"\"";
 		
 		if (preferred != null) {
 			str += ", Game: " + preferred.getName();
