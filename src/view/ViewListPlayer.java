@@ -2,7 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -69,8 +68,6 @@ public class ViewListPlayer extends JPanel {
 	private JPanel getPanel(Player player) {
 		JPanel line = new JPanel(new BorderLayout());
 		JPanel infosPlayer = new JPanel(new GridLayout(0, 2));
-		JPanel textNames = new JPanel();
-		JPanel textGameTeam = new JPanel();
 		JLabel labelImgDel = new JLabel(imgDelete); // The label that contains the delete image
 		JLabel labelImgEdit = new JLabel(imgEdit); // The label that contains the edit image
 		String labelTextName, labelTextGame = "<html>";

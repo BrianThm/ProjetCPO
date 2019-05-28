@@ -132,7 +132,7 @@ public class ViewAddPlayer extends JPanel {
 					addPlayer(nickname.getText(), fname.getText(), lname.getText(), preferredGame);
 			}
 		});
-		
+
 		/* When the button to cancel an editing is clicked */
 		cancel.addActionListener(new ActionListener() {
 			@Override
@@ -140,7 +140,7 @@ public class ViewAddPlayer extends JPanel {
 				displayAddPlayer();
 			}
 		});
-		
+
 		/* When the button to edit a player is clicked */
 		edit.addActionListener(new ActionListener() {
 			@Override
@@ -160,7 +160,7 @@ public class ViewAddPlayer extends JPanel {
 		this.remove(panelSave);
 		this.isEditing = true;
 		this.playerToEdit = player;
-		
+
 		nickname.setText(playerToEdit.getName());
 		fname.setText(playerToEdit.getFName());
 		lname.setText(playerToEdit.getLName());
@@ -250,7 +250,7 @@ public class ViewAddPlayer extends JPanel {
 
 	private void addPlayer(String nn, String fn, String ln, Game game) {
 		Player player = null;
-		
+
 		if (fn.isEmpty() && ln.isEmpty() && game == null)
 			player = new Player(nn);
 		else if (!fn.isEmpty() && !ln.isEmpty() && game == null)
@@ -259,11 +259,11 @@ public class ViewAddPlayer extends JPanel {
 			player = new Player(nn, game);
 		else if (!fn.isEmpty() && !ln.isEmpty() && game != null)
 			player = new Player(fn, ln, nn, game);
-		
+
 		try {
 			this.controller.addPlayer(player);
 			JOptionPane.showMessageDialog(this, "The player " + nn + " has been successfully added!", "Player " + nn + " added", JOptionPane.INFORMATION_MESSAGE);
-			
+
 			if (viewList != null)
 				viewList.makeList();
 
@@ -272,15 +272,15 @@ public class ViewAddPlayer extends JPanel {
 			JOptionPane.showMessageDialog(this, "The player " + nn + " already exists, you can't add it twice!", "Existing player", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	// TODO
 	private JScrollPane getGamesPlayer(Player p) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
+
 		Set<Game> gamesPlayer = p.getGames().keySet();
-		
-		
+
+
 		return new JScrollPane(panel);
 	}
 
