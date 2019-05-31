@@ -79,7 +79,7 @@ public class SimpleEliminationTest extends SetupTest{
 	}
 	
 	@Test
-	public void testWithoutEnoughtParts1() {
+	public void testWithoutEnoughtPlayers() {
 		tournament.removeParticipant(tournament.getParticipants().remove(0));
 		try {
 			tournament.initializeMatchs();
@@ -88,11 +88,40 @@ public class SimpleEliminationTest extends SetupTest{
 	}
 	
 	@Test
-	public void testWithoutEnoughtParts2() {
+	public void testWithoutEnoughtTeams() {
 		tournament.addParticipant(new Player("j4cK"));
 		try {
 			tournament.initializeMatchs();
 			fail("FAILED to throw NotEnoughtParticipants exception.");
 		} catch (NotEnoughParticipantsException e) {}
+	}
+	
+	@Test
+	public void testUpdateTree() throws NotEnoughParticipantsException {
+		tournament.initializeMatchs();
+		matchs = tournament.getMatchs();
+		
+		matchs[4].endGame(matchs[4].getParticipant1());
+		matchs[7].endGame(matchs[7].getParticipant2());
+		tournament.updateMatchs();
+		assertEquals("nono23", matchs[2].getParticipant1().getName());
+		assertEquals("?", matchs[2].getParticipant2().getName());
+		assertEquals("?", matchs[3].getParticipant1().getName());
+		assertEquals("Patrick", matchs[3].getParticipant2().getName());
+		
+		matchs[5].endGame(matchs[5].getParticipant2());
+		matchs[6].endGame(matchs[6].getParticipant1());
+		tournament.updateMatchs();
+		assertEquals("nono23", matchs[2].getParticipant1().getName());
+		assertEquals("ElMojito", matchs[2].getParticipant2().getName());
+		assertEquals("Sanchez", matchs[3].getParticipant1().getName());
+		assertEquals("Patrick", matchs[3].getParticipant2().getName());
+	}
+	
+	@Test
+	public void testFinale() throws NotEnoughParticipantsException {
+		testUpdateTree();
+		matchs = tournament.getMatchs();
+		
 	}
 }

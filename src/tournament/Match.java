@@ -115,4 +115,5 @@ public class Match {
 	public boolean isDraw() {
 		return this.draw;
 	}
+	
 }

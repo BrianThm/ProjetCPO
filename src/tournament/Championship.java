@@ -2,7 +2,6 @@ package tournament;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Class which defines the tournament type Championship. 
@@ -53,6 +52,12 @@ public class Championship extends Tournament {
 
 	@Override
 	public void initializeMatchs() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateMatchs() {
 		// TODO Auto-generated method stub
 		
 	}

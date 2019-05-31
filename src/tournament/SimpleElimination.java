@@ -47,7 +47,28 @@ public class SimpleElimination extends Tournament {
 			super.matchs[i] = null;
 		}
 		for (int i=(nbParts/2); i<(nbParts); i++) {
-			super.matchs[i] = new Match(parts.get((i*2)-nbParts), parts.get(((i*2)-nbParts)+1), this.getGame());
+			super.matchs[i] = new Match(parts.get((i*2)-nbParts), 
+					parts.get(((i*2)-nbParts)+1), this.getGame());
+		}
+	}
+	
+	@Override
+	public void updateMatchs() {
+		int nbParts = participants.size();
+		Player defaultPlayer = new Player("?");
+		
+		for (int i=2; i<nbParts; i++) {
+			if ((super.matchs[i] != null) 
+					&& (super.matchs[i].getWinner() != null)) {
+				if (super.matchs[i/2] == null) {
+					super.matchs[i/2] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+				}
+				if (i%2 == 0) {
+					super.matchs[i/2].setParticipant1(super.matchs[i].getWinner());
+				} else {
+					super.matchs[i/2].setParticipant2(super.matchs[i].getWinner());
+				}
+			}
 		}
 	}
 	

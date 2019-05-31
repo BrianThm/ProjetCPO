@@ -1,9 +1,7 @@
 package tournament;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import tournament.exceptions.NotEnoughParticipantsException;
 
@@ -17,6 +15,7 @@ public abstract class Tournament {
 	private Game game;
 	private String location;
 	protected List<Participant> participants;
+	protected Participant winner;
 	protected Match[] matchs;
 	
 	/**
@@ -120,4 +119,9 @@ public abstract class Tournament {
 	 * @throws NotEnoughParticipantsException If there is not enough participants to start the tournament.
 	 */
 	public abstract void initializeMatchs() throws NotEnoughParticipantsException;
+	
+	/**
+	 * Update the tournament tree at the end of each match.
+	 */
+	public abstract void updateMatchs();
 }
