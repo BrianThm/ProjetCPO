@@ -28,6 +28,6 @@ public class SimpleEliminationTest extends SetupTest{
 	
 	@Test
 	public void testInit() throws NotEnoughParticipantsException {
-		tournament.initializeMatchs(setPlayer);
+		tournament.initializeMatchs();
 	}
 }

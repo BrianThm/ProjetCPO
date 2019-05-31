@@ -33,7 +33,7 @@ public class SimpleElimination extends Tournament {
 	
 	
 	@Override
-	public void initializeMatchs(Set<Participant> participants) throws NotEnoughParticipantsException {
+	public void initializeMatchs() throws NotEnoughParticipantsException {
 		assert participants != null;
 
 		int nbParts = participants.size();
