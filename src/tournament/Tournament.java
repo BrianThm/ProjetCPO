@@ -1,6 +1,8 @@
 package tournament;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import tournament.exceptions.NotEnoughParticipantsException;
@@ -14,7 +16,7 @@ public abstract class Tournament {
 	
 	private Game game;
 	private String location;
-	protected Set<Participant> participants;
+	protected List<Participant> participants;
 	protected Match[] matchs;
 	
 	/**
@@ -35,7 +37,7 @@ public abstract class Tournament {
 		
 		this.game = game;
 		this.location = location;
-		participants = new HashSet<Participant>();
+		participants = new ArrayList<Participant>();
 	}
 	
 	/**
@@ -100,7 +102,7 @@ public abstract class Tournament {
 	 * Get the participants of this tournament.
 	 * @return A set of the participants.
 	 */
-	public Set<Participant> getParticipants() {
+	public List<Participant> getParticipants() {
 		return participants;
 	}
 	

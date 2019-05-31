@@ -2,7 +2,6 @@ package tournament;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import tournament.exceptions.NotEnoughParticipantsException;
 
@@ -38,17 +37,17 @@ public class SimpleElimination extends Tournament {
 
 		int nbParts = participants.size();
 		
-		if (!(nbParts > 2) && ((nbParts & (nbParts - 1)) == 0 )) {
+		if (!((nbParts > 2) && ((nbParts & (nbParts - 1)) == 0 ))) {
 			throw new NotEnoughParticipantsException();
 		}
 		
-		super.matchs = new Match[nbParts-1];
+		super.matchs = new Match[nbParts];
 		List<Participant> parts = new ArrayList<>(participants);
 		
 		for (int i=1; i<(nbParts/2); i++) {
 			super.matchs[i] = null;
 		}
-		for (int i=(nbParts/2); i<(nbParts-1); i++) {
+		for (int i=(nbParts/2); i<(nbParts); i++) {
 			super.matchs[i] = new Match(parts.get((i*2)-nbParts), parts.get(((i*2)-nbParts)+1), this.getGame());
 		}
 	}
