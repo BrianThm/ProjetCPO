@@ -11,7 +11,6 @@ import tournament.exceptions.*;
 /**
  * Class which test, with unit test, methods of the 
  * class SimpleElimination
- * @author Romain Tixier
  */
 public class SimpleEliminationTest extends SetupTest{
 

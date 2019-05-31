@@ -52,7 +52,7 @@ public class Championship extends Tournament {
 	}
 
 	@Override
-	public void initializeMatchs(Set<Participant> participants) {
+	public void initializeMatchs() {
 		// TODO Auto-generated method stub
 		
 	}
