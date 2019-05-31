@@ -70,6 +70,10 @@ public class SimpleElimination extends Tournament {
 				}
 			}
 		}
+		if (super.matchs[1] != null 
+				&& super.matchs[1].getWinner() != null) {
+			super.setWinner(super.matchs[1].getWinner());
+		}
 	}
 	
 	

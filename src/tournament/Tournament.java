@@ -106,6 +106,22 @@ public abstract class Tournament {
 	}
 	
 	/**
+	 * Get the winner of this tournament.
+	 * @return The winner of the tournament.
+	 */
+	public Participant getWinner() {
+		return this.winner;
+	}
+	
+	/**
+	 * Get the winner of this tournament.
+	 * @return The winner of the tournament.
+	 */
+	public void setWinner(Participant winner) {
+		this.winner = winner;
+	}
+	
+	/**
 	 * Get the matchs of this tournament.
 	 * @return A tree of matchs.
 	 */

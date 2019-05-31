@@ -116,6 +116,12 @@ public class SimpleEliminationTest extends SetupTest{
 		assertEquals("ElMojito", matchs[2].getParticipant2().getName());
 		assertEquals("Sanchez", matchs[3].getParticipant1().getName());
 		assertEquals("Patrick", matchs[3].getParticipant2().getName());
+		
+		matchs[2].endGame(matchs[2].getParticipant2());
+		matchs[3].endGame(matchs[3].getParticipant1());
+		tournament.updateMatchs();
+		assertEquals("ElMojito", matchs[1].getParticipant1().getName());
+		assertEquals("Sanchez", matchs[1].getParticipant2().getName());
 	}
 	
 	@Test
@@ -123,5 +129,9 @@ public class SimpleEliminationTest extends SetupTest{
 		testUpdateTree();
 		matchs = tournament.getMatchs();
 		
+		matchs[1].endGame(matchs[1].getParticipant1());
+		tournament.updateMatchs();
+		assertEquals(null, matchs[0]);
+		assertEquals("ElMojito", tournament.getWinner().getName());
 	}
 }
