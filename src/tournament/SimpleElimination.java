@@ -27,7 +27,6 @@ public class SimpleElimination extends Tournament {
 	 */
 	public SimpleElimination(Game game, String location) {
 		super(game, location);
-		// TODO Auto-generated constructor stub
 	}
 	
 	
