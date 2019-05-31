@@ -67,6 +67,14 @@ public abstract class SetupTest {
 	
 	protected Tournament tournament;
 	protected Tournament tournament1;
+	protected Tournament tournament2;
+	protected Tournament tournament3;
+	
+	protected String location; 
+	protected String location1; 
+	protected String location2;
+	protected String location3;
+	
 	protected ArrayList<Participant> participants;
 	protected Set<Tournament> tournaments;
 	
@@ -92,8 +100,15 @@ public abstract class SetupTest {
 		team2 = new Team(nomTeam2,game2);
 		team3 = new Team(nomTeam3,game3);
 		
+		location = "Paris"; 
+		location1 = "New York"; 
+		location2 = "Toulouse"; 
+		location3 = "Nantes";
+		
 		tournament = new SimpleElimination(game);
 		tournament1 = new SimpleElimination(game1);
+		tournament2 = new SimpleElimination(game2, location2); 
+		tournament3 = new SimpleElimination(game3,location3);
 		
 		participants = new ArrayList<Participant>();
 		

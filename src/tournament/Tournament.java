@@ -14,7 +14,7 @@ public abstract class Tournament {
 	
 	private Game game;
 	private String location;
-	private Set<Participant> participants;
+	protected Set<Participant> participants;
 	protected Match[] matchs;
 	
 	/**
@@ -117,5 +117,5 @@ public abstract class Tournament {
 	 * @param partipants The parcipants of the tournament.
 	 * @throws NotEnoughParticipantsException If there is not enough participants to start the tournament.
 	 */
-	public abstract void initializeMatchs(Set<Participant> participants) throws NotEnoughParticipantsException;
+	public abstract void initializeMatchs() throws NotEnoughParticipantsException;
 }
