@@ -15,6 +15,7 @@ import controller.Controller;
 import controller.exceptions.GameAlreadyExistsException;
 import controller.exceptions.GameUsedException;
 import controller.exceptions.PlayerAlreadyExistsException;
+import controller.exceptions.TeamAlreadyExistsException;
 import tournament.Game;
 import tournament.Player;
 import tournament.Team;
@@ -320,9 +321,10 @@ public class ControllerTest extends SetupTest {
 
 	/**
 	 * Test method for {@link controller.Controller#addTeam(tournament.Team)}.
+	 * @throws TeamAlreadyExistsException 
 	 */
 	@Test
-	public void testAddTeam() {
+	public void testAddTeam() throws TeamAlreadyExistsException {
 		
 		expectedListTeams.add(team1); 
 		expectedListTeams.add(team3);
@@ -361,9 +363,10 @@ public class ControllerTest extends SetupTest {
 
 	/**
 	 * Test method for {@link controller.Controller#getTeams()}.
+	 * @throws TeamAlreadyExistsException 
 	 */
 	@Test
-	public void testGetTeams() {
+	public void testGetTeams() throws TeamAlreadyExistsException {
 		
 		assertEquals("The List of Teams has not been correctly returned !",expectedListTeams,controller1.getTeams());
 
@@ -383,9 +386,10 @@ public class ControllerTest extends SetupTest {
 
 	/**
 	 * Test method for {@link controller.Controller#getNbTeams()}.
+	 * @throws TeamAlreadyExistsException 
 	 */
 	@Test
-	public void testGetNbTeams() {
+	public void testGetNbTeams() throws TeamAlreadyExistsException {
 		
 		assertEquals("The number of Teams for controller is not good !", 3, controller.getNbTeams());
 		assertEquals("The number of Teams for controller1 is not good !", 0, controller1.getNbTeams());
