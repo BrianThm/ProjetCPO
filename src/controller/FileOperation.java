@@ -1,15 +1,29 @@
 package controller;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import controller.exceptions.*;
-import tournament.*;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
+import controller.exceptions.LoadImpossibleException;
+import controller.exceptions.SaveImpossibleException;
+import tournament.Game;
+import tournament.Participant;
+import tournament.Player;
+import tournament.Team;
+import tournament.Tournament;
 
 /**
  * This class permits to save & load a list of tournaments, games and participant.
@@ -31,7 +45,10 @@ public class FileOperation {
 		List<Game> idGames = new ArrayList<Game>();
 		List<Player> idPlayers = new ArrayList<Player>();
 		List<Team> idTeams = new ArrayList<Team>();
+		File basicFile = null;
 		FileWriter file = null;
+		String name;
+		Path path;
 		
 		for (Game game : games) {
 			idGames.add(game);
@@ -44,8 +61,13 @@ public class FileOperation {
 		}
 		
 		try {
-			file = new FileWriter(filename);
-			saveGames(file, idGames);
+			basicFile = new File(filename);
+			file = new FileWriter(basicFile);
+			name = basicFile.getName();
+			name = name.substring(0, name.lastIndexOf("."));
+			path = Paths.get(filename);
+			
+			saveGames(file, idGames, path.getParent().toString(), name);
 			savePlayers(file, idPlayers, idGames);
 			saveTeams(file, idTeams, idPlayers, idGames);
 		} catch (IOException e) {
@@ -54,6 +76,7 @@ public class FileOperation {
 			if (file != null) {
 				try {
 					file.close();
+					// No need to close basicFile, this closes it as well
 				} catch (IOException e) {
 					throw new SaveImpossibleException(e.getMessage());
 				}
@@ -61,22 +84,52 @@ public class FileOperation {
 		}
 	}
 	
-	private static void saveGames(FileWriter file, List<Game> games) throws IOException {
+	private static void saveGames(FileWriter file, List<Game> games, String path, String name) throws IOException {
 		String line, game, image;
 		file.write("# games #\n");
-		// name of game
+		// name of game [; image name]
 		
 		for (int i = 0; i < games.size(); i++) {
 			game = games.get(i).getName().replace(';', ',');
-			image = saveImage(game, i);
-			line = game + image + "\n"; // TODO
+			image = saveImage(path, name, games.get(i), i);
+			line = game + image + "\n";
 			file.write(line);
 		}
 	}
 	
-	private static String saveImage(String game, int i) {
-		// TODO
-		return "";
+	private static String saveImage(String path, String name, Game game, int i) throws IOException {
+		if (!game.hasImage()) {
+			return "";
+		}
+		
+		// Creating folder if needed
+		String folderPath = path + File.separator + name;
+		File folder = new File(folderPath);
+		folder.mkdirs();
+		// The image file
+		File imgFile = new File(folderPath + File.separator + i + ".png");
+		
+		// ImageIO can only write a rendered image
+		Image image = game.getImage().getImage();
+		BufferedImage buff = toBufferedImage(image);
+		
+		// Wrtiting the image
+		ImageIO.write(buff, "png", imgFile);
+		
+		return ";" + i + ".png";
+	}
+	
+	private static BufferedImage toBufferedImage(Image img) {
+		// This is obviously from stackoverflow, i'm not gonna deny it
+		int width = img.getWidth(null);
+		int height = img.getHeight(null);
+		
+		BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		Graphics g = bi.getGraphics();
+		g.drawImage(img, 0,0, null);
+		g.dispose();
+		
+		return bi;
 	}
 
 	private static void savePlayers(FileWriter file, List<Player> players, List<Game> games) throws IOException {
@@ -145,13 +198,21 @@ public class FileOperation {
 		List<Game> idGames = new ArrayList<Game>();
 		List<Player> idPlayers = new ArrayList<Player>();
 		List<Team> idTeams = new ArrayList<Team>();
+		File basicFile = null;
 		FileReader file = null;
 		BufferedReader buffer = null;
+		String name;
+		Path path;
 		
 		try {
-			file = new FileReader(filename);
+			basicFile = new File(filename);
+			file = new FileReader(basicFile);
+			name = basicFile.getName();
+			name = name.substring(0, name.lastIndexOf("."));
+			path = Paths.get(filename);
+
 			buffer = new BufferedReader(file);
-			loadGames(buffer, idGames);
+			loadGames(buffer, idGames, path.getParent().toString(), name);
 			loadPlayers(buffer, idPlayers, idGames);
 			loadTeams(buffer, idTeams, idPlayers, idGames);
 		} catch (IOException e) {
@@ -173,7 +234,7 @@ public class FileOperation {
 		teams.addAll(idTeams);
 	}
 
-	private static void loadGames(BufferedReader buffer, List<Game> games) throws IOException, LoadImpossibleException {
+	private static void loadGames(BufferedReader buffer, List<Game> games, String path, String name) throws IOException, LoadImpossibleException {
 		String[] args;
 		String line = buffer.readLine();
 		if (!line.equals("# games #")) {
@@ -186,8 +247,22 @@ public class FileOperation {
 			}
 			
 			args = line.split(";");
-			games.add(new Game(args[0]));
+			Game game = new Game(args[0]);
+			games.add(game);
+			if (args.length == 2) {
+				loadImage(game, path, name, args[1]);
+			}
 		}
+	}
+	
+	private static void loadImage(Game game, String path, String strFolder, String name) throws IOException {
+		// Getting the image
+		String imgPath = path + File.separator + strFolder + File.separator + name;
+		File image = new File(imgPath);
+		
+		BufferedImage buff = ImageIO.read(image);
+		ImageIcon icon = new ImageIcon(buff);
+		game.setImage(icon);
 	}
 
 	private static void loadPlayers(BufferedReader buffer, List<Player> idPlayers, List<Game> idGames) throws IOException, LoadImpossibleException {
