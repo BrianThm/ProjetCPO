@@ -7,7 +7,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
+
 import org.junit.Before;
+
+import controller.Controller;
+import controller.exceptions.GameAlreadyExistsException;
+import controller.exceptions.PlayerAlreadyExistsException;
 import tournament.Game;
 import tournament.Participant;
 import tournament.Player;
@@ -67,6 +73,8 @@ public abstract class SetupTest {
 	
 	protected Tournament tournament;
 	protected Tournament tournament1;
+	
+	protected Controller controller;
 	protected Tournament tournament2;
 	protected Tournament tournament3;
 	
@@ -85,8 +93,10 @@ public abstract class SetupTest {
 	@Before
 	public void setUp() throws Exception {
 		
+		controller = new Controller();
+		
 		game = new Game("Overwatch");
-		game1 = new Game("CS:GO");
+		game1 = new Game("CS:GO",new ImageIcon("Image test.jpg"));
 		game2 = new Game("PUBG");
 		game3 = new Game("Smash");
 		
@@ -153,9 +163,34 @@ public abstract class SetupTest {
 		participants.add(team2);
 		participants.add(team3);
 		
+		team.addMember(player);
+		team.addMember(player1);
+		
+		team1.addMember(player2);
+		team1.addMember(player3);
+		
+		team2.addMember(player4);
+		team2.addMember(player5);
+		
+		team3.addMember(player6);
+		team3.addMember(player7);
+		
 		tournaments = new HashSet<Tournament>();
 		tournaments.add(tournament); 
 		tournaments.add(tournament1);
+		
+		controller.addGame(game);
+		controller.addGame(game1);
+		controller.addGame(game2);
+		
+		controller.addPlayer(player);
+		controller.addPlayer(player1);
+		controller.addPlayer(player2);
+		controller.addPlayer(player3);
+		
+		controller.addTeam(team1);
+		controller.addTeam(team2);
+		controller.addTeam(team);
 		
 	}
 

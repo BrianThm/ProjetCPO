@@ -26,11 +26,11 @@ public class PlayerTest extends SetupTest {
 
 	@Test
 	public void testPlayerStringGame() {
-		assertEquals("His pseudonym is not the good one !", pseudo1, player.getName());
-		assertEquals("He must not have any first name !", "", player.getFName());
-		assertEquals("He must not have any name !", "", player.getLName());
-		assertEquals("His preferred team must be null !", null, player.getPreferredTeam());
-		assertEquals("His preferred game is incorrect and hasn't been initialize correctly !", game1, player.getPreferredGame());
+		assertEquals("His pseudonym is not the good one !", pseudo1, player1.getName());
+		assertEquals("He must not have any first name !", "", player1.getFName());
+		assertEquals("He must not have any name !", "", player1.getLName());
+		assertEquals("His preferred team must be null !", null, player1.getPreferredTeam());
+		assertEquals("His preferred game is incorrect and hasn't been initialize correctly !", game1, player1.getPreferredGame());
 	}
 
 	@Test
@@ -61,11 +61,11 @@ public class PlayerTest extends SetupTest {
 
 	@Test
 	public void testSetFName() {
-		player.setFName(firstname1);
+		player1.setFName(firstname1);
 		player.setFName(firstname);
 		player2.setFName(firstname3);
 		player3.setFName(firstname2);
-		assertEquals("The first name of player is not good !", firstname1, player.getFName());
+		assertEquals("The first name of player is not good !", firstname1, player1.getFName());
 		assertEquals("The first name of player is not good !", firstname, player.getFName());
 		assertEquals("The first name of player2 is not good !", firstname3, player2.getFName());
 		assertEquals("The first name of player3 is not good !", firstname2, player3.getFName());
@@ -81,11 +81,11 @@ public class PlayerTest extends SetupTest {
 
 	@Test
 	public void testSetLName() {
-		player.setLName(name1);
+		player1.setLName(name1);
 		player.setLName(name);
 		player2.setLName(name3);
 		player3.setLName(name2);
-		assertEquals("The last name of player is not good !", name1, player.getLName());
+		assertEquals("The last name of player is not good !", name1, player1.getLName());
 		assertEquals("The last name of player is not good !", name, player.getLName());
 		assertEquals("The last name of player2 is not good !", name3, player2.getLName());
 		assertEquals("The last name of player3 is not good !", name2, player3.getLName());
@@ -98,29 +98,28 @@ public class PlayerTest extends SetupTest {
 		player.playsIn(team);
 		player.playsIn(team);
 		assertEquals("The team is not good !", team, player.getPreferredTeam());
-		player.playsIn(team1);
-		assertEquals("The team is not good !", team1, player.getPreferredTeam());
-		player.playsIn(team2);
-		player.playsIn(team2);
-		assertEquals("The team is not good !", team2, player.getPreferredTeam());
+		player1.playsIn(team1);
+		assertEquals("The team is not good !", team1, player1.getPreferredTeam());
+		player1.playsIn(team2);
+		assertEquals("The team is not good !", team1, player1.getPreferredTeam());
 		
 	}
 
 	@Test
 	public void testGetPreferredTeam() {
-		player.playsIn(team2);
+		player1.playsIn(team2);
 		player3.playsIn(team);
 		assertEquals("The team is not good !", null, player.getPreferredTeam());
-		assertEquals("The team is not good !", team2, player.getPreferredTeam());
+		assertEquals("The team is not good !", team2, player1.getPreferredTeam());
 		assertEquals("The team is not good !", null, player2.getPreferredTeam());
 		assertEquals("The team is not good !", team, player3.getPreferredTeam());
 	}
 
 	@Test
 	public void testEqualsObject() {
-		assertEquals("The result must be false !", false, player.equals(player));
-		player = player; 
-		assertEquals("The result must be true !", true, player.equals(player));
+		assertEquals("The result must be false !", false, player.equals(player1));
+		player1 = player; 
+		assertEquals("The result must be true !", true, player.equals(player1));
 		player2.setFName(firstname3);
 		assertEquals("The result must be false !", false, player2.equals(player3));
 		player2.setLName(name3);

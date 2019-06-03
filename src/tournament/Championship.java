@@ -53,7 +53,6 @@ public class Championship extends Tournament {
 	@Override
 	public void initializeMatchs() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

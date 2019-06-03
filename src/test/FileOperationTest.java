@@ -15,50 +15,28 @@ import controller.*;
 import controller.exceptions.*;
 import tournament.*;
 
-public class FileOperationTest {
+public class FileOperationTest extends SetupTest{
 	
-	private Controller controller;
+	
 	private String filename = "/tmp/FileOperationTestSave.txt";
 	
 	@Before
-	public void setup() throws GameAlreadyExistsException, PlayerAlreadyExistsException {
-		controller = new Controller();
+	public void setup() throws Exception {
+		super.setUp();
 		
-		Game cs = new Game("CSGO");
-		Game tm = new Game("Trackmania");
-		Game lol = new Game("League of Legends");
 		
-		Player mo = new Player("Morgane", "Cadeau", "Enaxom", cs);
-		Player wi = new Player("William", "Mateille", "Wyzedix", cs);
-		Player vi = new Player("Ravioli");
-		Player ep = new Player("Epsilon");
+		player = new Player("Morgane", "Cadeau", "Enaxom", game);
+		player1 = new Player("William", "Mateille", "Wyzedix", game);
+		player2 = new Player("Ravioli");
+		player3 = new Player("team");
 		
-		Team famille = new Team("Famille");
-		famille.addMember(mo);
-		famille.addMember(wi);
-		famille.addMember(vi);
-		famille.addMember(ep);
+		team2.removeMember(player4);
+		team2.removeMember(player5);
 		
-		Team chats = new Team("Chats");
-		chats.addMember(vi);
-		chats.addMember(ep);
-		
-		Team epsilon = new Team("Epsilon", cs);
-		epsilon.addMember(mo);
-		epsilon.addMember(wi);
-		
-		controller.addGame(cs);
-		controller.addGame(tm);
-		controller.addGame(lol);
-		
-		controller.addPlayer(mo);
-		controller.addPlayer(wi);
-		controller.addPlayer(vi);
-		controller.addPlayer(ep);
-		
-		controller.addTeam(famille);
-		controller.addTeam(chats);
-		controller.addTeam(epsilon);
+		team2.addMember(player);
+		team2.addMember(player1);
+		team2.addMember(player2);
+		team2.addMember(player3);
 	}
 	
 	@Test
