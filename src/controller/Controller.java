@@ -122,7 +122,6 @@ public class Controller {
 				// this game.
 			}
 		}
-		
 		this.games.remove(game);
 	}
 	

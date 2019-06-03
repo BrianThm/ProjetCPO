@@ -41,7 +41,7 @@ public abstract class SetupTest {
 	protected String pseudo1;
 	protected String pseudo2;
 	protected String pseudo3;
-	protected String pseudo4;
+	protected String pseudo4; 
 	protected String pseudo5;
 	protected String pseudo6;
 	protected String pseudo7;
@@ -73,10 +73,11 @@ public abstract class SetupTest {
 	
 	protected Tournament tournament;
 	protected Tournament tournament1;
-	
-	protected Controller controller;
 	protected Tournament tournament2;
 	protected Tournament tournament3;
+	
+	protected Controller controller;
+	protected Controller controller1;
 	
 	protected String location; 
 	protected String location1; 
@@ -94,6 +95,7 @@ public abstract class SetupTest {
 	public void setUp() throws Exception {
 		
 		controller = new Controller();
+		controller1 = new Controller();
 		
 		game = new Game("Overwatch");
 		game1 = new Game("CS:GO",new ImageIcon("Image test.jpg"));
