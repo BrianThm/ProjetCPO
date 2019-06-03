@@ -151,7 +151,7 @@ public class FileOperationTest extends SetupTest{
 	}
 	
 	@Test
-	public void testLoadComa() throws PlayerAlreadyExistsException, GameAlreadyExistsException, SaveImpossibleException, LoadImpossibleException {
+	public void testLoadComa() throws PlayerAlreadyExistsException, GameAlreadyExistsException, TeamAlreadyExistsException, SaveImpossibleException, LoadImpossibleException {
 		Controller miniC = new Controller();
 		
 		Game game = new Game("a;game;with;some;semicolon");

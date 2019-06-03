@@ -182,6 +182,27 @@ public class ViewMain extends JFrame {
 				changeView(new ViewAddTeam(controller));
 			}
 		});
+		
+		deleteTeam.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				changeView(new ViewListTeam(controller, true));
+			}
+		});
+		
+		displayTeams.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				changeView(new ViewListTeam(controller, true));
+			}
+		});
+
+		manageTeams.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				changeView(new ViewTeam(controller));
+			}
+		});
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setBounds(0, 0, screenSize.width, screenSize.height);
