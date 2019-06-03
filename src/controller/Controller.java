@@ -232,9 +232,15 @@ public class Controller {
 	/**
 	 * Add a team in order to save it and use it later.
 	 * @param team The team to save.
+	 * @throws TeamAlreadyExistsException If the team already exists.
 	 */
-	public void addTeam(Team team) {
+	public void addTeam(Team team) throws TeamAlreadyExistsException {
 		assert team != null;
+		
+		for (Team t : this.teams) {
+			if (team.equals(t))
+				throw new TeamAlreadyExistsException();
+		}
 		
 		this.teams.add(team);
 	}
@@ -268,6 +274,26 @@ public class Controller {
 	 */
 	public int getNbTeams() {
 		return this.teams.size();
+	}
+	
+	/**
+	 * Tells if a team already exists in the controller after modifying it.
+	 * @param oldT The old team.
+	 * @param newT The new team.
+	 * @return true if the team exists, else false.
+	 */
+	public boolean teamExists(Team oldT, Team newT) {
+		if (oldT.equals(newT)) {
+			return false;
+		}
+		
+		for (Team team : this.teams) {
+			if (newT.equals(team)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**

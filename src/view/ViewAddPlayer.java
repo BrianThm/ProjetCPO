@@ -179,6 +179,7 @@ public class ViewAddPlayer extends JPanel {
 
 	private void displayAddPlayer() {
 		clear();
+		this.isEditing = false;
 		this.labelAdd.setText("Add a player");
 		this.remove(panelEditCancel);
 		Set<Game> games = this.controller.getGames();

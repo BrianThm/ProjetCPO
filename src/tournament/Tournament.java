@@ -1,6 +1,7 @@
 package tournament;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -106,6 +107,13 @@ public abstract class Tournament implements Observer {
 	 */
 	public List<Participant> getParticipants() {
 		return participants;
+	}
+	
+	/**
+	 * Random draw of tournament participants.
+	 */
+	public void randomDraw() {
+		Collections.shuffle(participants);
 	}
 	
 	/**
