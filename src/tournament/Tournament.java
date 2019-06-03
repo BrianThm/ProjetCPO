@@ -2,15 +2,18 @@ package tournament;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import tournament.exceptions.NotEnoughParticipantsException;
 
+@SuppressWarnings("deprecation")
 /**
  * Class Tournament, will be specified by each type of tournament.
  * @author Group
  * @version 1.0
  */
-public abstract class Tournament {
+public abstract class Tournament implements Observer {
 	
 	private Game game;
 	private String location;
@@ -140,4 +143,9 @@ public abstract class Tournament {
 	 * Update the tournament tree at the end of each match.
 	 */
 	public abstract void updateMatchs();
+	
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		this.updateMatchs();
+	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import tournament.exceptions.NotEnoughParticipantsException;
 
+@SuppressWarnings("deprecation")
 /**
  * A type of tournament. 
  * This is the most simple tournament, where the looser of a match loose the tournament. 
@@ -49,6 +50,7 @@ public class SimpleElimination extends Tournament {
 		for (int i=(nbParts/2); i<(nbParts); i++) {
 			super.matchs[i] = new Match(parts.get((i*2)-nbParts), 
 					parts.get(((i*2)-nbParts)+1), this.getGame());
+			super.matchs[i].addObserver(this);
 		}
 	}
 	
@@ -62,6 +64,7 @@ public class SimpleElimination extends Tournament {
 					&& (super.matchs[i].getWinner() != null)) {
 				if (super.matchs[i/2] == null) {
 					super.matchs[i/2] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+					super.matchs[i/2].addObserver(this);
 				}
 				if (i%2 == 0) {
 					super.matchs[i/2].setParticipant1(super.matchs[i].getWinner());

@@ -1,12 +1,15 @@
 package tournament;
 
+import java.util.Observable;
+
+@SuppressWarnings("deprecation")
 /**
  * Class Match. A match is played by two Participant. 
  * It can have a winner, or be a draw.
  * @author Group
  * @version 1.0
  */
-public class Match {
+public class Match extends Observable {
 	
 	private Participant part1, part2, winner;
 	private Game game;
@@ -97,6 +100,8 @@ public class Match {
 			this.part2.plays(game);
 		}
 		this.winner = winner;
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 	/**

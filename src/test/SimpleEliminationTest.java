@@ -103,7 +103,6 @@ public class SimpleEliminationTest extends SetupTest{
 		
 		matchs[4].endGame(matchs[4].getParticipant1());
 		matchs[7].endGame(matchs[7].getParticipant2());
-		tournament.updateMatchs();
 		assertEquals("nono23", matchs[2].getParticipant1().getName());
 		assertEquals("?", matchs[2].getParticipant2().getName());
 		assertEquals("?", matchs[3].getParticipant1().getName());
@@ -111,7 +110,6 @@ public class SimpleEliminationTest extends SetupTest{
 		
 		matchs[5].endGame(matchs[5].getParticipant2());
 		matchs[6].endGame(matchs[6].getParticipant1());
-		tournament.updateMatchs();
 		assertEquals("nono23", matchs[2].getParticipant1().getName());
 		assertEquals("ElMojito", matchs[2].getParticipant2().getName());
 		assertEquals("Sanchez", matchs[3].getParticipant1().getName());
@@ -119,7 +117,6 @@ public class SimpleEliminationTest extends SetupTest{
 		
 		matchs[2].endGame(matchs[2].getParticipant2());
 		matchs[3].endGame(matchs[3].getParticipant1());
-		tournament.updateMatchs();
 		assertEquals("ElMojito", matchs[1].getParticipant1().getName());
 		assertEquals("Sanchez", matchs[1].getParticipant2().getName());
 	}
@@ -130,7 +127,6 @@ public class SimpleEliminationTest extends SetupTest{
 		matchs = tournament.getMatchs();
 		
 		matchs[1].endGame(matchs[1].getParticipant1());
-		tournament.updateMatchs();
 		assertEquals(null, matchs[0]);
 		assertEquals("ElMojito", tournament.getWinner().getName());
 	}
