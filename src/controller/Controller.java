@@ -278,6 +278,26 @@ public class Controller {
 	}
 	
 	/**
+	 * Tells if a team already exists in the controller after modifying it.
+	 * @param oldT The old team.
+	 * @param newT The new team.
+	 * @return true if the team exists, else false.
+	 */
+	public boolean teamExists(Team oldT, Team newT) {
+		if (oldT.equals(newT)) {
+			return false;
+		}
+		
+		for (Team team : this.teams) {
+			if (newT.equals(team)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Save all informations in a file.
 	 * @param filename The filename to save (path included).
 	 * @throws SaveImpossibleException If the save is impossible.
