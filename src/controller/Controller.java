@@ -233,9 +233,15 @@ public class Controller {
 	/**
 	 * Add a team in order to save it and use it later.
 	 * @param team The team to save.
+	 * @throws TeamAlreadyExistsException If the team already exists.
 	 */
-	public void addTeam(Team team) {
+	public void addTeam(Team team) throws TeamAlreadyExistsException {
 		assert team != null;
+		
+		for (Team t : this.teams) {
+			if (team.equals(t))
+				throw new TeamAlreadyExistsException();
+		}
 		
 		this.teams.add(team);
 	}

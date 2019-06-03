@@ -5,17 +5,28 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 
 import controller.Controller;
+import controller.exceptions.PlayerAlreadyExistsException;
+import controller.exceptions.TeamAlreadyExistsException;
+import tournament.Game;
+import tournament.Team;
 
 /**
  * The ViewAddTeam is the view wich allow to create and edit a team.
@@ -26,11 +37,18 @@ import controller.Controller;
 public class ViewAddTeam extends JPanel {
 
 	private Controller controller;
-	private JPanel content, panelSave, editCancel;
+	private JPanel content, panelSave, editCancel, panelCB;
 	private ViewListTeam viewList;
 	private JTextField textTeam;
 	private JLabel title;
+	private JComboBox<Game> comboBox;
+	private Game preferredGame;
 	private boolean isEditing;
+	
+	public ViewAddTeam(Controller controller, ViewListTeam viewList) {
+		this(controller);
+		this.viewList = viewList;
+	}
 	
 	public ViewAddTeam(Controller controller) {
 		super();
@@ -42,21 +60,26 @@ public class ViewAddTeam extends JPanel {
 		this.content.setLayout(new BoxLayout(this.content, BoxLayout.Y_AXIS));
 		this.textTeam = new JTextField(20);
 		this.panelSave = new JPanel(new FlowLayout());
+		this.panelCB = new JPanel(new FlowLayout());
 		this.isEditing = false;
 		
 		/* Initialization of the components */
 		JPanel panelName = new JPanel(new FlowLayout());
 		JLabel nameTeam = new JLabel("Name ");
-		JPanel panelSave = new JPanel(new FlowLayout());
+		JLabel labelGame = new JLabel("Preferred game ");
 		JButton btnSave = new CustomButton("Save the team");
 		JButton btnEdit = new CustomButton("Edit the team");
 		JButton btnCancel = new CustomButton("Cancel");
+		this.panelSave = new JPanel(new FlowLayout());
 		this.title = new JLabel("Add a team");
 		this.title.setFont(new Font("defaultFont", Font.BOLD, 15));
 		this.title.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
 		this.editCancel = new JPanel(new FlowLayout());
+		this.comboBox = new JComboBox<Game>();
 		panelName.add(nameTeam);
 		panelName.add(textTeam);
+		panelCB.add(labelGame);
+		panelCB.add(comboBox);
 		editCancel.add(btnEdit);
 		editCancel.add(btnCancel);
 		panelSave.add(btnSave);
@@ -71,12 +94,32 @@ public class ViewAddTeam extends JPanel {
 		/* All is centered */
 		title.setAlignmentX(CENTER_ALIGNMENT);
 		panelName.setAlignmentX(CENTER_ALIGNMENT);
+		panelCB.setAlignmentX(CENTER_ALIGNMENT);
 		editCancel.setAlignmentX(CENTER_ALIGNMENT);
 		panelSave.setAlignmentX(CENTER_ALIGNMENT);
 		
 		/* Adding all the components to the main panel */
 		this.add(content, BorderLayout.CENTER);
 		this.add(panelSave, BorderLayout.SOUTH);
+		this.displayAddTeam();
+		
+		comboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent event) {
+				if (event.getStateChange() == ItemEvent.SELECTED) {
+					preferredGame = (Game) event.getItem();
+				} else {
+					preferredGame = null;
+				}
+			}
+		});
+		
+		btnSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (checkFields())
+					addTeam(textTeam.getText(), preferredGame);
+			}
+		});
 		
 		/* Empty border outside, gray border inside */
 		this.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20),
@@ -84,8 +127,54 @@ public class ViewAddTeam extends JPanel {
 	}
 	
 	private void displayAddTeam() {
-		title.setText("Add a game");
+		title.setText("Add a team");
 		this.remove(editCancel);
+		Set<Game> games = this.controller.getGames();
+		comboBox.removeAllItems();
+		comboBox.addItem(null);
+		for (Game g : games) {
+			comboBox.addItem(g);
+		}
+		content.add(panelCB);
 		this.add(panelSave, BorderLayout.SOUTH);
+		refreshPanel();
+	}
+	
+	private boolean checkFields() {
+		int len = textTeam.getText().length();
+		
+		if (len == 0) {
+			JOptionPane.showMessageDialog(this, "The team must have a name!", "No name", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else if (len > 50) {
+			JOptionPane.showMessageDialog(this, "The name of the team can't exceed 50 characters!", "Name too long", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private void addTeam(String name, Game game) {
+		Team team = (game == null) ? new Team(name) : new Team(name, game);
+		
+		try {
+			this.controller.addTeam(team);
+			JOptionPane.showMessageDialog(this, "The team " + name + " has been successfully added!", "Team " + name + " added", JOptionPane.INFORMATION_MESSAGE);
+
+//			if (viewList != null)
+//				viewList.makeList();
+
+			//clear();
+		} catch (TeamAlreadyExistsException e) {
+			JOptionPane.showMessageDialog(this, "The team " + name + " already exists, you can't add it twice!", "Existing team", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	/**
+	 * Refresh the panel when the display changes.
+	 */
+	private void refreshPanel() {
+		this.repaint();
+		this.revalidate();
 	}
 }
