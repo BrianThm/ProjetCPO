@@ -23,7 +23,10 @@ import tournament.Tournament;
 
 
 /**
- * @author Brian
+ * @author Group
+ * @version 1.4
+ * Class that permit to gathered initialization of 
+ * many variables for class tests 
  *
  */
 public abstract class SetupTest {
@@ -88,7 +91,7 @@ public abstract class SetupTest {
 	protected Set<Tournament> tournaments;
 	
 	/**
-	 * Class SetUp that initialize the variable for all the test classes.
+	 * Class SetUp that initialize variables for all the test classes.
 	 * @throws java.lang.Exception
 	 */
 	@Before

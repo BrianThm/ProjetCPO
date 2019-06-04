@@ -11,12 +11,17 @@ import org.junit.Test;
 import tournament.*;
 import tournament.exceptions.*;
 
+/**
+ * @author Group
+ * @version 1.0
+ * Class which test the Abstract class Participant
+ *
+ */
 public class ParticipantTest extends SetupTest{
 	
-	private Game g1, g2;
-	private Participant p1, p2, p3, p4;
-
-
+	/**
+	 * Test method for {@link tournament.Participant#getName()}.
+	 */
 	@Test
 	public void testGetName() {
 		assertEquals(pseudo, participants.get(0).getName() );
@@ -25,6 +30,9 @@ public class ParticipantTest extends SetupTest{
 		assertEquals(nomTeam3, participants.get(11).getName());
 	}
 	
+	/**
+	 * Test method for {@link tournament.Participant#setName(String)}.
+	 */
 	@Test
 	public void testSetName() {
 		participants.get(0).setName(name3);
@@ -37,6 +45,9 @@ public class ParticipantTest extends SetupTest{
 		assertEquals(nomTeam1, participants.get(11).getName());
 	}
 	
+	/**
+	 * Test method for {@link tournament.Participant#getPreferredGame()}.
+	 */
 	@Test
 	public void testGetPreferredGame() {
 		participants.get(0).plays(game1);
@@ -48,6 +59,9 @@ public class ParticipantTest extends SetupTest{
 		assertEquals(null, participants.get(9).getPreferredGame());
 	}
 	
+	/**
+	 * Test method for {@link tournament.Participant#getGames()}.
+	 */
 	@Test
 	public void testGetGames() {
 		Map<Game, Integer> games;
@@ -78,6 +92,9 @@ public class ParticipantTest extends SetupTest{
 		assertEquals(0, games.size());
 	}
 	
+	/**
+	 * Test method for {@link tournament.Participant#plays(tournament.Game)}.
+	 */
 	@Test
 	public void testPlays() {
 		Map<Game, Integer> games;
@@ -91,6 +108,9 @@ public class ParticipantTest extends SetupTest{
 		}
 	}
 	
+	/**
+	 * Test method for {@link tournament.Participant#removeGame(tournament.Game)}.
+	 */
 	@Test
 	public void testRemoveGame() throws GamePlayedException {
 		Map<Game, Integer> games;
@@ -112,6 +132,9 @@ public class ParticipantTest extends SetupTest{
 		assertEquals(0, games.size());
 	}
 	
+	/**
+	 * Test method for {@link tournament.Participant#addTournament(tournament.Tournament)}.
+	 */
 	@Test
 	public void testAddTournament() {
 		
@@ -125,6 +148,9 @@ public class ParticipantTest extends SetupTest{
 		
 	}
 	
+	/**
+	 * Test method for {@link tournament.Participant#getTournament()}.
+	 */
 	@Test
 	public void testGetTournament() {
 		
@@ -140,6 +166,9 @@ public class ParticipantTest extends SetupTest{
 		
 	}
 	
+	/**
+	 * Test method for {@link tournament.Participant#removeTournament(tournament.Tournament)}.
+	 */
 	@Test
 	public void testRemoveTournament() {
 		//already test
@@ -156,12 +185,18 @@ public class ParticipantTest extends SetupTest{
 		
 	}
 	
+	/**
+	 * Test method for {@link tournament.exceptions.GamePlayedException}.
+	 */
 	@Test (expected = GamePlayedException.class)
 	public void testGamePlayedException() throws GamePlayedException {
 		participants.get(0).addTournament(tournament);
 		participants.get(0).removeGame(game);
 	}
 	
+	/**
+	 * Test method for {@link tournament.Participant#toString()}.
+	 */
 	@Test
 	public void testToString() {
 		assertEquals("Player \""+pseudo1+"\", Game: "+game1, participants.get(1).toString());
