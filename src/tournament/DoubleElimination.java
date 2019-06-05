@@ -73,6 +73,7 @@ public class DoubleElimination extends Tournament {
 		assert participants != null;
 		
 		int nbParts = participants.size();
+		// the number of participants need to be a power of 2
 		if (!((nbParts > 2) && ((nbParts & (nbParts - 1)) == 0 ))) {
 			throw new NotEnoughParticipantsException();
 		}
@@ -120,6 +121,7 @@ public class DoubleElimination extends Tournament {
 				}
 				
 				// Initialization of the firsts looser's bracket matchs 
+				// (loosers vs loosers)
 				if (i >= (nbParts/2)) {
 					int index = (i/2)-(nbParts/4);
 					if (this.loosersBracket[index] == null) {
@@ -142,6 +144,8 @@ public class DoubleElimination extends Tournament {
 	public void updateLooserBracket() {
 		int nbParts = participants.size();
 		// 2nd turn of the looser's bracket
+		// winners of looser's brackets (1st turn) 
+		// 		vs loosers of winner's bracket (2nd turn) 
 		for (int i=(nbParts/4); i<(nbParts/2); i++) {
 			if (this.winnersBracket[i] != null
 					&& this.winnersBracket[i].getWinner() != null) {
@@ -156,6 +160,7 @@ public class DoubleElimination extends Tournament {
 			}
 		}
 		// 3rd turn
+		// between winners of looser's bracket (2nd turn)
 		int j=0;
 		for (int i=(nbParts/2); i<(i+(nbParts/8)); i++) {
 			if (this.loosersBracket[i] == null) {
@@ -172,6 +177,23 @@ public class DoubleElimination extends Tournament {
 			}
 			j++;
 		}
+		// 4th turn
+		// winners of looser's bracket (2nd turn)
+		//		vs loosers of winner's bracket (3rd turn)
+		for (int i=((nbParts/2)+(nbParts/8)); i<(i+(nbParts/8)); i++) {
+			if (this.loosersBracket[i] == null) {
+				this.loosersBracket[i] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+			}
+			if (this.loosersBracket[i-(nbParts/8)] != null
+					&& this.loosersBracket[i-(nbParts/8)].getWinner() != null) {
+				this.loosersBracket[i].setParticipant1(this.loosersBracket[i-(nbParts/2)].getWinner());
+			}
+			if (this.winnersBracket[i-(nbParts/2)] != null
+					&& this.winnersBracket[i-(nbParts/2)].getWinner() != null) {
+				this.loosersBracket[i].setParticipant2(this.winnersBracket[i-(nbParts/2)].getWinner());		
+			}
+		}
+		// 5th turn
 	}
 	
 }

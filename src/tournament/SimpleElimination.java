@@ -37,6 +37,7 @@ public class SimpleElimination extends Tournament {
 
 		int nbParts = participants.size();
 		
+		// the number of participants need to be a power of 2
 		if (!((nbParts > 2) && ((nbParts & (nbParts - 1)) == 0 ))) {
 			throw new NotEnoughParticipantsException();
 		}
@@ -63,6 +64,7 @@ public class SimpleElimination extends Tournament {
 			if ((super.matchs[i] != null) 
 					&& (super.matchs[i].getWinner() != null)) {
 				if (super.matchs[i/2] == null) {
+					// default match
 					super.matchs[i/2] = new Match(defaultPlayer, defaultPlayer, this.getGame());
 					super.matchs[i/2].addObserver(this);
 				}
