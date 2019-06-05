@@ -193,7 +193,7 @@ public class ViewMain extends JFrame {
 		displayTeams.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				changeView(new ViewListTeam(controller, true));
+				changeView(new ViewListTeam(controller, false));
 			}
 		});
 
