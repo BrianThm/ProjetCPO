@@ -141,6 +141,7 @@ public class DoubleElimination extends Tournament {
 	 */
 	public void updateLooserBracket() {
 		int nbParts = participants.size();
+		// 2nd turn of the looser's bracket
 		for (int i=(nbParts/4); i<(nbParts/2); i++) {
 			if (this.winnersBracket[i] != null
 					&& this.winnersBracket[i].getWinner() != null) {
@@ -153,6 +154,23 @@ public class DoubleElimination extends Tournament {
 					this.loosersBracket[i].setParticipant1(this.loosersBracket[i-(nbParts/2)].getWinner());
 				}
 			}
+		}
+		// 3rd turn
+		int j=0;
+		for (int i=(nbParts/2); i<(i+(nbParts/8)); i++) {
+			if (this.loosersBracket[i] == null) {
+				this.loosersBracket[i] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+			}
+			if (this.loosersBracket[(i/2)+j] != null
+					&& this.loosersBracket[(i/2)+j].getWinner() != null) {
+				this.loosersBracket[i].setParticipant1(this.loosersBracket[(i/2)+j].getWinner());
+			}
+			j++;
+			if (this.loosersBracket[(i/2)+j] != null
+					&& this.loosersBracket[(i/2)+j].getWinner() != null) {
+				this.loosersBracket[i].setParticipant2(this.loosersBracket[(i/2)+j].getWinner());
+			}
+			j++;
 		}
 	}
 	
