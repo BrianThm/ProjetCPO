@@ -113,6 +113,16 @@ public class Match extends Observable {
 		return this.winner;
 	}
 	
+	public Participant getLooser() {
+		Participant looser;
+		if (this.winner.equals(this.part1)) {
+			looser = this.part2;
+		} else {
+			looser = this.part1;
+		}
+		return looser;
+	}
+	
 	/**
 	 * Tell if a match ended with a draw or not.
 	 * @return True if the match ended with a draw, false if not.
