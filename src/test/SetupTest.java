@@ -1,6 +1,3 @@
-/**
- * 
- */
 package test;
 
 import java.util.ArrayList;
@@ -22,11 +19,10 @@ import tournament.Tournament;
 
 
 /**
+ * Class that permit to gathered initialization of 
+ * many variables for class tests.
  * @author Group
  * @version 1.4
- * Class that permit to gathered initialization of 
- * many variables for class tests 
- *
  */
 public abstract class SetupTest {
 	
@@ -43,7 +39,7 @@ public abstract class SetupTest {
 	protected String pseudo1;
 	protected String pseudo2;
 	protected String pseudo3;
-	protected String pseudo4; 
+	protected String pseudo4;
 	protected String pseudo5;
 	protected String pseudo6;
 	protected String pseudo7;
@@ -58,10 +54,10 @@ public abstract class SetupTest {
 	protected String firstname2;
 	protected String firstname3;
 	
-	protected String nomTeam; 
-	protected String nomTeam1; 
-	protected String nomTeam2; 
-	protected String nomTeam3; 
+	protected String nomTeam;
+	protected String nomTeam1;
+	protected String nomTeam2;
+	protected String nomTeam3;
 	
 	protected Game game;
 	protected Game game1;
@@ -83,8 +79,8 @@ public abstract class SetupTest {
 	protected Controller controller;
 	protected Controller controller1;
 	
-	protected String location; 
-	protected String location1; 
+	protected String location;
+	protected String location1;
 	protected String location2;
 	protected String location3;
 	
@@ -123,11 +119,10 @@ public abstract class SetupTest {
 		
 		tournament = new SimpleElimination(game);
 		tournament1 = new SimpleElimination(game1);
-		tournament2 = new SimpleElimination(game2, location2); 
+		tournament2 = new SimpleElimination(game2, location2);
 		tournament3 = new SimpleElimination(game3, location3);
 		tournament4 = new DoubleElimination(game);
 		tournament5 = new DoubleElimination(game1, location3);
-		
 		
 		participants = new ArrayList<Participant>();
 		
@@ -185,7 +180,7 @@ public abstract class SetupTest {
 		team3.addMember(player7);
 		
 		tournaments = new HashSet<Tournament>();
-		tournaments.add(tournament); 
+		tournaments.add(tournament);
 		tournaments.add(tournament1);
 		
 		controller.addGame(game);
@@ -207,5 +202,4 @@ public abstract class SetupTest {
 		controller.addTeam(team2);
 		controller.addTeam(team3);
 	}
-
 }
