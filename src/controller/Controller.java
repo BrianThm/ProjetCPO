@@ -333,6 +333,33 @@ public class Controller {
 	}
 	
 	/**
+	 * Get the teams, sorted by the name
+	 * @return A list of teams.
+	 */
+	public List<Team> getSortedTeams() {
+		List<Team> list = new ArrayList<Team>();
+		boolean added;
+		
+		for (Team team : this.teams) {
+			added = false;
+			
+			for (int i = 0; i < list.size(); i++) {
+				if (team.getName().compareTo(list.get(i).getName()) < 0) {
+					list.add(i, team);
+					added = true;
+					break;
+				}
+			}
+			
+			if (!added) {
+				list.add(team);
+			}
+		}
+		
+		return list;
+	}
+	
+	/**
 	 * Get the number of teams.
 	 * @return The number of team.
 	 */
