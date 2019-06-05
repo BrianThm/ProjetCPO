@@ -160,10 +160,10 @@ public class Controller {
 					added = true;
 					break;
 				}
-				
-				if (!added) {
-					list.add(game);
-				}
+			}
+			
+			if (!added) {
+				list.add(game);
 			}
 		}
 		
@@ -236,6 +236,33 @@ public class Controller {
 	 */
 	public Set<Player> getPlayers() {
 		return this.players;
+	}
+	
+	/**
+	 * Get the players, sorted by the name
+	 * @return A list of players.
+	 */
+	public List<Player> getSortedPlayers() {
+		List<Player> list = new ArrayList<Player>();
+		boolean added;
+		
+		for (Player player : this.players) {
+			added = false;
+			
+			for (int i = 0; i < list.size(); i++) {
+				if (player.toString().compareTo(list.get(i).toString()) < 0) {
+					list.add(i, player);
+					added = true;
+					break;
+				}
+			}
+			
+			if (!added) {
+				list.add(player);
+			}
+		}
+		
+		return list;
 	}
 	
 	/**
