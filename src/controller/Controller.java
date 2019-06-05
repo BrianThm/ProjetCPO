@@ -1,11 +1,21 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import controller.exceptions.*;
-import tournament.*;
-import tournament.exceptions.*;
+import controller.exceptions.GameAlreadyExistsException;
+import controller.exceptions.GameUsedException;
+import controller.exceptions.LoadImpossibleException;
+import controller.exceptions.PlayerAlreadyExistsException;
+import controller.exceptions.SaveImpossibleException;
+import controller.exceptions.TeamAlreadyExistsException;
+import tournament.Game;
+import tournament.Player;
+import tournament.Team;
+import tournament.Tournament;
+import tournament.exceptions.GamePlayedException;
 
 /**
  * A controller of tournaments.
@@ -131,6 +141,33 @@ public class Controller {
 	 */
 	public Set<Game> getGames() {
 		return this.games;
+	}
+	
+	/**
+	 * Get the games, sorted by the name
+	 * @return A list of games.
+	 */
+	public List<Game> getSortedGames() {
+		List<Game> list = new ArrayList<Game>();
+		boolean added;
+		
+		for (Game game : this.games) {
+			added = false;
+			
+			for (int i = 0; i < list.size(); i++) {
+				if (game.getName().compareTo(list.get(i).getName()) < 0) {
+					list.add(i, game);
+					added = true;
+					break;
+				}
+				
+				if (!added) {
+					list.add(game);
+				}
+			}
+		}
+		
+		return list;
 	}
 	
 	/**

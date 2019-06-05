@@ -8,7 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
 
-import org.junit.Before;
+import javax.swing.ImageIcon;
+
 import org.junit.Test;
 
 import controller.*;
@@ -18,29 +19,11 @@ import tournament.*;
 public class FileOperationTest extends SetupTest{
 	
 	
-	private String filename = "/tmp/FileOperationTestSave.txt";
-	
-	@Before
-	public void setup() throws Exception {
-		super.setUp();
-		
-		
-		player = new Player("Morgane", "Cadeau", "Enaxom", game);
-		player1 = new Player("William", "Mateille", "Wyzedix", game);
-		player2 = new Player("Ravioli");
-		player3 = new Player("team");
-		
-		team2.removeMember(player4);
-		team2.removeMember(player5);
-		
-		team2.addMember(player);
-		team2.addMember(player1);
-		team2.addMember(player2);
-		team2.addMember(player3);
-	}
+	private String baseFilename = "/tmp/FileOperationTest";
 	
 	@Test
 	public void testSimpleSave() {
+		String filename = baseFilename + "SimpleSave.txt";
 		try {
 			controller.save(filename);
 		} catch (SaveImpossibleException e) {
@@ -50,6 +33,7 @@ public class FileOperationTest extends SetupTest{
 	
 	@Test
 	public void testSimpleLoad() {
+		String filename = baseFilename + "SimpleLoad.txt";
 		try {
 			controller.save(filename);
 			controller.load(filename);
@@ -59,7 +43,8 @@ public class FileOperationTest extends SetupTest{
 	}
 	
 	@Test
-	public void testLoadInchanged1() throws SaveImpossibleException, LoadImpossibleException {
+	public void testLoadInchanged() throws SaveImpossibleException, LoadImpossibleException {
+		String filename = baseFilename + "LoadInchanged.txt";
 		Set<Game> games = controller.getGames();
 		Set<Player> players = controller.getPlayers();
 		Set<Team> teams = controller.getTeams();
@@ -140,7 +125,8 @@ public class FileOperationTest extends SetupTest{
 	}
 	
 	@Test (expected = LoadImpossibleException.class)
-	public void testLoadFail1() throws IOException, LoadImpossibleException {
+	public void testLoadFail() throws IOException, LoadImpossibleException {
+		String filename = baseFilename + "LoadFail.txt";
 		FileWriter file = new FileWriter(filename);
 		file.write("This is a file impossible to load.\n");
 		try {
@@ -152,6 +138,7 @@ public class FileOperationTest extends SetupTest{
 	
 	@Test
 	public void testLoadComa() throws PlayerAlreadyExistsException, GameAlreadyExistsException, TeamAlreadyExistsException, SaveImpossibleException, LoadImpossibleException {
+		String filename = baseFilename + "LoadComa.txt";
 		Controller miniC = new Controller();
 		
 		Game game = new Game("a;game;with;some;semicolon");
@@ -179,6 +166,21 @@ public class FileOperationTest extends SetupTest{
 		
 		for (Team team2 : teams2) {
 			assertEquals("Incorrect translation of the team.", "a,team,with,some,semicolon", team2.getName());
+		}
+	}
+	
+	@Test
+	public void testImages() throws SaveImpossibleException, LoadImpossibleException, GameAlreadyExistsException {
+		String filename = baseFilename + "Images.txt";
+		Controller cont = new Controller();
+		Game g = new Game("game", new ImageIcon("Image test.jpg"));
+		cont.addGame(g);
+		
+		cont.save(filename);
+		cont.load(filename);
+		
+		for (Game game : cont.getGames()) {
+			assertTrue("Game lost image after load", game.hasImage());
 		}
 	}
 }
