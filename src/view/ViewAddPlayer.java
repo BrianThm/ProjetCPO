@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
@@ -182,7 +183,8 @@ public class ViewAddPlayer extends JPanel {
 		this.isEditing = false;
 		this.labelAdd.setText("Add a player");
 		this.remove(panelEditCancel);
-		Set<Game> games = this.controller.getGames();
+		ArrayList<Game> games = (ArrayList<Game>) this.controller.getSortedGames();
+		System.out.println(games);
 		comboBox.removeAllItems();
 		comboBox.addItem(null);
 		for (Game g : games) {
