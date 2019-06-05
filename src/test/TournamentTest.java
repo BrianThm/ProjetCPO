@@ -10,9 +10,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import tournament.Game;
 import tournament.Participant;
-import tournament.exceptions.NotEnoughParticipantsException;
 
 /**
  * @author Group

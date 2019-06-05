@@ -12,8 +12,6 @@ import javax.swing.ImageIcon;
 import org.junit.Before;
 
 import controller.Controller;
-import controller.exceptions.GameAlreadyExistsException;
-import controller.exceptions.PlayerAlreadyExistsException;
 import tournament.DoubleElimination;
 import tournament.Game;
 import tournament.Participant;
@@ -104,29 +102,29 @@ public abstract class SetupTest {
 		controller1 = new Controller();
 		
 		game = new Game("Overwatch");
-		game1 = new Game("CS:GO",new ImageIcon("Image test.jpg"));
+		game1 = new Game("CS:GO", new ImageIcon("Image test.jpg"));
 		game2 = new Game("PUBG");
 		game3 = new Game("Smash");
 		
 		nomTeam = "El Mexico";
 		nomTeam1 = "Sunny";
-		nomTeam2 = "TheJeans"; 
+		nomTeam2 = "TheJeans";
 		nomTeam3 = "CampingTeam";
 		
 		team = new Team(nomTeam);
 		team1 = new Team(nomTeam1);
-		team2 = new Team(nomTeam2,game2);
-		team3 = new Team(nomTeam3,game3);
+		team2 = new Team(nomTeam2, game2);
+		team3 = new Team(nomTeam3, game3);
 		
-		location = "Paris"; 
-		location1 = "New York"; 
-		location2 = "Toulouse"; 
+		location = "Paris";
+		location1 = "New York";
+		location2 = "Toulouse";
 		location3 = "Nantes";
 		
 		tournament = new SimpleElimination(game);
 		tournament1 = new SimpleElimination(game1);
 		tournament2 = new SimpleElimination(game2, location2); 
-		tournament3 = new SimpleElimination(game3,location3);
+		tournament3 = new SimpleElimination(game3, location3);
 		tournament4 = new DoubleElimination(game);
 		tournament5 = new DoubleElimination(game1, location3);
 		
@@ -153,7 +151,7 @@ public abstract class SetupTest {
 		firstname3 = "Renaud";
 		
 		player = new Player(pseudo);
-		player1 = new Player(pseudo1,game1);
+		player1 = new Player(pseudo1, game1);
 		player2 = new Player(firstname2, name2 ,pseudo2);
 		player3 = new Player(firstname3, name3, pseudo3, game3);
 		player4 = new Player(pseudo4);
@@ -168,7 +166,7 @@ public abstract class SetupTest {
 		participants.add(player4);
 		participants.add(player5);
 		participants.add(player6);
-		participants.add(player7);	
+		participants.add(player7);
 		participants.add(team);
 		participants.add(team1);
 		participants.add(team2);
@@ -193,16 +191,21 @@ public abstract class SetupTest {
 		controller.addGame(game);
 		controller.addGame(game1);
 		controller.addGame(game2);
+		controller.addGame(game3);
 		
 		controller.addPlayer(player);
 		controller.addPlayer(player1);
 		controller.addPlayer(player2);
 		controller.addPlayer(player3);
+		controller.addPlayer(player4);
+		controller.addPlayer(player5);
+		controller.addPlayer(player6);
+		controller.addPlayer(player7);
 		
+		controller.addTeam(team);
 		controller.addTeam(team1);
 		controller.addTeam(team2);
-		controller.addTeam(team);
-		
+		controller.addTeam(team3);
 	}
 
 }
