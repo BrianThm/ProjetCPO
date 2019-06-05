@@ -105,6 +105,10 @@ public class Team extends Participant {
 			return false;
 		}
 		
+		if (this.members.size() != team.members.size()) {
+			return false;
+		}
+		
 		boolean found;
 		for (Player m1 : this.members) {
 			found = false;
