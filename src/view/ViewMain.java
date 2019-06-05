@@ -24,12 +24,12 @@ import controller.exceptions.SaveImpossibleException;
 @SuppressWarnings("serial")
 public class ViewMain extends JFrame {
 
-	private Controller controller;
+	//private Controller controller;
 	private Container cont;
 
 	public ViewMain(Controller controller, String title) {
 		super(title);
-		this.controller = controller;
+		//this.controller = controller;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		cont = this.getContentPane();
