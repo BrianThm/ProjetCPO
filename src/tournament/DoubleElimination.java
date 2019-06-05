@@ -16,7 +16,8 @@ import tournament.exceptions.NotEnoughParticipantsException;
 public class DoubleElimination extends Tournament {
 
 	private Match[] winnersBracket;
-	private Match[] loosersBracket;	
+	private Match[] loosersBracket;
+	private Player defaultPlayer = new Player("?");
 	
 	/**
 	 * Create an empty DoubleElimination tournament.
@@ -58,10 +59,10 @@ public class DoubleElimination extends Tournament {
 		                         + this.loosersBracket.length];
 		
 		for (int i=0; i<this.winnersBracket.length; i++) {
-			super.matchs[i] = this.winnersBracket[i];
+			matchs[i] = this.winnersBracket[i];
 		}
 		for (int i=0; i<this.loosersBracket.length; i++) {
-			super.matchs[i+this.winnersBracket.length] = this.loosersBracket[i];
+			matchs[i+this.winnersBracket.length] = this.loosersBracket[i];
 		}		
 		return matchs;
 	}
@@ -105,7 +106,33 @@ public class DoubleElimination extends Tournament {
 	 * at the end of each match.
 	 */
 	public void updateWinnersBracket() {
-		//TODO
+		int nbParts = participants.size();
+		for (int i=2; i<nbParts; i++) {
+			if (this.winnersBracket[i] != null
+						&& this.winnersBracket[i].getWinner() != null) {
+				if (this.winnersBracket[i/2] == null) {
+					this.winnersBracket[i/2] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+				}				
+				if (i%2 == 0) {
+					this.winnersBracket[i/2].setParticipant1(this.winnersBracket[i].getWinner());
+				} else {
+					this.winnersBracket[i/2].setParticipant2(this.winnersBracket[i].getWinner());
+				}
+				
+				// Initialization of the firsts looser's bracket matchs 
+				if (i >= (nbParts/2)) {
+					int index = (i/2)-(nbParts/4);
+					if (this.loosersBracket[index] == null) {
+						this.loosersBracket[index] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+					}
+					if (index%2 == 0) {
+						this.loosersBracket[index].setParticipant1(this.winnersBracket[i].getLooser());
+					} else {
+						this.loosersBracket[index].setParticipant2(this.winnersBracket[i].getLooser());
+					}
+				}
+			}
+		}
 	}
 	
 	/**
@@ -113,7 +140,20 @@ public class DoubleElimination extends Tournament {
 	 * at the end of each match.
 	 */
 	public void updateLooserBracket() {
-		//TODO
+		int nbParts = participants.size();
+		for (int i=(nbParts/4); i<(nbParts/2); i++) {
+			if (this.winnersBracket[i] != null
+					&& this.winnersBracket[i].getWinner() != null) {
+				if (this.loosersBracket[i] == null) {
+					this.loosersBracket[i] = new Match(defaultPlayer, this.winnersBracket[i].getLooser(), 
+													this.getGame());
+				}
+				if (this.loosersBracket[i-(nbParts/2)] != null
+						&& this.loosersBracket[i-(nbParts/2)].getWinner() != null) {
+					this.loosersBracket[i].setParticipant1(this.loosersBracket[i-(nbParts/2)].getWinner());
+				}
+			}
+		}
 	}
 	
 }
