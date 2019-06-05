@@ -228,12 +228,12 @@ public class ViewAddTeam extends JPanel {
 		teamToEdit.setName(textTeam.getText());
 		Set<Player> oldPlayers = teamToEdit.getMembers();
 
-		for (Player p : oldPlayers) {
+		for (Player p : new ArrayList<Player>(oldPlayers)) {
 			if (!newPlayers.contains(p))
 				teamToEdit.removeMember(p);
 		}
 		
-		for (Player p : newPlayers) {
+		for (Player p : new ArrayList<Player>(newPlayers)) {
 			if (!oldPlayers.contains(p))
 				teamToEdit.addMember(p);
 		}
