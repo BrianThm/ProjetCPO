@@ -79,7 +79,7 @@ public class ViewAddTeam extends JPanel {
 		JButton btnEdit = new CustomButton("Edit the team");
 		JButton btnCancel = new CustomButton("Cancel");
 		Set<Player> players = this.controller.getPlayers();
-		Player[] playersArray = (Player[]) (new ArrayList<Player>(players)).toArray();
+		Player[] playersArray = (new ArrayList<Player>(players)).toArray();
 		this.panelSave = new JPanel(new FlowLayout());
 		this.title = new JLabel("Add a team");
 		this.title.setFont(new Font("defaultFont", Font.BOLD, 15));
@@ -163,7 +163,7 @@ public class ViewAddTeam extends JPanel {
 		this.isEditing = false;
 		title.setText("Add a team");
 		this.remove(editCancel);
-		Set<Game> games = this.controller.getGames();
+		ArrayList<Game> games = (ArrayList<Game>) this.controller.getSortedGames();
 		
 		comboBox.removeAllItems();
 		comboBox.addItem(null);
