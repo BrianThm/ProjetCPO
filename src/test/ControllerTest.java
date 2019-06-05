@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -395,6 +396,60 @@ public class ControllerTest extends SetupTest {
 		assertEquals("The number of teams for controller is not good !", 3, controller.getNbTeams());
 		assertEquals("The number of teams for controller1 is not good !", 1, controller1.getNbTeams());
 	}
+	
+	/**
+	 * Test method for {@link controller.Controller#getSortedPlayers()}.
+	 */
+	@Test
+	public void testGetSortedPlayers() {
+		ArrayList<Player> expectedSortedPlayers = new ArrayList<Player>();
+		assertEquals("The list of sortedPLayers returned is not correct !", expectedSortedPlayers, controller1.getSortedPlayers());
+		
+		expectedSortedPlayers.add(player1); 
+		expectedSortedPlayers.add(player3); 
+		expectedSortedPlayers.add(player6); 
+		expectedSortedPlayers.add(player2); 
+		expectedSortedPlayers.add(player5); 
+		expectedSortedPlayers.add(player); 
+		expectedSortedPlayers.add(player7); 
+		expectedSortedPlayers.add(player4); 
+		
+		assertEquals("The list of sortedPLayers returned is not correct !", expectedSortedPlayers, controller.getSortedPlayers());
+	}
+	
+	/**
+	 * Test method for {@link controller.Controller#getSortedTeam()}.
+	 */
+	@Test
+	public void testGetSortedTeam() {
+		ArrayList<Team> expectedSortedTeams = new ArrayList<Team>();
+		assertEquals("The list of sortedPLayers returned is not correct !", expectedSortedTeams, controller1.getSortedTeams());
+		
+		expectedSortedTeams.add(team3); 
+		expectedSortedTeams.add(team); 
+		expectedSortedTeams.add(team1); 
+		expectedSortedTeams.add(team2); 
+		
+		assertEquals("The list of sortedPLayers returned is not correct !", expectedSortedTeams, controller.getSortedTeams());
+	
+	}	
+	
+	/**
+	 * Test method for {@link controller.Controller#getSortedGames()}.
+	 */
+	@Test
+	public void testGetSortedGame() {
+		ArrayList<Game> expectedSortedGames = new ArrayList<Game>();
+		assertEquals("The list of sortedPLayers returned is not correct !", expectedSortedGames, controller1.getSortedGames());
+		
+		expectedSortedGames.add(game1); 
+		expectedSortedGames.add(game); 
+		expectedSortedGames.add(game2); 
+		expectedSortedGames.add(game3); 
+		
+		assertEquals("The list of sortedPLayers returned is not correct !", expectedSortedGames, controller.getSortedGames());
+	
+	}	
 	
 	/**
 	 * Test method for {@link controller.Controller#save(java.lang.String)}.
