@@ -39,6 +39,7 @@ public class ViewMain extends JFrame {
 		JMenu menuGame = new JMenu("Game");
 		JMenu menuTeam = new JMenu("Team");
 		JMenu menuPlayer = new JMenu("Player");
+		JMenu menuTournament = new JMenu("Tournament");
 		JMenuItem saveData = new JMenuItem("Save the data");
 		JMenuItem loadData = new JMenuItem("Load the data");
 		JMenuItem addGame = new JMenuItem("Add a game");
@@ -53,11 +54,14 @@ public class ViewMain extends JFrame {
 		JMenuItem deletePlayer = new JMenuItem("Delete a player");
 		JMenuItem displayPlayers = new JMenuItem("Display all players");
 		JMenuItem managePlayers = new JMenuItem("Manage players");
+		JMenuItem addTournament = new JMenuItem("Add a tournament");
+		JMenuItem deleteTournament = new JMenuItem("Delete a tournament");
 
 		menubar.add(menuFile);
 		menubar.add(menuGame);
 		menubar.add(menuTeam);
 		menubar.add(menuPlayer);
+		menubar.add(menuTournament);
 		menuFile.add(saveData);
 		menuFile.add(loadData);
 		menuGame.add(addGame);
@@ -72,6 +76,9 @@ public class ViewMain extends JFrame {
 		menuPlayer.add(deletePlayer);
 		menuPlayer.add(displayPlayers);
 		menuPlayer.add(managePlayers);
+		menuTournament.add(addTournament);
+		menuTournament.add(deleteTournament);
+
 
 		cont.setLayout(new BorderLayout());
 
@@ -201,6 +208,20 @@ public class ViewMain extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				changeView(new ViewTeam(controller));
+			}
+		});
+		
+		addTournament.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				changeView(new ViewAddTournament(controller));
+			}
+		});
+		
+		deleteTournament.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				changeView(new ViewAddTournament(controller));
 			}
 		});
 
