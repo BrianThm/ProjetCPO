@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -20,7 +19,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 
@@ -275,17 +273,6 @@ public class ViewAddPlayer extends JPanel {
 		} catch (PlayerAlreadyExistsException e) {
 			JOptionPane.showMessageDialog(this, "The player " + nn + " already exists, you can't add it twice!", "Existing player", JOptionPane.ERROR_MESSAGE);
 		}
-	}
-
-	// TODO
-	private JScrollPane getGamesPlayer(Player p) {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-		Set<Game> gamesPlayer = p.getGames().keySet();
-
-
-		return new JScrollPane(panel);
 	}
 
 	private void clear() {
