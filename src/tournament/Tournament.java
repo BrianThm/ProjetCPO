@@ -141,6 +141,14 @@ public abstract class Tournament implements Observer {
 	}
 	
 	/**
+	 * Set an array of matchs to the tournament.
+	 * @param matchs The new matchs.
+	 */
+	public void setMatchs(Match[] matchs) {
+		this.matchs = matchs;
+	}
+	
+	/**
 	 * Initialize the tournament tree.
 	 * @param partipants The parcipants of the tournament.
 	 * @throws NotEnoughParticipantsException If there is not enough participants to start the tournament.
