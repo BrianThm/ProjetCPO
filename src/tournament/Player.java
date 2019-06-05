@@ -147,26 +147,17 @@ public class Player extends Participant {
 	
 	@Override
 	public String toString() {
-		Game gPreferred = this.getPreferredGame();
-		Team tPreferred = this.getPreferredTeam();
 		String first = this.fname;
 		String last = this.lname;
 		
 		if (!first.isEmpty()) {
-			first += " ";
+			first = " " + first;
 		}
 		if (!last.isEmpty()) {
 			last = " " + last;
 		}
 		
-		String str = "Player " + first + "\"" + this.getName() + "\"" + last;
-		
-		if (gPreferred != null) {
-			str += ", Game: " + gPreferred.getName();
-		}
-		if (tPreferred != null) {
-			str += ", Team: " + tPreferred.getName();
-		}
+		String str = this.getName() + first + last;
 		
 		return str;
 	}
