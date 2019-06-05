@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
@@ -17,14 +18,18 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.CompoundBorder;
 
 import controller.Controller;
 import controller.exceptions.TeamAlreadyExistsException;
 import tournament.Game;
+import tournament.Player;
 import tournament.Team;
 
 /**
@@ -36,13 +41,14 @@ import tournament.Team;
 public class ViewAddTeam extends JPanel {
 
 	private Controller controller;
-	private JPanel content, panelSave, editCancel, panelCB;
+	private JPanel content, panelSave, editCancel, panelCB, panelPlayers;
 	private ViewListTeam viewList;
 	private JTextField textTeam;
 	private JLabel title;
 	private JComboBox<Game> comboBox;
 	private Game preferredGame;
 	private Team teamToEdit;
+	private JList listPlayers;
 	private boolean isEditing;
 
 	public ViewAddTeam(Controller controller, ViewListTeam viewList) {
@@ -61,25 +67,34 @@ public class ViewAddTeam extends JPanel {
 		this.textTeam = new JTextField(20);
 		this.panelSave = new JPanel(new FlowLayout());
 		this.panelCB = new JPanel(new FlowLayout());
+		this.panelPlayers = new JPanel(new FlowLayout());
 		this.isEditing = false;
 
 		/* Initialization of the components */
 		JPanel panelName = new JPanel(new FlowLayout());
 		JLabel nameTeam = new JLabel("Name ");
 		JLabel labelGame = new JLabel("Preferred game ");
+		JLabel members = new JLabel("Members of the team ");
 		JButton btnSave = new CustomButton("Save the team");
 		JButton btnEdit = new CustomButton("Edit the team");
 		JButton btnCancel = new CustomButton("Cancel");
+		Set<Player> players = this.controller.getPlayers();
+		Player[] playersArray = (Player[]) (new ArrayList<Player>(players)).toArray();
 		this.panelSave = new JPanel(new FlowLayout());
 		this.title = new JLabel("Add a team");
 		this.title.setFont(new Font("defaultFont", Font.BOLD, 15));
 		this.title.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
 		this.editCancel = new JPanel(new FlowLayout());
 		this.comboBox = new JComboBox<Game>();
+		this.listPlayers = new JList<Player>(playersArray);
+		this.listPlayers.setVisibleRowCount(5);
+		this.listPlayers.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		panelName.add(nameTeam);
 		panelName.add(textTeam);
 		panelCB.add(labelGame);
 		panelCB.add(comboBox);
+		panelPlayers.add(members);
+		panelPlayers.add(new JScrollPane(this.listPlayers));
 		editCancel.add(btnEdit);
 		editCancel.add(btnCancel);
 		panelSave.add(btnSave);
@@ -95,6 +110,7 @@ public class ViewAddTeam extends JPanel {
 		title.setAlignmentX(CENTER_ALIGNMENT);
 		panelName.setAlignmentX(CENTER_ALIGNMENT);
 		panelCB.setAlignmentX(CENTER_ALIGNMENT);
+		panelPlayers.setAlignmentX(CENTER_ALIGNMENT);
 		editCancel.setAlignmentX(CENTER_ALIGNMENT);
 		panelSave.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -148,6 +164,7 @@ public class ViewAddTeam extends JPanel {
 		title.setText("Add a team");
 		this.remove(editCancel);
 		Set<Game> games = this.controller.getGames();
+		
 		comboBox.removeAllItems();
 		comboBox.addItem(null);
 		for (Game g : games) {
@@ -162,12 +179,17 @@ public class ViewAddTeam extends JPanel {
 		this.title.setText("Edit a team");
 		content.remove(panelCB);
 		this.remove(panelSave);
+		this.add(panelPlayers);
 		this.isEditing = true;
 		this.teamToEdit = team;
 
 		textTeam.setText(teamToEdit.getName());
 
-		// TODO add the combobox with checkbox for the games, finish getGamesPlayer
+		Set<Player> teamPlayers = team.getMembers();
+		for (int i = 0; i < listPlayers.getModel().getSize(); i++) {
+			if (teamPlayers.contains(listPlayers.getModel().getElementAt(i)))
+				listPlayers.setSelectedIndex(i);
+		}
 
 		this.add(editCancel, BorderLayout.SOUTH);
 		refreshPanel();
