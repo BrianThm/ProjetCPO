@@ -88,9 +88,9 @@ public class SimpleEliminationTest extends SetupTest{
 	
 	@Test
 	public void testWithoutEnoughtTeams() {
-		tournament.addParticipant(new Player("j4cK"));
+		tournament1.addParticipant(new Team("j4cK"));
 		try {
-			tournament.initializeMatchs();
+			tournament1.initializeMatchs();
 			fail("FAILED to throw NotEnoughtParticipants exception.");
 		} catch (NotEnoughParticipantsException e) {}
 	}
