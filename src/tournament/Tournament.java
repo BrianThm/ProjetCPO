@@ -125,8 +125,8 @@ public abstract class Tournament implements Observer {
 	}
 	
 	/**
-	 * Get the winner of this tournament.
-	 * @return The winner of the tournament.
+	 * Set the winner of this tournament.
+	 * @param winner The winner of the tournament.
 	 */
 	public void setWinner(Participant winner) {
 		this.winner = winner;
@@ -141,7 +141,7 @@ public abstract class Tournament implements Observer {
 	}
 	
 	/**
-	 * Initialize the SimpleElimination tournament tree.
+	 * Initialize the tournament tree.
 	 * @param partipants The parcipants of the tournament.
 	 * @throws NotEnoughParticipantsException If there is not enough participants to start the tournament.
 	 */

@@ -14,6 +14,7 @@ import org.junit.Before;
 import controller.Controller;
 import controller.exceptions.GameAlreadyExistsException;
 import controller.exceptions.PlayerAlreadyExistsException;
+import tournament.DoubleElimination;
 import tournament.Game;
 import tournament.Participant;
 import tournament.Player;
@@ -78,6 +79,8 @@ public abstract class SetupTest {
 	protected Tournament tournament1;
 	protected Tournament tournament2;
 	protected Tournament tournament3;
+	protected Tournament tournament4;
+	protected Tournament tournament5;
 	
 	protected Controller controller;
 	protected Controller controller1;
@@ -124,6 +127,9 @@ public abstract class SetupTest {
 		tournament1 = new SimpleElimination(game1);
 		tournament2 = new SimpleElimination(game2, location2); 
 		tournament3 = new SimpleElimination(game3,location3);
+		tournament4 = new DoubleElimination(game);
+		tournament5 = new DoubleElimination(game1, location3);
+		
 		
 		participants = new ArrayList<Participant>();
 		
