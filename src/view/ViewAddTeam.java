@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
@@ -48,7 +49,7 @@ public class ViewAddTeam extends JPanel {
 	private JComboBox<Game> comboBox;
 	private Game preferredGame;
 	private Team teamToEdit;
-	private JList listPlayers;
+	private JList<Player> listPlayers;
 	private boolean isEditing;
 
 	public ViewAddTeam(Controller controller, ViewListTeam viewList) {
@@ -78,8 +79,8 @@ public class ViewAddTeam extends JPanel {
 		JButton btnSave = new CustomButton("Save the team");
 		JButton btnEdit = new CustomButton("Edit the team");
 		JButton btnCancel = new CustomButton("Cancel");
-		Set<Player> players = this.controller.getPlayers();
-		Player[] playersArray = (new ArrayList<Player>(players)).toArray();
+		List<Player> listP = this.controller.getSortedPlayers();
+		Player[] playersArray = listP.toArray(new Player[listP.size()]);
 		this.panelSave = new JPanel(new FlowLayout());
 		this.title = new JLabel("Add a team");
 		this.title.setFont(new Font("defaultFont", Font.BOLD, 15));
@@ -164,13 +165,15 @@ public class ViewAddTeam extends JPanel {
 		title.setText("Add a team");
 		this.remove(editCancel);
 		ArrayList<Game> games = (ArrayList<Game>) this.controller.getSortedGames();
-		
+
 		comboBox.removeAllItems();
 		comboBox.addItem(null);
 		for (Game g : games) {
 			comboBox.addItem(g);
 		}
 		content.add(panelCB);
+		content.remove(panelPlayers);
+		content.add(panelPlayers);
 		this.add(panelSave, BorderLayout.SOUTH);
 		refreshPanel();
 	}
@@ -179,7 +182,6 @@ public class ViewAddTeam extends JPanel {
 		this.title.setText("Edit a team");
 		content.remove(panelCB);
 		this.remove(panelSave);
-		this.add(panelPlayers);
 		this.isEditing = true;
 		this.teamToEdit = team;
 
@@ -213,6 +215,18 @@ public class ViewAddTeam extends JPanel {
 		}
 
 		teamToEdit.setName(textTeam.getText());
+		Set<Player> oldPlayers = teamToEdit.getMembers();
+		List<Player> newPlayers = listPlayers.getSelectedValuesList();
+
+		for (Player p : oldPlayers) {
+			if (!newPlayers.contains(p))
+				teamToEdit.removeMember(p);
+		}
+		
+		for (Player p : newPlayers) {
+			if (!oldPlayers.contains(p))
+				teamToEdit.addMember(p);
+		}
 
 		JOptionPane.showMessageDialog(this, "The team " + teamToEdit.getName() + " has successfully been updated!",
 				"Team edited", JOptionPane.INFORMATION_MESSAGE);
@@ -239,6 +253,10 @@ public class ViewAddTeam extends JPanel {
 
 	private void addTeam(String name, Game game) {
 		Team team = (game == null) ? new Team(name) : new Team(name, game);
+		List<Player> players = listPlayers.getSelectedValuesList();
+
+		for (Player p : players)
+			team.addMember(p);
 
 		try {
 			this.controller.addTeam(team);
