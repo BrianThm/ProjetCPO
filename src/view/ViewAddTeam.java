@@ -188,11 +188,17 @@ public class ViewAddTeam extends JPanel {
 		textTeam.setText(teamToEdit.getName());
 
 		Set<Player> teamPlayers = team.getMembers();
+		List<Integer> selectedPlayers = new ArrayList<Integer>();
 		for (int i = 0; i < listPlayers.getModel().getSize(); i++) {
 			if (teamPlayers.contains(listPlayers.getModel().getElementAt(i)))
-				listPlayers.setSelectedIndex(i);
+				selectedPlayers.add(i);
 		}
-
+		int[] arraySelected = new int[selectedPlayers.size()];
+		
+		for (int i = 0; i < arraySelected.length; i++)
+			arraySelected[i] = selectedPlayers.get(i);
+		
+		listPlayers.setSelectedIndices(arraySelected);
 		this.add(editCancel, BorderLayout.SOUTH);
 		refreshPanel();
 	}
@@ -207,7 +213,12 @@ public class ViewAddTeam extends JPanel {
 		if (!checkFields()) // Check all the fields
 			return;
 
+		List<Player> newPlayers = listPlayers.getSelectedValuesList();
 		Team team = new Team(textTeam.getText());
+		
+		for (Player p : newPlayers)
+			team.addMember(p);
+		
 		if (controller.teamExists(teamToEdit, team)) {
 			JOptionPane.showMessageDialog(this, "The team " + textTeam.getText() + " already exists!",
 					"Editing not possible", JOptionPane.ERROR_MESSAGE);
@@ -216,7 +227,6 @@ public class ViewAddTeam extends JPanel {
 
 		teamToEdit.setName(textTeam.getText());
 		Set<Player> oldPlayers = teamToEdit.getMembers();
-		List<Player> newPlayers = listPlayers.getSelectedValuesList();
 
 		for (Player p : oldPlayers) {
 			if (!newPlayers.contains(p))
@@ -273,6 +283,7 @@ public class ViewAddTeam extends JPanel {
 
 	private void clear() {
 		textTeam.setText("");
+		listPlayers.clearSelection();
 		comboBox.setSelectedItem(null);
 	}
 
