@@ -221,7 +221,7 @@ public class ViewMain extends JFrame {
 		deleteTournament.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				changeView(new ViewAddTournament(controller));
+				//changeView(new ViewAddTournament(controller));
 			}
 		});
 
