@@ -18,6 +18,7 @@ import javax.swing.border.CompoundBorder;
 
 import controller.Controller;
 
+@SuppressWarnings("serial")
 public abstract class ViewAdd<T> extends JPanel {
 
 	protected ViewList<T> viewList;
@@ -71,13 +72,13 @@ public abstract class ViewAdd<T> extends JPanel {
 		/* Adding all the components to the main panel */
 		this.add(content, BorderLayout.CENTER);
 		this.add(panelSave, BorderLayout.SOUTH);
-		this.displayAdd();
+		this.displaySave();
 		
 		/* When the button to cancel an editing is clicked */
 		btnCancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				displayAdd();
+				displaySave();
 			}
 		});
 
@@ -92,6 +93,8 @@ public abstract class ViewAdd<T> extends JPanel {
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if (checkFields())
+					save();
 			}
 		});
 
@@ -99,4 +102,43 @@ public abstract class ViewAdd<T> extends JPanel {
 		this.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20),
 				BorderFactory.createMatteBorder(2, 2, 2, 2, Color.gray)));
 	}
+	
+	protected void displaySave() {
+		clear();
+		this.isEditing = false;
+		title.setText("Add a " + name.toLowerCase());
+		this.remove(editCancel);
+	}
+	
+	protected void displayEdit(T t) {
+		this.title.setText("Edit a " + name);
+		this.remove(panelSave);
+		this.isEditing = true;
+		this.toEdit = t;
+		this.add(panelSave, BorderLayout.SOUTH);
+	}
+	
+	protected void deleted(T t) {
+		if (isEditing && toEdit == t)
+			displaySave();
+	}
+	
+	protected void edit() {
+		if (!checkFields()) // Check all the fields
+			return;
+	}
+	
+	/**
+	 * Refresh the panel when the display changes.
+	 */
+	protected void refreshPanel() {
+		this.repaint();
+		this.revalidate();
+	}
+	
+	protected abstract void save();
+	
+	protected abstract boolean checkFields();
+	
+	protected abstract void clear();
 }

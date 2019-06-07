@@ -149,7 +149,7 @@ public class ViewAddTeam extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (checkFields())
-					addTeam(textTeam.getText(), preferredGame);
+					save();
 			}
 		});
 
@@ -260,7 +260,10 @@ public class ViewAddTeam extends JPanel {
 		return true;
 	}
 
-	private void addTeam(String name, Game game) {
+	private void save() {
+		String name = textTeam.getText();
+		Game game = preferredGame;
+		
 		Team team = (game == null) ? new Team(name) : new Team(name, game);
 		List<Player> players = listPlayers.getSelectedValuesList();
 
