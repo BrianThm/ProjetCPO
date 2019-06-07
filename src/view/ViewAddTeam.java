@@ -67,6 +67,7 @@ public class ViewAddTeam extends JPanel {
 		this.content.setLayout(new BoxLayout(this.content, BoxLayout.Y_AXIS));
 		this.textTeam = new JTextField(20);
 		this.panelSave = new JPanel(new FlowLayout());
+		this.editCancel = new JPanel(new FlowLayout());
 		this.panelCB = new JPanel(new FlowLayout());
 		this.panelPlayers = new JPanel(new FlowLayout());
 		this.isEditing = false;
@@ -81,11 +82,9 @@ public class ViewAddTeam extends JPanel {
 		JButton btnCancel = new CustomButton("Cancel");
 		List<Player> listP = this.controller.getSortedPlayers();
 		Player[] playersArray = listP.toArray(new Player[listP.size()]);
-		this.panelSave = new JPanel(new FlowLayout());
 		this.title = new JLabel("Add a team");
 		this.title.setFont(new Font("defaultFont", Font.BOLD, 15));
 		this.title.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
-		this.editCancel = new JPanel(new FlowLayout());
 		this.comboBox = new JComboBox<Game>();
 		this.listPlayers = new JList<Player>(playersArray);
 		this.listPlayers.setVisibleRowCount(5);
