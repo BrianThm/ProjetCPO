@@ -12,6 +12,7 @@ import java.util.Observable;
 public class Match extends Observable {
 	
 	private Participant part1, part2, winner;
+	private int[] score; 
 	private Game game;
 	private boolean draw;
 	
@@ -26,6 +27,7 @@ public class Match extends Observable {
 		assert p2 != null;
 		assert game != null;
 		
+		this.score = new int[2];
 		this.part1 = p1;
 		this.part2 = p2;
 		this.game = game;
@@ -67,6 +69,38 @@ public class Match extends Observable {
 		assert part != null;
 		
 		this.part2 = part;
+	}
+	
+	/**
+	 * get the score of the match
+	 * @return
+	 */
+	public int[] getScore() {
+		return score; 
+	}
+	
+	/**
+	 * Set the score of the match and initialize the winner
+	 * @param scorePart1 the score of the participant 1
+	 * @param scorePart2 the score of the participant 2
+	 */
+	public void setScore(int scorePart1, int scorePart2) {
+		assert scorePart1 >= 0; 
+		assert scorePart2 >= 0; 
+		
+		score[0] = scorePart1; 
+		score[1] = scorePart2; 
+		
+		if (score[0] > score[1]) {
+			winner = part1; 
+		} else { 
+			if (score[1] > score[0]) {
+				winner = part2; 
+			} else {
+			    draw = true; 
+			    winner = null; 
+			}
+ 		}
 	}
 	
 	/**
@@ -129,6 +163,10 @@ public class Match extends Observable {
 	 */
 	public boolean isDraw() {
 		return this.draw;
+	}
+	
+	public String toString() {
+		return "" + part1 + ": "+ score[0]+ "\n" + part2+": "+ score[1]+ "\n" ; 
 	}
 	
 }
