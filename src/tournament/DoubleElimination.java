@@ -1,6 +1,7 @@
 package tournament;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import tournament.exceptions.NotEnoughParticipantsException;
@@ -23,16 +24,16 @@ public class DoubleElimination extends Tournament {
 	/**
 	 * Create an empty DoubleElimination tournament.
 	 */
-	public DoubleElimination(Game game) {
-		super(game);
+	public DoubleElimination(Date date, Game game) {
+		super(date, game);
 	}
 	
 	/**
 	 * Create a DoubleElimination tournament.
 	 * @param location The location of the tournament.
 	 */
-	public DoubleElimination(Game game, String location) {
-		super(game, location);
+	public DoubleElimination(Date date, Game game, String location) {
+		super(date, game, location);
 	}
 	
 	/**

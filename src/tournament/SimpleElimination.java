@@ -1,6 +1,7 @@
 package tournament;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import tournament.exceptions.NotEnoughParticipantsException;
@@ -18,16 +19,16 @@ public class SimpleElimination extends Tournament {
 	/**
 	 * Create an empty SimpleElimination tournament.
 	 */
-	public SimpleElimination(Game game) {
-		this(game, "");
+	public SimpleElimination(Date date, Game game) {
+		this(date, game, "");
 	}
 	
 	/**
 	 * Create a SimpleElimination tournament.
 	 * @param location The location of the tournament.
 	 */
-	public SimpleElimination(Game game, String location) {
-		super(game, location);
+	public SimpleElimination(Date date, Game game, String location) {
+		super(date, game, location);
 	}
 	
 	
