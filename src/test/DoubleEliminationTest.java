@@ -141,5 +141,7 @@ public class DoubleEliminationTest extends SetupTest {
 		// Match to know who will meet the looser of the winner's bracket final
 		assertEquals("ElMojito", matchs[12].getParticipant1().getName());
 		assertEquals("Patrick", matchs[12].getParticipant2().getName());
+		
+		// NOT IMPLEMENTED YET
 	}
 }
