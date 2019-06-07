@@ -2,6 +2,7 @@ package tournament;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -18,23 +19,27 @@ public abstract class Tournament implements Observer {
 	
 	private Game game;
 	private String location;
+	private Date date; 
 	protected List<Participant> participants;
 	protected Participant winner;
 	protected Match[] matchs;
 	
 	/**
 	 * Constructor of an empty tournament, composed of a game.
+	 * @param date The date of the tournament.
+	 * @param game The game of the tournament.
 	 */
-	public Tournament(Game game) {
-		this(game, "");
+	public Tournament(Date date, Game game) {
+		this(date, game, ""); 
 	}
 	
 	/**
 	 * Constructor of a tournament with a location and a game.
+	 * @param date The date of the tournament.
 	 * @param game The game of the tournament.
 	 * @param location The location of the tournament.
 	 */
-	public Tournament(Game game, String location) {
+	public Tournament(Date date, Game game, String location) {
 		assert game != null;
 		assert location != null;
 		
@@ -59,6 +64,24 @@ public abstract class Tournament implements Observer {
 		assert game != null;
 		
 		this.game = game;
+	}
+	
+	/**
+	 * Get the date of the tournament.
+	 * @return the date of the tournament.
+	 */
+	public Date getDate() {
+		return this.date;
+	}
+	
+	/**
+	 * Change the date of the tournament.
+	 * @param date The new date of the tournament.
+	 */
+	public void setDate(Date date) {
+		assert date != null;
+		
+		this.date = date; 
 	}
 	
 	/**

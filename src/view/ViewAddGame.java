@@ -35,7 +35,6 @@ import tournament.Game;
 
 /**
  * The ViewAddGame is the view which allows to create and edit a game.
- * 
  * @author Group
  * @version 1.0
  */
@@ -54,12 +53,10 @@ public class ViewAddGame extends JPanel {
 	private boolean hasChecked, isEditing;
 
 	/**
-	 * Constructor for the view when it is associated to the view which displays the
+	 * Constructor for the view when it is associated to the view which displays the 
 	 * list of games.
-	 * 
 	 * @param controller The controller.
-	 * @param viewList   The view which displays the games and allow the user to
-	 *                   edit a game.
+	 * @param viewList The view which displays the games and allow the user to edit a game.
 	 */
 	public ViewAddGame(Controller controller, ViewListGame viewList) {
 		this(controller);
@@ -68,7 +65,6 @@ public class ViewAddGame extends JPanel {
 
 	/**
 	 * Constructor for the view when it's displayed alone.
-	 * 
 	 * @param controller The controller.
 	 */
 	public ViewAddGame(Controller controller) {
@@ -184,9 +180,7 @@ public class ViewAddGame extends JPanel {
 	}
 
 	/**
-	 * Displays the edit and cancel buttons and fill the fields with the game to
-	 * edit.
-	 * 
+	 * Displays the edit and cancel buttons and fill the fields with the game to edit.
 	 * @param game The game to edit.
 	 */
 	void displayEditGame(Game game) {
@@ -212,9 +206,8 @@ public class ViewAddGame extends JPanel {
 	}
 
 	/**
-	 * Check if the game deleted is displayed in the edit panel. If it is, displays
+	 * Check if the game deleted is displayed in the edit panel. If it is, displays 
 	 * the add panel.
-	 * 
 	 * @param game The game which has been deleted.
 	 */
 	void gameDeleted(Game game) {
@@ -224,7 +217,7 @@ public class ViewAddGame extends JPanel {
 	}
 
 	/**
-	 * Display the view to add a game, remove the edit and cancel buttons and
+	 * Display the view to add a game, remove the edit and cancel buttons and 
 	 * displays the save button.
 	 */
 	private void displayAddGame() {
@@ -270,8 +263,8 @@ public class ViewAddGame extends JPanel {
 	}
 
 	/**
-	 * Method which is executed when the user clicks on the add image button. Opens
-	 * a file chooser and let the user choose an image. He can't choose something
+	 * Method which is executed when the user clicks on the add image button. Opens 
+	 * a file chooser and let the user choose an image. He can't choose something 
 	 * else.
 	 */
 	private void addImage() {
@@ -314,8 +307,7 @@ public class ViewAddGame extends JPanel {
 
 	/**
 	 * Check the fields when the user wants to save or edit a game.
-	 * 
-	 * @return False if all the fields aren't well filled, true if all is ok.
+	 * @return false if all the fields aren't well filled, true if all is ok.
 	 */
 	private boolean checkFields() {
 		String name = textGame.getText();
@@ -339,9 +331,8 @@ public class ViewAddGame extends JPanel {
 
 	/**
 	 * Add a game with the user inputs.
-	 * 
 	 * @param image The image of the game (can be null).
-	 * @param name  The name of the game.
+	 * @param name The name of the game.
 	 */
 	private void addGame(ImageIcon image, String name) {
 		// Create a game with an image if it isn't null.

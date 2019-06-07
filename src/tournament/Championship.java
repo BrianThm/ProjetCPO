@@ -1,5 +1,6 @@
 package tournament;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +19,8 @@ public class Championship extends Tournament {
 	 * Create a championship with a game.
 	 * @param game The game played in the championship.
 	 */
-	public Championship(Game game) {
-		this(game, "");
+	public Championship(Date date, Game game) {
+		this(date, game, "");
 	}
 	
 	/**
@@ -27,8 +28,8 @@ public class Championship extends Tournament {
 	 * @param game The game of the tournament.
 	 * @param location The tournament location.
 	 */
-	public Championship(Game game, String location) {
-		super(game, location);
+	public Championship(Date date, Game game, String location) {
+		super(date, game, location);
 		this.ranking = new HashMap<Participant, Integer>();
 	}
 	

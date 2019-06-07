@@ -24,7 +24,7 @@ public class TournamentTest extends SetupTest {
 	 * Test method for {@link tournament.Tournament#Tournament(tournament.Game)}.
 	 */
 	@Test
-	public void testTournamentGame() {
+	public void testTournamentDateGame() {
 		assertEquals("The game is incorrect for tournament!", game, tournament.getGame());
 		assertEquals("The location is incorrect for tournament !","",tournament.getLocation()); 
 		assertEquals("The location is incorrect for tournament1 !","",tournament1.getLocation()); 
@@ -35,7 +35,7 @@ public class TournamentTest extends SetupTest {
 	 * Test method for {@link tournament.Tournament#Tournament(tournament.Game, java.lang.String)}.
 	 */
 	@Test
-	public void testTournamentGameString() {
+	public void testTournamentDateGameString() {
 		assertEquals("The game is incorrect for tournament3 ! ", game3, tournament3.getGame());
 		assertEquals("The location is incorrect for tournament3 !",location3,tournament3.getLocation()); 
 		assertEquals("The game is incorrect for tournament2 ! ", game2, tournament2.getGame());

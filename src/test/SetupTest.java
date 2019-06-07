@@ -1,6 +1,7 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -117,12 +118,12 @@ public abstract class SetupTest {
 		location2 = "Toulouse";
 		location3 = "Nantes";
 		
-		tournament = new SimpleElimination(game);
-		tournament1 = new SimpleElimination(game1);
-		tournament2 = new SimpleElimination(game2, location2);
-		tournament3 = new SimpleElimination(game3, location3);
-		tournament4 = new DoubleElimination(game);
-		tournament5 = new DoubleElimination(game1, location3);
+		tournament = new SimpleElimination(new Date(), game);
+		tournament1 = new SimpleElimination(new Date(), game1);
+		tournament2 = new SimpleElimination(new Date(), game2, location2);
+		tournament3 = new SimpleElimination(new Date(), game3, location3);
+		tournament4 = new DoubleElimination(new Date(), game);
+		tournament5 = new DoubleElimination(new Date(), game1, location3);
 		
 		participants = new ArrayList<Participant>();
 		
