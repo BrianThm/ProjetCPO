@@ -49,8 +49,11 @@ public class Match extends Observable {
 	 */
 	public void setParticipant1(Participant part) {
 		assert part != null;
-		
-		this.part1 = part;
+		if (part.getClass().isInstance(part2)) {
+			if (part != part2) {
+				this.part1 = part;
+			}
+		}
 	}
 	
 	/**
@@ -67,8 +70,11 @@ public class Match extends Observable {
 	 */
 	public void setParticipant2(Participant part) {
 		assert part != null;
-		
-		this.part2 = part;
+		if (part.getClass().isInstance(part1)) {
+			if (part != part1) {
+				this.part2 = part;
+			}
+		}
 	}
 	
 	/**
@@ -92,13 +98,15 @@ public class Match extends Observable {
 		score[1] = scorePart2; 
 		
 		if (score[0] > score[1]) {
-			winner = part1; 
+			this.winner = part1;
+			this.draw = false;  
 		} else { 
 			if (score[1] > score[0]) {
-				winner = part2; 
+				this.winner = part2;
+				this.draw = false;  
 			} else {
-			    draw = true; 
-			    winner = null; 
+				this.winner = null;
+				this.draw = true;
 			}
  		}
 	}
@@ -119,6 +127,7 @@ public class Match extends Observable {
 			this.part1.plays(game);
 			this.part2.plays(game);
 		}
+		this.winner=null;
 		this.draw = true;
 	}
 	
@@ -133,6 +142,7 @@ public class Match extends Observable {
 			this.part1.plays(game);
 			this.part2.plays(game);
 		}
+		this.draw = false;
 		this.winner = winner;
 		this.setChanged();
 		this.notifyObservers();

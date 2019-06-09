@@ -12,6 +12,7 @@ import org.junit.Before;
 import controller.Controller;
 import tournament.DoubleElimination;
 import tournament.Game;
+import tournament.Match;
 import tournament.Participant;
 import tournament.Player;
 import tournament.SimpleElimination;
@@ -85,6 +86,9 @@ public abstract class SetupTest {
 	protected String location2;
 	protected String location3;
 	
+	protected Match match; 
+	protected Match match1; 
+	
 	protected ArrayList<Participant> participants;
 	protected Set<Tournament> tournaments;
 	
@@ -155,6 +159,8 @@ public abstract class SetupTest {
 		player6 = new Player(pseudo6);
 		player7 = new Player(pseudo7);
 		
+		match = new Match(player, player3, game1);
+		
 		participants.add(player);
 		participants.add(player1);
 		participants.add(player2);
@@ -179,6 +185,8 @@ public abstract class SetupTest {
 		
 		team3.addMember(player6);
 		team3.addMember(player7);
+		
+		match1 = new Match(team1, team2, game3); 
 		
 		tournaments = new HashSet<Tournament>();
 		tournaments.add(tournament);
