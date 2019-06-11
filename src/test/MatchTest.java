@@ -178,7 +178,15 @@ public class MatchTest extends SetupTest {
 	 */
 	@Test
 	public void testGetLooser() {
-		fail("Not yet implemented");
+		match.setScore(3, 1);
+		assertEquals("The looser has not been correctly returned!", player3, match.getLooser());
+		match.setScore(0, 0);
+		assertEquals("The looser has not been correctly returned!", null, match.getLooser());
+		
+		match1.setScore(0, 1);
+		assertEquals("The looser has not been correctly returned!", team1, match1.getLooser());
+		match1.setScore(2, 1);
+		assertEquals("The looser has not been correctly returned!", team2, match1.getLooser());
 	}
 
 	/**
@@ -194,7 +202,12 @@ public class MatchTest extends SetupTest {
 	 */
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		assertEquals("the match has not been correctly transformed into String!", ""+player.getName()+": 0\n"+player3.getName()+": 0\n", match.toString());
+		assertEquals("the match has not been correctly transformed into String!", ""+team1.getName()+": 0\n"+team2.getName()+": 0\n", match1.toString());
+		match.setScore(3, 1);
+		match1.setScore(1, 5);
+		assertEquals("the match has not been correctly transformed into String!", ""+player.getName()+": 3\n"+player3.getName()+": 1\n", match.toString());
+		assertEquals("the match has not been correctly transformed into String!", ""+team1.getName()+": 1\n"+team2.getName()+": 5\n", match1.toString());
 	}
 
 }
