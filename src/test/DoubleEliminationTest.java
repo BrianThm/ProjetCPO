@@ -87,10 +87,10 @@ public class DoubleEliminationTest extends SetupTest {
 	public void testUpdate1() throws NotEnoughParticipantsException {
 		tournament4.initializeMatchs();
 		matchs = tournament4.getMatchs();
-		matchs[4].endGame(matchs[4].getParticipant1());
-		matchs[5].endGame(matchs[5].getParticipant2());
-		matchs[6].endGame(matchs[6].getParticipant1());
-		matchs[7].endGame(matchs[7].getParticipant1());
+		matchs[4].setScore(1,0);
+		matchs[5].setScore(0,2);
+		matchs[6].setScore(3,2);
+		matchs[7].setScore(4,1);
 		matchs = tournament4.getMatchs();
 		// Winners
 		assertEquals("nono23", matchs[2].getParticipant1().getName());
@@ -109,15 +109,15 @@ public class DoubleEliminationTest extends SetupTest {
 		testUpdate1();
 		matchs = tournament4.getMatchs();
 		// First matchs between the loosers
-		matchs[8].endGame(matchs[8].getParticipant2());
-		matchs[9].endGame(matchs[9].getParticipant2());
+		matchs[8].setScore(0,6);
+		matchs[9].setScore(3,6);
 		matchs = tournament4.getMatchs();
 		assertEquals("Laxul", matchs[10].getParticipant1().getName());
 		assertEquals("Patrick", matchs[11].getParticipant1().getName());
 		
 		// Second matchs in the winner's bracket
-		matchs[2].endGame(matchs[2].getParticipant1());
-		matchs[3].endGame(matchs[3].getParticipant2());
+		matchs[2].setScore(2,0);
+		matchs[3].setScore(5,7);
 		matchs = tournament4.getMatchs();
 			// Final of winner's bracket
 		assertEquals("nono23", matchs[1].getParticipant1().getName());
@@ -135,8 +135,8 @@ public class DoubleEliminationTest extends SetupTest {
 		testUpdate2();
 		matchs = tournament4.getMatchs();
 		// Ending the 2nd turn of looser's bracket
-		matchs[10].endGame(matchs[10].getParticipant2());
-		matchs[11].endGame(matchs[11].getParticipant1());
+		matchs[10].setScore(0,9);
+		matchs[11].setScore(1,0);
 		matchs = tournament4.getMatchs();
 		// Match to know who will meet the looser of the winner's bracket final
 		assertEquals("ElMojito", matchs[12].getParticipant1().getName());
