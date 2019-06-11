@@ -100,22 +100,22 @@ public class SimpleEliminationTest extends SetupTest{
 		tournament.initializeMatchs();
 		matchs = tournament.getMatchs();
 		
-		matchs[4].endGame(matchs[4].getParticipant1());
-		matchs[7].endGame(matchs[7].getParticipant2());
+		matchs[4].setScore(1,0);
+		matchs[7].setScore(2,5);
 		assertEquals("nono23", matchs[2].getParticipant1().getName());
 		assertEquals("?", matchs[2].getParticipant2().getName());
 		assertEquals("?", matchs[3].getParticipant1().getName());
 		assertEquals("Patrick", matchs[3].getParticipant2().getName());
 		
-		matchs[5].endGame(matchs[5].getParticipant2());
-		matchs[6].endGame(matchs[6].getParticipant1());
+		matchs[5].setScore(0,1);
+		matchs[6].setScore(2,1);
 		assertEquals("nono23", matchs[2].getParticipant1().getName());
 		assertEquals("ElMojito", matchs[2].getParticipant2().getName());
 		assertEquals("Sanchez", matchs[3].getParticipant1().getName());
 		assertEquals("Patrick", matchs[3].getParticipant2().getName());
 		
-		matchs[2].endGame(matchs[2].getParticipant2());
-		matchs[3].endGame(matchs[3].getParticipant1());
+		matchs[2].setScore(0,1);
+		matchs[3].setScore(5,4);
 		assertEquals("ElMojito", matchs[1].getParticipant1().getName());
 		assertEquals("Sanchez", matchs[1].getParticipant2().getName());
 	}
@@ -125,7 +125,7 @@ public class SimpleEliminationTest extends SetupTest{
 		testUpdateTree();
 		matchs = tournament.getMatchs();
 		
-		matchs[1].endGame(matchs[1].getParticipant1());
+		matchs[1].setScore(2,0);
 		assertEquals(null, matchs[0]);
 		assertEquals("ElMojito", tournament.getWinner().getName());
 	}

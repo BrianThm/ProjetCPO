@@ -2,7 +2,6 @@ package tournament;
 
 import java.util.Observable;
 
-@SuppressWarnings("deprecation")
 /**
  * Class Match. A match is played by two Participant. 
  * It can have a winner, or be a draw.
@@ -95,7 +94,13 @@ public class Match extends Observable {
 		assert scorePart2 >= 0; 
 		
 		score[0] = scorePart1; 
-		score[1] = scorePart2; 
+		score[1] = scorePart2;
+		
+		boolean alreadyPlayed = false; 
+		
+		if (!isPlayed()) {
+			alreadyPlayed = true;
+		}
 		
 		if (score[0] > score[1]) {
 			this.winner = part1;
@@ -109,6 +114,15 @@ public class Match extends Observable {
 				this.draw = true;
 			}
  		}
+		
+		this.setChanged();
+		this.notifyObservers();
+		
+		if (!alreadyPlayed) {
+			endGame();
+		}
+		
+		
 	}
 	
 	/**
@@ -127,25 +141,6 @@ public class Match extends Observable {
 			this.part1.plays(game);
 			this.part2.plays(game);
 		}
-		this.winner=null;
-		this.draw = true;
-	}
-	
-	/**
-	 * Method to indicate the end of the match with a winner.
-	 * @param winner The winner of the match.
-	 */
-	public void endGame(Participant winner) {
-		assert winner != null;
-		
-		if (isPlayed()) {
-			this.part1.plays(game);
-			this.part2.plays(game);
-		}
-		this.draw = false;
-		this.winner = winner;
-		this.setChanged();
-		this.notifyObservers();
 	}
 	
 	/**
