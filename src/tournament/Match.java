@@ -136,7 +136,7 @@ public class Match extends Observable {
 	/**
 	 * Method to indicate that the match ended with a draw.
 	 */
-	public void endGame() {
+	private void endGame() {
 		if (isPlayed()) {
 			this.part1.plays(game);
 			this.part2.plays(game);
