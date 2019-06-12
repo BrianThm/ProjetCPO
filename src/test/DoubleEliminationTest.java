@@ -6,6 +6,7 @@ import org.junit.*;
 import tournament.Match;
 import tournament.Player;
 import tournament.Team;
+import tournament.exceptions.MatchDrawException;
 import tournament.exceptions.NotEnoughParticipantsException;
 
 public class DoubleEliminationTest extends SetupTest {
@@ -81,6 +82,52 @@ public class DoubleEliminationTest extends SetupTest {
 			tournament5.initializeMatchs();
 			fail("FAILED to throw NotEnoughtParticipants exception.");
 		} catch (NotEnoughParticipantsException e) {}
+	}
+	
+	@Test
+	public void testDrawMatch() throws NotEnoughParticipantsException {
+		tournament4.initializeMatchs();
+		matchs = tournament4.getMatchs();
+		try {
+			matchs[4].setScore(4, 3);
+			matchs[5].setScore(1, 1);
+			fail("Failed to throw MatchDraw exception.");
+		} catch (MatchDrawException e) {}
+		
+		matchs = tournament4.getMatchs();
+		assertEquals("nono23", matchs[4].getWinner().getName());
+		assertEquals(true, matchs[4].isPlayed());
+		assertEquals(null, matchs[5].getWinner());
+		assertEquals(false, matchs[5].isDraw());
+		assertEquals(false, matchs[5].isPlayed());
+		assertEquals("nono23", matchs[2].getParticipant1().getName());
+		assertEquals("?", matchs[2].getParticipant2().getName());
+		
+		matchs[5].setScore(0, 2);
+		matchs = tournament4.getMatchs();
+
+		assertEquals("nono23", matchs[2].getParticipant1().getName());
+		assertEquals("ElMojito", matchs[2].getParticipant2().getName());
+		assertEquals("Elareron", matchs[8].getParticipant1().getName());
+		assertEquals("Laxul", matchs[8].getParticipant2().getName());
+		try {
+			matchs[8].setScore(2, 2);
+			fail("Failed to throw MatchDraw exception.");
+		} catch (MatchDrawException e) {}
+		
+		matchs = tournament4.getMatchs();
+		assertEquals(null, matchs[8].getWinner());
+		assertEquals(false, matchs[8].isPlayed());
+		assertEquals(false, matchs[8].isDraw());
+		
+		matchs[8].setScore(2, 4);
+		matchs = tournament4.getMatchs();
+		assertEquals("Laxul", matchs[8].getWinner().getName());
+		assertEquals("Elareron", matchs[8].getLooser().getName());
+		assertEquals(true, matchs[8].isPlayed());
+		assertEquals(false, matchs[8].isDraw());
+		assertEquals("Laxul", matchs[10].getParticipant1().getName());
+		assertEquals("?", matchs[10].getParticipant2().getName());
 	}
 	
 	@Test

@@ -129,4 +129,23 @@ public class SimpleEliminationTest extends SetupTest{
 		assertEquals(null, matchs[0]);
 		assertEquals("ElMojito", tournament.getWinner().getName());
 	}
+	
+	@Test
+	public void testDrawMatch() throws NotEnoughParticipantsException {
+		tournament.initializeMatchs();
+		matchs = tournament.getMatchs();
+		
+		try {
+			matchs[4].setScore(4, 3);
+			matchs[5].setScore(1, 1);
+			fail("Failed to throw MatchDraw exception.");
+		} catch (MatchDrawException e) {}
+		
+		assertEquals("nono23", matchs[4].getWinner().getName());
+		assertEquals(null, matchs[5].getWinner());
+		assertEquals(false, matchs[5].isDraw());
+		assertEquals("nono23", matchs[2].getParticipant1().getName());
+		assertEquals("?", matchs[2].getParticipant2().getName());
+		
+	}
 }

@@ -2,6 +2,8 @@ package tournament;
 
 import java.util.Observable;
 
+import tournament.exceptions.MatchDrawException;
+
 @SuppressWarnings("deprecation")
 /**
  * Class Match. A match is played by two Participant. 
@@ -97,6 +99,9 @@ public class Match extends Observable {
 		score[0] = scorePart1; 
 		score[1] = scorePart2;
 		
+		Participant winnerTemp = this.winner; 
+		boolean drawTemp = this.draw; 
+		
 		boolean alreadyPlayed = false; 
 		
 		if (isPlayed()) {
@@ -120,8 +125,15 @@ public class Match extends Observable {
 			gamePlayed();
 		}
 		
-		this.setChanged();
-		this.notifyObservers();		
+		try {
+			this.setChanged();
+			this.notifyObservers();	
+		} catch(MatchDrawException e) {
+			// Avoid the modifications
+			this.winner = winnerTemp; 
+			this.draw = drawTemp;
+			throw new MatchDrawException();
+		}
 	}
 	
 	/**

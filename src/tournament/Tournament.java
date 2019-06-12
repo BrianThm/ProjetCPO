@@ -181,10 +181,15 @@ public abstract class Tournament implements Observer {
 	/**
 	 * Update the tournament tree at the end of each match.
 	 */
-	public abstract void updateMatchs();
+	public abstract void updateMatchs(Match m);
+	
 	
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		this.updateMatchs();
+		Match m = null;
+		if (arg0 instanceof Match) {
+			m = (Match) arg0;
+		}
+		this.updateMatchs(m);
 	}
 }

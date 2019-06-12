@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import tournament.exceptions.MatchDrawException;
 import tournament.exceptions.NotEnoughParticipantsException;
 
 @SuppressWarnings("deprecation")
@@ -99,7 +100,11 @@ public class DoubleElimination extends Tournament {
 	}
 
 	@Override
-	public void updateMatchs() {
+	public void updateMatchs(Match m) {
+		if (m.isDraw()) {
+			throw new MatchDrawException();
+		}
+		
 		updateWinnersBracket();
 		updateLooserBracket();
 		super.setMatchs(mergeBrackets());

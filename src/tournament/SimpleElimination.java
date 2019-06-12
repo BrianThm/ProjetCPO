@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import tournament.exceptions.MatchDrawException;
 import tournament.exceptions.NotEnoughParticipantsException;
 
 @SuppressWarnings("deprecation")
@@ -57,9 +58,13 @@ public class SimpleElimination extends Tournament {
 	}
 	
 	@Override
-	public void updateMatchs() {
+	public void updateMatchs(Match m) {
 		int nbParts = participants.size();
 		Player defaultPlayer = new Player("?");
+		
+		if (m.isDraw()) {
+			throw new MatchDrawException();
+		}
 		
 		for (int i=2; i<nbParts; i++) {
 			if ((super.matchs[i] != null) 
