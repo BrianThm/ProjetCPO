@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import tournament.exceptions.MatchDrawException;
 import tournament.exceptions.NotEnoughParticipantsException;
 
 @SuppressWarnings("deprecation")
@@ -99,7 +100,11 @@ public class DoubleElimination extends Tournament {
 	}
 
 	@Override
-	public void updateMatchs() {
+	public void updateMatchs(Match m) {
+		if (m.isDraw()) {
+			throw new MatchDrawException();
+		}
+		
 		updateWinnersBracket();
 		updateLooserBracket();
 		super.setMatchs(mergeBrackets());
@@ -204,7 +209,63 @@ public class DoubleElimination extends Tournament {
 			}
 		}
 		// 5th turn
+		if (nbParts > 8) {
+			completeLooserBracketUpdate();
+		}
+		
+		// Last turn
 		// IN PROGRESS
 	}
+	
+	/*
+	 * Makes the 5th turn of the looser's bracket if there is more
+	 * than 8 participants in the tournament. This turn end when
+	 * the winner of the winner's bracket meet the winner of the 
+	 * looser's bracket.
+	 */
+	private void completeLooserBracketUpdate() {
+		int nbParts = participants.size();
+		int nbIteration = (nbParts/16);
+		int index = (nbParts/8);
+		int start = nbParts-(nbParts/4);
+		
+		for (int it=0; it<nbIteration; it++) {
+			for (int i=start; i<(start+(nbParts/8)); i++) {
+				if (this.loosersBracket[i] == null) {
+					this.loosersBracket[i] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+					this.loosersBracket[i].addObserver(this);
+				}
+				if (this.loosersBracket[i-index] != null
+						&& this.loosersBracket[i-index].getWinner() != null) {
+					this.loosersBracket[i].setParticipant1(this.loosersBracket[i-index].getWinner());
+				}
+				index -= 1;
+				if (this.loosersBracket[i-index] != null
+						&& this.loosersBracket[i-index].getWinner() != null) {
+					this.loosersBracket[i].setParticipant1(this.loosersBracket[i-index].getWinner());
+				}
+			}
+			
+			int position = (start + (nbParts/8));
+			for (int i=position; i<(position+(nbParts/16)); i++) {
+				if (this.loosersBracket[i] == null) {
+					this.loosersBracket[i] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+					this.loosersBracket[i].addObserver(this);
+				}
+				if (this.loosersBracket[i-(nbParts/8)] != null
+						&& this.loosersBracket[i-(nbParts/8)].getWinner() != null) {
+					this.loosersBracket[i].setParticipant1(this.loosersBracket[i-(nbParts/8)].getWinner());
+				}
+				if (this.winnersBracket[i-start] != null
+						&& this.winnersBracket[i-start].getWinner() != null) {
+					this.loosersBracket[i].setParticipant1(this.winnersBracket[i-start] .getWinner());
+				}
+			}
+			start += (nbParts/8);
+		}
+		
+		
+	}
+	
 	
 }
