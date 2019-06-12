@@ -134,6 +134,7 @@ public class Match extends Observable {
 	/**
 	 * Method to indicate that the match 
 	 */
+
 	private void gamePlayed() {
 		this.part1.plays(game);
 		this.part2.plays(game);
@@ -149,11 +150,13 @@ public class Match extends Observable {
 	}
 	
 	public Participant getLooser() {
-		Participant looser;
-		if (this.winner.equals(this.part1)) {
-			looser = this.part2;
-		} else {
-			looser = this.part1;
+		Participant looser = null;
+		if (winner != null) {
+			if (this.winner.equals(this.part1)) {
+				looser = this.part2;
+			} else {
+				looser = this.part1;
+			}
 		}
 		return looser;
 	}
@@ -167,7 +170,7 @@ public class Match extends Observable {
 	}
 	
 	public String toString() {
-		return "" + part1 + ": "+ score[0]+ "\n" + part2+": "+ score[1]+ "\n" ; 
+		return "" + part1.getName() + ": "+ score[0]+ "\n" + part2.getName()+": "+ score[1]+ "\n" ; 
 	}
 	
 }
