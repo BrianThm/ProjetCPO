@@ -2,6 +2,7 @@ package tournament;
 
 import java.util.Observable;
 
+@SuppressWarnings("deprecation")
 /**
  * Class Match. A match is played by two Participant. 
  * It can have a winner, or be a draw.
