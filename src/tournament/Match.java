@@ -98,7 +98,7 @@ public class Match extends Observable {
 		
 		boolean alreadyPlayed = false; 
 		
-		if (!isPlayed()) {
+		if (isPlayed()) {
 			alreadyPlayed = true;
 		}
 		
@@ -115,14 +115,12 @@ public class Match extends Observable {
 			}
  		}
 		
-		this.setChanged();
-		this.notifyObservers();
-		
 		if (!alreadyPlayed) {
-			endGame();
+			gamePlayed();
 		}
 		
-		
+		this.setChanged();
+		this.notifyObservers();		
 	}
 	
 	/**
@@ -134,13 +132,11 @@ public class Match extends Observable {
 	}
 	
 	/**
-	 * Method to indicate that the match ended with a draw.
+	 * Method to indicate that the match 
 	 */
-	public void endGame() {
-		if (isPlayed()) {
-			this.part1.plays(game);
-			this.part2.plays(game);
-		}
+	private void gamePlayed() {
+		this.part1.plays(game);
+		this.part2.plays(game);
 	}
 	
 	/**
