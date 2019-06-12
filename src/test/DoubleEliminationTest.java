@@ -189,6 +189,16 @@ public class DoubleEliminationTest extends SetupTest {
 		assertEquals("ElMojito", matchs[12].getParticipant1().getName());
 		assertEquals("Patrick", matchs[12].getParticipant2().getName());
 		
+		matchs[12].setScore(1, 4);
+		matchs[1].setScore(5, 0);
+		matchs = tournament4.getMatchs();
+		assertEquals("Patrick", matchs[13].getParticipant1().getName());
+		assertEquals("Francis", matchs[13].getParticipant2().getName());
+		
+		matchs[13].setScore(2, 1);
+		matchs = tournament4.getMatchs();
+		assertEquals("Patrick", matchs[14].getParticipant1().getName());
+		assertEquals("nono23", matchs[14].getParticipant2().getName());
 		// NOT IMPLEMENTED YET
 	}
 }
