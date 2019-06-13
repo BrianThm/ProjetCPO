@@ -20,7 +20,7 @@ public class DoubleElimination extends Tournament {
 
 	private Match[] winnersBracket;
 	private Match[] loosersBracket;
-	private Player defaultPlayer = new Player("?");
+	private Participant defaultPart;
 	
 	/**
 	 * Create an empty DoubleElimination tournament.
@@ -81,6 +81,12 @@ public class DoubleElimination extends Tournament {
 			throw new NotEnoughParticipantsException();
 		}
 		
+		if (participants.iterator().next() instanceof Player) {
+			defaultPart = new Player("?");
+		} else {
+			defaultPart = new Team("?");
+		}
+		
 		this.winnersBracket = new Match[nbParts];
 		this.loosersBracket = new Match[nbParts];
 		List<Participant> parts = new ArrayList<>(participants);
@@ -120,7 +126,7 @@ public class DoubleElimination extends Tournament {
 			if (this.winnersBracket[i] != null
 						&& this.winnersBracket[i].getWinner() != null) {
 				if (this.winnersBracket[i/2] == null) {
-					this.winnersBracket[i/2] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+					this.winnersBracket[i/2] = new Match(defaultPart, defaultPart, this.getGame());
 					this.winnersBracket[i/2].addObserver(this);
 				}				
 				if (i%2 == 0) {
@@ -134,7 +140,7 @@ public class DoubleElimination extends Tournament {
 				if (i >= (nbParts/2)) {
 					int index = (i/2)-(nbParts/4);
 					if (this.loosersBracket[index] == null) {
-						this.loosersBracket[index] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+						this.loosersBracket[index] = new Match(defaultPart, defaultPart, this.getGame());
 						this.loosersBracket[index].addObserver(this);
 					}
 					if (i%2 == 0) {
@@ -158,7 +164,7 @@ public class DoubleElimination extends Tournament {
 		// 		vs loosers of winner's bracket (2nd turn) 
 		for (int i=(nbParts/4); i<(nbParts/2); i++) {
 			if (this.loosersBracket[i] == null) {
-				this.loosersBracket[i] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+				this.loosersBracket[i] = new Match(defaultPart, defaultPart, this.getGame());
 				this.loosersBracket[i].addObserver(this);
 			}
 			if (this.loosersBracket[i-(nbParts/4)] != null
@@ -176,7 +182,7 @@ public class DoubleElimination extends Tournament {
 		int start=(nbParts/2);
 		for (int i=start; i<(start+(nbParts/8)); i++) {
 			if (this.loosersBracket[i] == null) {
-				this.loosersBracket[i] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+				this.loosersBracket[i] = new Match(defaultPart, defaultPart, this.getGame());
 				this.loosersBracket[i].addObserver(this);
 			}
 			if (this.loosersBracket[(i/2)+j] != null
@@ -196,7 +202,7 @@ public class DoubleElimination extends Tournament {
 		start = (nbParts/2)+(nbParts/8);
 		for (int i=start; i<(start+(nbParts/8)); i++) {
 			if (this.loosersBracket[i] == null) {
-				this.loosersBracket[i] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+				this.loosersBracket[i] = new Match(defaultPart, defaultPart, this.getGame());
 				this.loosersBracket[i].addObserver(this);
 			}
 			if (this.loosersBracket[i-(nbParts/8)] != null
@@ -214,6 +220,7 @@ public class DoubleElimination extends Tournament {
 		}
 		
 		// Last turn
+		lastTurnUpdate();
 		// IN PROGRESS
 	}
 	
@@ -221,7 +228,7 @@ public class DoubleElimination extends Tournament {
 	 * Makes the 5th turn of the looser's bracket if there is more
 	 * than 8 participants in the tournament. This turn end when
 	 * the winner of the winner's bracket meet the winner of the 
-	 * looser's bracket.
+	 * looser's bracket (see lastTurnUpdate())
 	 */
 	private void completeLooserBracketUpdate() {
 		int nbParts = participants.size();
@@ -232,14 +239,14 @@ public class DoubleElimination extends Tournament {
 		for (int it=0; it<nbIteration; it++) {
 			for (int i=start; i<(start+(nbParts/8)); i++) {
 				if (this.loosersBracket[i] == null) {
-					this.loosersBracket[i] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+					this.loosersBracket[i] = new Match(defaultPart, defaultPart, this.getGame());
 					this.loosersBracket[i].addObserver(this);
 				}
 				if (this.loosersBracket[i-index] != null
 						&& this.loosersBracket[i-index].getWinner() != null) {
 					this.loosersBracket[i].setParticipant1(this.loosersBracket[i-index].getWinner());
 				}
-				index -= 1;
+				index--;
 				if (this.loosersBracket[i-index] != null
 						&& this.loosersBracket[i-index].getWinner() != null) {
 					this.loosersBracket[i].setParticipant1(this.loosersBracket[i-index].getWinner());
@@ -249,7 +256,7 @@ public class DoubleElimination extends Tournament {
 			int position = (start + (nbParts/8));
 			for (int i=position; i<(position+(nbParts/16)); i++) {
 				if (this.loosersBracket[i] == null) {
-					this.loosersBracket[i] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+					this.loosersBracket[i] = new Match(defaultPart, defaultPart, this.getGame());
 					this.loosersBracket[i].addObserver(this);
 				}
 				if (this.loosersBracket[i-(nbParts/8)] != null
@@ -262,10 +269,57 @@ public class DoubleElimination extends Tournament {
 				}
 			}
 			start += (nbParts/8);
-		}
-		
-		
+		}	
 	}
 	
+	/**
+	 * Update the table of matchs for the final, where the
+	 * winner of the looser's bracket will meet the winner of
+	 * the winner's bracket in the finale.
+	 * The finale will be replay again if the winner of the
+	 * winner's bracket loose the match.
+	 */
+	private void lastTurnUpdate() {
+		int nbParts = participants.size();
+		int index = (nbParts-2);
+		
+		if (this.loosersBracket[index] == null) {
+			this.loosersBracket[index] = new Match(defaultPart, defaultPart, this.getGame());
+			this.loosersBracket[index].addObserver(this);
+		}
+		if (this.loosersBracket[index-1] != null
+				&& this.loosersBracket[index-1].getWinner() != null) {
+			this.loosersBracket[index].setParticipant1(this.loosersBracket[index-1].getWinner());
+		}
+		if (this.winnersBracket[1] != null
+				&& this.winnersBracket[1].getWinner() != null) {
+			this.loosersBracket[index].setParticipant2(this.winnersBracket[1].getWinner());
+		}
+		
+		// Check if the winner of the winner's bracket loose
+		// in finale. If so, the finale have to be replay.
+		if (this.loosersBracket[index].getWinner() != null) {
+			if (this.loosersBracket[index].getWinner() 
+					== this.loosersBracket[index].getParticipant1()) {
+				// Replay the finale
+				if (this.loosersBracket[index+1] == null ) {
+					this.loosersBracket[index+1] = new Match(this.loosersBracket[index].getParticipant1(),
+														this.loosersBracket[index].getParticipant2(), 
+														this.getGame());
+					this.loosersBracket[index+1].addObserver(this);
+				}
+			} else {
+				super.setWinner(this.loosersBracket[index].getParticipant2());
+			}
+		}
+		
+		// Check if the finale has been replay or not
+		index++;
+		if (this.loosersBracket[index] != null
+			&& this.loosersBracket[index].getWinner() != null) {
+			super.setWinner(this.loosersBracket[index].getWinner());
+		}
+		
+	}
 	
 }

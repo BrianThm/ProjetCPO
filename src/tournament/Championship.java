@@ -57,7 +57,7 @@ public class Championship extends Tournament {
 	}
 
 	@Override
-	public void updateMatchs() {
+	public void updateMatchs(Match m) {
 		// TODO Auto-generated method stub
 		
 	}

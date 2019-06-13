@@ -60,7 +60,13 @@ public class SimpleElimination extends Tournament {
 	@Override
 	public void updateMatchs(Match m) {
 		int nbParts = participants.size();
-		Player defaultPlayer = new Player("?");
+		Participant defaultPart;
+		
+		if (participants.iterator().next() instanceof Player) {
+			defaultPart = new Player("?");
+		} else {
+			defaultPart = new Team("?");
+		}
 		
 		if (m.isDraw()) {
 			throw new MatchDrawException();
@@ -71,7 +77,7 @@ public class SimpleElimination extends Tournament {
 					&& (super.matchs[i].getWinner() != null)) {
 				if (super.matchs[i/2] == null) {
 					// default match
-					super.matchs[i/2] = new Match(defaultPlayer, defaultPlayer, this.getGame());
+					super.matchs[i/2] = new Match(defaultPart, defaultPart, this.getGame());
 					super.matchs[i/2].addObserver(this);
 				}
 				if (i%2 == 0) {

@@ -199,6 +199,80 @@ public class DoubleEliminationTest extends SetupTest {
 		matchs = tournament4.getMatchs();
 		assertEquals("Patrick", matchs[14].getParticipant1().getName());
 		assertEquals("nono23", matchs[14].getParticipant2().getName());
-		// NOT IMPLEMENTED YET
+	}
+	
+	@Test
+	public void testFinale_1() throws NotEnoughParticipantsException {
+		testUpdate3();
+		matchs = tournament4.getMatchs();
+		// The winner of the winner's bracket win the finale
+		matchs[14].setScore(2, 5);
+		
+		matchs = tournament4.getMatchs();
+		assertEquals("nono23", matchs[14].getWinner().getName());
+		assertEquals("Patrick", matchs[14].getLooser().getName());
+		assertEquals("nono23", tournament4.getWinner().getName());
+		assertEquals(null, matchs[15]);
+
+	}
+	
+	@Test
+	public void testFinale_2() throws NotEnoughParticipantsException {
+		testUpdate3();
+		matchs = tournament4.getMatchs();
+		// The winner of the looser's bracket win the finale
+		// => The match have to be replay again
+		matchs[14].setScore(3, 1);
+		matchs = tournament4.getMatchs();
+		assertEquals("Patrick", matchs[14].getWinner().getName());
+		assertEquals("nono23", matchs[14].getLooser().getName());
+		assertEquals("Patrick", matchs[15].getParticipant1().getName());
+		assertEquals("nono23", matchs[15].getParticipant2().getName());
+		
+		matchs[15].setScore(1, 2);
+		matchs = tournament4.getMatchs();
+		assertEquals("nono23", matchs[15].getWinner().getName());
+		assertEquals("nono23", tournament4.getWinner().getName());
+	}
+	
+	@Test
+	public void fullTournamentWithTeams() throws NotEnoughParticipantsException {
+		testInitWithTeams();
+		matchs = tournament5.getMatchs();
+		
+		matchs[2].setScore(2, 0);
+		matchs[3].setScore(4, 1);
+		matchs = tournament5.getMatchs();
+		assertEquals("El Mexico", matchs[1].getParticipant1().getName());
+		assertEquals("TheJeans", matchs[1].getParticipant2().getName());
+		assertEquals("Sunny", matchs[4].getParticipant1().getName());
+		assertEquals("CampingTeam", matchs[4].getParticipant2().getName());
+		
+		matchs[4].setScore(7, 1);
+		matchs = tournament5.getMatchs();
+		assertEquals("Sunny", matchs[5].getParticipant1().getName());
+		assertEquals("?", matchs[5].getParticipant2().getName());
+		
+		matchs[1].setScore(2, 3);
+		matchs = tournament5.getMatchs();
+		assertEquals("Sunny", matchs[5].getParticipant1().getName());
+		assertEquals("El Mexico", matchs[5].getParticipant2().getName());
+		assertEquals("TheJeans", matchs[6].getParticipant2().getName());
+		assertEquals("?", matchs[6].getParticipant1().getName());
+		
+		matchs[5].setScore(1, 0);
+		matchs = tournament5.getMatchs();
+		assertEquals("Sunny", matchs[6].getParticipant1().getName());
+		
+		matchs[6].setScore(4, 3);
+		matchs = tournament5.getMatchs();
+		// The winner of winner's bracket have lost in finale
+		// => We replay the match again.
+		assertEquals("Sunny", matchs[7].getParticipant1().getName());
+		assertEquals("TheJeans", matchs[7].getParticipant2().getName());
+		assertEquals(null, tournament5.getWinner());
+		
+		matchs[7].setScore(0, 11);
+		assertEquals("TheJeans", tournament5.getWinner().getName());
 	}
 }

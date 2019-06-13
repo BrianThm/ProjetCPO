@@ -148,4 +148,20 @@ public class SimpleEliminationTest extends SetupTest{
 		assertEquals("?", matchs[2].getParticipant2().getName());
 		
 	}
+	
+	@Test
+	public void testFullTournamentWithTeams() throws NotEnoughParticipantsException {
+		testInitWithTeams();
+		matchs = tournament1.getMatchs();
+		
+		matchs[2].setScore(1, 0);
+		matchs[3].setScore(4, 3);
+		assertEquals("El Mexico", matchs[1].getParticipant1().getName());
+		assertEquals("TheJeans", matchs[1].getParticipant2().getName());
+		
+		matchs[1].setScore(0, 1);
+		assertEquals("TheJeans", matchs[1].getWinner().getName());
+		assertEquals("El Mexico", matchs[1].getLooser().getName());
+		assertEquals("TheJeans", tournament1.getWinner().getName());
+	}
 }
