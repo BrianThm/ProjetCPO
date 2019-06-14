@@ -194,7 +194,16 @@ public class MatchTest extends SetupTest {
 	 */
 	@Test
 	public void testIsDraw() {
+		match.setScore(3, 1);
+		assertEquals("The Match is not be draw!", false, match.isDraw());
+		match.setScore(0, 0);
+		assertEquals("The Match is draw !", true, match.isDraw());
 		
+		match1.setScore(0, 1);
+		assertEquals("The match isn't draw! ", false, match1.isDraw());
+		match1.setScore(2, 2);
+		assertEquals("The match is draw!", true, match1.isDraw());
+	
 	}
 
 	/**
