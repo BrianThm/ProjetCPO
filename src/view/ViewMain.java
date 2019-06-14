@@ -55,6 +55,7 @@ public class ViewMain extends JFrame {
 		JMenuItem displayPlayers = new JMenuItem("Display all players");
 		JMenuItem managePlayers = new JMenuItem("Manage players");
 		JMenuItem addTournament = new JMenuItem("Add a tournament");
+		JMenuItem displayTournaments = new JMenuItem("Display all tournaments");
 		JMenuItem deleteTournament = new JMenuItem("Delete a tournament");
 
 		menubar.add(menuFile);
@@ -77,6 +78,7 @@ public class ViewMain extends JFrame {
 		menuPlayer.add(displayPlayers);
 		menuPlayer.add(managePlayers);
 		menuTournament.add(addTournament);
+		menuTournament.add(displayTournaments);
 		menuTournament.add(deleteTournament);
 
 

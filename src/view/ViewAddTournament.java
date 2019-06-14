@@ -37,7 +37,7 @@ import tournament.Team;
 import tournament.Tournament;
 
 /**
- * The ViewAddTeam is the view wich allow to create and edit a team.
+ * The ViewAddTeam is the view wich allow to create and edit a tournaments.
  * @author Group
  * @version 1.0
  */
