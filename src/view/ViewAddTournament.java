@@ -38,6 +38,7 @@ import tournament.Player;
 import tournament.SimpleElimination;
 import tournament.Team;
 import tournament.Tournament;
+import tournament.exceptions.NotEnoughParticipantsException;
 
 /**
  * The ViewAddTeam is the view wich allow to create and edit a tournaments.
@@ -143,6 +144,8 @@ public class ViewAddTournament extends JPanel {
 			public void itemStateChanged(ItemEvent arg0) {
 				if (arg0.getStateChange() == ItemEvent.SELECTED){
 					type = (String) arg0.getItem();
+				} else {
+					type = null;
 				}
 			}
 		});
@@ -176,7 +179,12 @@ public class ViewAddTournament extends JPanel {
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				addTournament(game, textLocation.getText(), type);
+				if (type != null) {
+					addTournament(game, textLocation.getText(), type);
+				} else {
+					JOptionPane.showMessageDialog(content, "You must select a type of tournament !",
+							"Any type selected !", JOptionPane.ERROR_MESSAGE); 
+				}
 			}
 		});
 
@@ -291,9 +299,14 @@ public class ViewAddTournament extends JPanel {
 		for (Participant p : parts)
 			tournament.addParticipant(p);
 
-		this.controller.addTournament(tournament);
-		JOptionPane.showMessageDialog(this, "The tournament on "+ game + " has been successfully added!", "Tournament " + game + " added", JOptionPane.INFORMATION_MESSAGE);
-
+		try {
+			tournament.initializeMatchs();
+			this.controller.addTournament(tournament);
+			JOptionPane.showMessageDialog(this, "The tournament on "+ game + " has been successfully added!", "Tournament " + game + " added", JOptionPane.INFORMATION_MESSAGE);
+		} catch (NotEnoughParticipantsException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Bad number of participants !", JOptionPane.ERROR_MESSAGE);
+		}
+		
 		if (viewList != null)
 			viewList.makeList();
 

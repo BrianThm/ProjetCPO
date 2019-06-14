@@ -10,6 +10,7 @@ package tournament.exceptions;
 public class NotEnoughParticipantsException extends Exception {
 
 	public NotEnoughParticipantsException() {
-		super("There is not enough participants to organise this tournament.");
+		super("There isn't the correct number of participants to organise this tournament !"
+				+ "\nIt must have a number of participants equal to a power of two (4, 8, 16, 32...).");
 	}
 }
