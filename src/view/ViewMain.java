@@ -220,6 +220,13 @@ public class ViewMain extends JFrame {
 			}
 		});
 		
+		displayTournaments.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				changeView(new ViewListTournament(controller, false));
+			}
+		});
+		
 		deleteTournament.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

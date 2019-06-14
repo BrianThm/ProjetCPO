@@ -112,7 +112,7 @@ public class ViewListTeam extends JPanel {
 		labelTextName += "Number of members: " + nbPlayer + "<br/> </html>";
 
 		if (game != null) {
-			labelTextGame += "Preferred game: " + game.getName() + "<br>";
+			labelTextGame += "Preferred game: " + game.getName() + "<br/>";
 		}
 
 		JLabel textName = new JLabel(labelTextName);

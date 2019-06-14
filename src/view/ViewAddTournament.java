@@ -5,11 +5,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +31,7 @@ import javax.swing.border.CompoundBorder;
 
 import controller.Controller;
 import controller.exceptions.TeamAlreadyExistsException;
+import tournament.DoubleElimination;
 import tournament.Game;
 import tournament.Participant;
 import tournament.Player;
@@ -45,15 +48,18 @@ import tournament.Tournament;
 public class ViewAddTournament extends JPanel {
 
 	private Controller controller;
-	private JPanel content, panelSave, editCancel, panelCB, panelParticipants;
+	private JPanel content, panelSave, editCancel, panelType, panelCB, panelParticipants;
 	private ViewListTeam viewList;
 	private JTextField textLocation;
 	private JLabel title;
+	private JComboBox<String> cbTournament;
 	private JComboBox<Game> comboBox;
+	private String type;
 	private Game game;
 	private Tournament tournamentToEdit;
 	private JList<Participant> listParticipant;
 	private boolean isEditing;
+	private Date today = new Date(); 
 
 	public ViewAddTournament(Controller controller, ViewListTeam viewList) {
 		this(controller);
@@ -70,13 +76,15 @@ public class ViewAddTournament extends JPanel {
 		this.content.setLayout(new BoxLayout(this.content, BoxLayout.Y_AXIS));
 		this.textLocation = new JTextField(20);
 		this.panelSave = new JPanel(new FlowLayout());
+		this.panelType = new JPanel(new FlowLayout());
 		this.panelCB = new JPanel(new FlowLayout());
 		this.panelParticipants = new JPanel(new FlowLayout());
 		this.isEditing = false;
-
+		
 		/* Initialization of the components */
 		JPanel panelName = new JPanel(new FlowLayout());
 		JLabel locationTournament = new JLabel("Location ");
+		JLabel typeTournament = new JLabel("Type ");
 		JLabel labelGame = new JLabel("Game of the tournament");
 		JLabel participants = new JLabel("Participants");
 		JButton addParticipant = new CustomButton("Add Participant");
@@ -91,12 +99,15 @@ public class ViewAddTournament extends JPanel {
 		this.title.setFont(new Font("defaultFont", Font.BOLD, 15));
 		this.title.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
 		this.editCancel = new JPanel(new FlowLayout());
+		this.cbTournament = new JComboBox<String>();
 		this.comboBox = new JComboBox<Game>();
 		this.listParticipant = new JList<Participant>(participantArray);
 		this.listParticipant.setVisibleRowCount(5);
 		this.listParticipant.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		panelName.add(locationTournament);
 		panelName.add(textLocation);
+		panelType.add(typeTournament);
+		panelType.add(cbTournament);
 		panelCB.add(labelGame);
 		panelCB.add(comboBox);
 		panelParticipants.add(participants);
@@ -115,6 +126,7 @@ public class ViewAddTournament extends JPanel {
 		/* All is centered */
 		title.setAlignmentX(CENTER_ALIGNMENT);
 		panelName.setAlignmentX(CENTER_ALIGNMENT);
+		panelType.setAlignmentX(CENTER_ALIGNMENT);
 		panelCB.setAlignmentX(CENTER_ALIGNMENT);
 		panelParticipants.setAlignmentX(CENTER_ALIGNMENT);
 		editCancel.setAlignmentX(CENTER_ALIGNMENT);
@@ -125,6 +137,16 @@ public class ViewAddTournament extends JPanel {
 		this.add(panelSave, BorderLayout.SOUTH);
 		this.displayAddTournament();
 
+		/* Check the selected type of tournament */
+		cbTournament.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				if (arg0.getStateChange() == ItemEvent.SELECTED){
+					type = (String) arg0.getItem();
+				}
+			}
+		});
+		
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent event) {
 				if (event.getStateChange() == ItemEvent.SELECTED) {
@@ -154,7 +176,7 @@ public class ViewAddTournament extends JPanel {
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				addTournament(game, textLocation.getText());
+				addTournament(game, textLocation.getText(), type);
 			}
 		});
 
@@ -170,11 +192,17 @@ public class ViewAddTournament extends JPanel {
 		this.remove(editCancel);
 		ArrayList<Game> games = (ArrayList<Game>) this.controller.getSortedGames();
 
+		cbTournament.removeAllItems();
+		cbTournament.addItem(null);
+		cbTournament.addItem("Simple Elimination");
+		cbTournament.addItem("Double Elimination");		
+		
 		comboBox.removeAllItems();
 		comboBox.addItem(null);
 		for (Game g : games) {
 			comboBox.addItem(g);
 		}
+		content.add(panelType);
 		content.add(panelCB);
 		content.remove(panelParticipants);
 		content.add(panelParticipants);
@@ -216,7 +244,7 @@ public class ViewAddTournament extends JPanel {
 	private void editTournament() {
 
 		List<Participant> newParticipants = listParticipant.getSelectedValuesList();
-		Tournament tournament = new SimpleElimination(tournamentToEdit.getGame());
+		Tournament tournament = new SimpleElimination(today, tournamentToEdit.getGame());
 		
 		for (Participant p : newParticipants)
 			tournament.addParticipant(p);
@@ -249,9 +277,15 @@ public class ViewAddTournament extends JPanel {
 			viewList.makeList();
 	}
 
-	private void addTournament(Game game, String location) {
-		Tournament tournament = (location == null || location.length() == 0) 
-				? new SimpleElimination(game) : new SimpleElimination(game, location);
+	private void addTournament(Game game, String location, String type) {
+		Tournament tournament;
+		if (type == "Simple Elimination") {
+			tournament = (location == null || location.length() == 0) 
+					? new SimpleElimination(today, game) : new SimpleElimination(today, game, location);
+		} else {
+			tournament = (location == null || location.length() == 0) 
+					? new DoubleElimination(today, game) : new DoubleElimination(today, game, location);
+		}
 		List<Participant> parts =  listParticipant.getSelectedValuesList();
 
 		for (Participant p : parts)

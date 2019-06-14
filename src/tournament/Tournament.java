@@ -42,7 +42,9 @@ public abstract class Tournament implements Observer {
 	public Tournament(Date date, Game game, String location) {
 		assert game != null;
 		assert location != null;
+		assert date != null;
 		
+		this.date = date;
 		this.game = game;
 		this.location = location;
 		participants = new ArrayList<Participant>();
