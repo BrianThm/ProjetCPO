@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -18,12 +19,15 @@ import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -49,7 +53,8 @@ import tournament.exceptions.NotEnoughParticipantsException;
 public class ViewAddTournament extends JPanel {
 
 	private Controller controller;
-	private JPanel content, panelSave, editCancel, panelType, panelCB, panelParticipants;
+	private JPanel content, panelSave, editCancel;
+	private JPanel panelType, panelCB, panelRadio, panelParticipants;
 	private ViewListTeam viewList;
 	private JTextField textLocation;
 	private JLabel title;
@@ -61,6 +66,7 @@ public class ViewAddTournament extends JPanel {
 	private JList<Participant> listParticipant;
 	private boolean isEditing;
 	private Date today = new Date(); 
+	private ViewAddPlayer viewAddP;
 
 	public ViewAddTournament(Controller controller, ViewListTeam viewList) {
 		this(controller);
@@ -80,6 +86,7 @@ public class ViewAddTournament extends JPanel {
 		this.panelType = new JPanel(new FlowLayout());
 		this.panelCB = new JPanel(new FlowLayout());
 		this.panelParticipants = new JPanel(new FlowLayout());
+		this.panelRadio = new JPanel(new GridLayout(2, 0));
 		this.isEditing = false;
 		
 		/* Initialization of the components */
@@ -87,14 +94,18 @@ public class ViewAddTournament extends JPanel {
 		JLabel locationTournament = new JLabel("Location ");
 		JLabel typeTournament = new JLabel("Type ");
 		JLabel labelGame = new JLabel("Game of the tournament");
-		JLabel participants = new JLabel("Participants");
-		JButton addParticipant = new CustomButton("Add Participant");
+		JRadioButton rbtnPlayers = new JRadioButton("Players");
+		JRadioButton rbtnTeams = new JRadioButton("Teams");
+		JButton addParticipant = new CustomButton("Add");
 		JButton btnSave = new CustomButton("Save the tournament");
 		JButton btnEdit = new CustomButton("Edit the tournament");
 		JButton btnCancel = new CustomButton("Cancel");
+		ButtonGroup btnGrp = new ButtonGroup();
+		
+		/* By default, players are displayed */
 		List<Participant> listP = new ArrayList<Participant>(this.controller.getSortedPlayers());
-		listP.addAll(new ArrayList<Participant>(this.controller.getSortedTeams()));
-		Participant[] participantArray = listP.toArray(new Participant[listP.size()]);
+		Participant[] playersArray = listP.toArray(new Participant[listP.size()]);
+		
 		this.panelSave = new JPanel(new FlowLayout());
 		this.title = new JLabel("Add a tournament");
 		this.title.setFont(new Font("defaultFont", Font.BOLD, 15));
@@ -102,17 +113,24 @@ public class ViewAddTournament extends JPanel {
 		this.editCancel = new JPanel(new FlowLayout());
 		this.cbTournament = new JComboBox<String>();
 		this.comboBox = new JComboBox<Game>();
-		this.listParticipant = new JList<Participant>(participantArray);
+		this.listParticipant = new JList<Participant>(playersArray);
 		this.listParticipant.setVisibleRowCount(5);
 		this.listParticipant.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		rbtnPlayers.setSelected(true);
+		
 		panelName.add(locationTournament);
 		panelName.add(textLocation);
 		panelType.add(typeTournament);
 		panelType.add(cbTournament);
 		panelCB.add(labelGame);
 		panelCB.add(comboBox);
-		panelParticipants.add(participants);
+		btnGrp.add(rbtnPlayers);	// Group the two radio buttons
+		btnGrp.add(rbtnTeams);
+		panelRadio.add(rbtnPlayers);
+		panelRadio.add(rbtnTeams);
+		panelParticipants.add(panelRadio);
 		panelParticipants.add(new JScrollPane(this.listParticipant));
+		panelParticipants.add(addParticipant);
 		editCancel.add(btnEdit);
 		editCancel.add(btnCancel);
 		panelSave.add(btnSave);
@@ -159,7 +177,37 @@ public class ViewAddTournament extends JPanel {
 				}
 			}
 		});
-
+		
+		/* When a radio button is selected to display players
+		 * or teams in the list of participants */
+		rbtnPlayers.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				List<Participant> listP = new ArrayList<Participant>(controller.getSortedPlayers());
+				Participant[] playersArray = listP.toArray(new Participant[listP.size()]);
+				listParticipant.setListData(playersArray);
+				refreshPanel();
+			}
+		});
+		
+		rbtnTeams.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				List<Participant> listP = new ArrayList<Participant>(controller.getSortedTeams());
+				Participant[] teamsArray = listP.toArray(new Participant[listP.size()]);
+				listParticipant.setListData(teamsArray);
+				refreshPanel();
+			}
+		});
+		
+		/* When the button add participant is clicked */
+		addParticipant.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO
+			}
+		});
+		
 		/* When the button to cancel an editing is clicked */
 		btnCancel.addActionListener(new ActionListener() {
 			@Override
@@ -192,6 +240,7 @@ public class ViewAddTournament extends JPanel {
 		this.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20),
 				BorderFactory.createMatteBorder(2, 2, 2, 2, Color.gray)));
 	}
+	
 
 	private void displayAddTournament() {
 		clear();
@@ -249,6 +298,7 @@ public class ViewAddTournament extends JPanel {
 		}
 	}
 
+	
 	private void editTournament() {
 
 		List<Participant> newParticipants = listParticipant.getSelectedValuesList();
@@ -285,6 +335,7 @@ public class ViewAddTournament extends JPanel {
 			viewList.makeList();
 	}
 
+	
 	private void addTournament(Game game, String location, String type) {
 		Tournament tournament;
 		if (type == "Simple Elimination") {

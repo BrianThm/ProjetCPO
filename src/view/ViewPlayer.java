@@ -12,7 +12,7 @@ public class ViewPlayer extends JPanel {
 	private Controller controller;
 
 	/**
-	 * Constructor to create the view with the lsit of players and the form to add a player.
+	 * Constructor to create the view with the list of players and the form to add a player.
 	 * @param controller The controller.
 	 */
 	public ViewPlayer(Controller controller) {
