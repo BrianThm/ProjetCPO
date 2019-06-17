@@ -54,6 +54,7 @@ public class ViewTournament extends JPanel {
 	private JTextField textTypeTournament;
 	private JTextField textGame;
 	private JList<Participant> listParticipant;
+	private Tournament tournament;
 
 	/**
 	 * Constructor to create the view with the lsit of games and the form to add a game.
@@ -61,20 +62,24 @@ public class ViewTournament extends JPanel {
 	 */
 	public ViewTournament(Controller controller, Tournament t) {
 		super();
-		/* Initialization of the attributes */
 		
+		/* Initialization of the attributes */
+		this.controller = controller;
+		this.tournament = t;
 		this.setLayout(new BorderLayout());
 		this.content = new JPanel();
 		this.content.setLayout(new BoxLayout(this.content, BoxLayout.Y_AXIS));
 		
-		
 		this.textLocation = new JTextField(20);
-		this.textLocation.setText(t.getLocation());
-		this.textDate = new JTextField(20); 
-		this.textLocation.setText(""+t.getDate());
+		this.textLocation.setText(tournament.getLocation());
+		this.textLocation.setEditable(false);
+		
+		this.textDate = new JTextField(20); 		
 		SimpleDateFormat formater = new SimpleDateFormat("dd-MM-yyyy");
 		formater.format(t.getDate());
-		this.textDate.setText(""+t.getDate());
+		this.textDate.setText(""+formater);
+		this.textDate.setEditable(false);
+		
 		this.textTypeTournament = new JTextField(20);
 		if (SimpleElimination.class.isInstance(t)) {
 			textTypeTournament.setText("Simple Elimination");
@@ -83,36 +88,42 @@ public class ViewTournament extends JPanel {
 		} else if (Championship.class.isInstance(t)) {
 			textTypeTournament.setText("Championship");
 		}
-		this.textGame= new JTextField(20);
-		this.textLocation.setText(""+t.getGame());
+		this.textTypeTournament.setEditable(false);
 		
+		this.textGame= new JTextField(20);
+		this.textGame.setText(tournament.getGame().getName());
+		this.textGame.setEditable(false);
 		
 		this.panelParticipants = new JPanel(new FlowLayout());
-		this.controller = controller;
-		// Grid layout with two columns, one for each view
-		this.setLayout(new GridLayout(0, 2));
+		
+		this.setAutoscrolls(true);
 
 		/* Initialization of the components */
 		JPanel panelName = new JPanel(new FlowLayout());
 		JLabel locationTournament = new JLabel("Location ");
+		
 		JLabel participants = new JLabel("Participants");
+		
 		JPanel panelType = new JPanel(new FlowLayout());
 		JLabel typeTournament = new JLabel("Type ");
+		
 		JPanel panelGame = new JPanel(new FlowLayout()); 
 		JLabel gameTournament = new JLabel("Game ");
-		List<Participant> listP = new ArrayList<Participant>(this.controller.getSortedPlayers());
-		listP.addAll(new ArrayList<Participant>(t.getParticipants()));
-		Participant[] participantArray = listP.toArray(new Participant[listP.size()]);
+		
+		JPanel panelDate = new JPanel(new FlowLayout()); 
+		JLabel dateTournament = new JLabel("Date ");
+		
+		JPanel tree = new PanelTreeTournament(tournament.getMatchs()); 
 		
 		this.title = new JLabel("Tournament information");
 		title.setFont(new Font("defaultFont", Font.BOLD, 15));
 		title.setAlignmentX(CENTER_ALIGNMENT);
-		title.setBorder(new CompoundBorder(
-				BorderFactory.createEmptyBorder(15, 0, 15, 0),
-				BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray)));
+		this.title.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
+		
+		List<Participant> listP = new ArrayList<Participant>(tournament.getParticipants());
+		Participant[] participantArray = listP.toArray(new Participant[listP.size()]);		
 		this.listParticipant = new JList<Participant>(participantArray);
 		this.listParticipant.setVisibleRowCount(5);
-		this.listParticipant.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		panelName.add(locationTournament);
 		panelName.add(textLocation);
@@ -120,19 +131,27 @@ public class ViewTournament extends JPanel {
 		panelType.add(textTypeTournament);
 		panelGame.add(gameTournament);
 		panelGame.add(textGame);
+		panelDate.add(dateTournament);
+		panelDate.add(textDate); 
+		
 		panelParticipants.add(participants);
 		panelParticipants.add(new JScrollPane(this.listParticipant));
 		content.add(title);
+		content.add(Box.createRigidArea(new Dimension(0, 20)));
 		content.add(panelName);
 		content.add(panelType); 
 		content.add(panelGame);
+		content.add(tree);
+		
+		content.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 5));
 		
 		/* All is centered */
 		panelName.setAlignmentX(CENTER_ALIGNMENT);
 		panelType.setAlignmentX(CENTER_ALIGNMENT);
 		panelGame.setAlignmentX(CENTER_ALIGNMENT);
+		panelDate.setAlignmentX(CENTER_ALIGNMENT);
 		panelParticipants.setAlignmentX(CENTER_ALIGNMENT);
-		
+		tree.setAlignmentX(CENTER_ALIGNMENT);
 		this.add(content, BorderLayout.CENTER);
 		
 		this.displayTournament();
