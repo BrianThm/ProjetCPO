@@ -6,23 +6,23 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -34,13 +34,10 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.CompoundBorder;
 
 import controller.Controller;
-import controller.exceptions.TeamAlreadyExistsException;
 import tournament.DoubleElimination;
 import tournament.Game;
 import tournament.Participant;
-import tournament.Player;
 import tournament.SimpleElimination;
-import tournament.Team;
 import tournament.Tournament;
 import tournament.exceptions.NotEnoughParticipantsException;
 
@@ -52,6 +49,7 @@ import tournament.exceptions.NotEnoughParticipantsException;
 @SuppressWarnings("serial")
 public class ViewAddTournament extends JPanel {
 
+	private ViewMain fenetre;
 	private Controller controller;
 	private JPanel content, panelSave, editCancel;
 	private JPanel panelType, panelCB, panelRadio, panelParticipants;
@@ -65,8 +63,8 @@ public class ViewAddTournament extends JPanel {
 	private Tournament tournamentToEdit;
 	private JList<Participant> listParticipant;
 	private boolean isEditing;
+	private boolean isPlayerSelected;
 	private Date today = new Date(); 
-	private ViewAddPlayer viewAddP;
 
 	public ViewAddTournament(Controller controller, ViewListTeam viewList) {
 		this(controller);
@@ -103,6 +101,7 @@ public class ViewAddTournament extends JPanel {
 		ButtonGroup btnGrp = new ButtonGroup();
 		
 		/* By default, players are displayed */
+		isPlayerSelected = true;
 		List<Participant> listP = new ArrayList<Participant>(this.controller.getSortedPlayers());
 		Participant[] playersArray = listP.toArray(new Participant[listP.size()]);
 		
@@ -183,6 +182,7 @@ public class ViewAddTournament extends JPanel {
 		rbtnPlayers.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				isPlayerSelected = true;
 				List<Participant> listP = new ArrayList<Participant>(controller.getSortedPlayers());
 				Participant[] playersArray = listP.toArray(new Participant[listP.size()]);
 				listParticipant.setListData(playersArray);
@@ -193,6 +193,7 @@ public class ViewAddTournament extends JPanel {
 		rbtnTeams.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				isPlayerSelected = false;
 				List<Participant> listP = new ArrayList<Participant>(controller.getSortedTeams());
 				Participant[] teamsArray = listP.toArray(new Participant[listP.size()]);
 				listParticipant.setListData(teamsArray);
@@ -200,11 +201,28 @@ public class ViewAddTournament extends JPanel {
 			}
 		});
 		
-		/* When the button add participant is clicked */
+		/* When the button add participant is clicked, a popup will appear 
+		 * to add players or teams.
+		 * When the popup is closed by the user, listParticpant is updated. 
+		 * */
 		addParticipant.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO
+				if (isPlayerSelected) {
+					JDialog popup = new popup(new ViewAddPlayer(controller));
+					popup.addWindowListener(new WindowAdapter() {
+						public void windowClosing(WindowEvent e) {
+						    rbtnPlayers.doClick();
+						 }
+					});
+				} else {
+					JDialog popup = new popup(new ViewAddTeam(controller));
+					popup.addWindowListener(new WindowAdapter() {
+						public void windowClosing(WindowEvent e) {
+						    rbtnTeams.doClick();
+						 }
+					});
+				}
 			}
 		});
 		
@@ -364,6 +382,17 @@ public class ViewAddTournament extends JPanel {
 		clear();
 	}
 
+	private class popup extends JDialog {
+		public popup(JPanel jp) {
+			super(fenetre, "Add");
+			super.setAlwaysOnTop(true);
+			super.add(jp);
+			super.pack();
+			super.setVisible(true);
+		}
+	}
+	
+	
 	private void clear() {
 		textLocation.setText("");
 		listParticipant.clearSelection();
