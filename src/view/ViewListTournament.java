@@ -40,11 +40,13 @@ public class ViewListTournament extends JPanel {
 	private boolean deleteTournament;
 	private JLabel title;
 	private ViewAddTournament viewAdd;
+	private ViewMain fenetre;
 	
-	public ViewListTournament(Controller controller, boolean deleteTournament) {
+	public ViewListTournament(Controller controller, boolean deleteTournament, ViewMain fenetre) {
 		super();
 		this.controller = controller;
 		this.deleteTournament = deleteTournament;
+		this.fenetre = fenetre;
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		title = new JLabel("List of tournaments");
@@ -139,6 +141,13 @@ public class ViewListTournament extends JPanel {
 		
 		//TODO: Implement the listener for the seeInfo button
 		
+		labelImgSeeInfo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				changeView(tournament);
+			}
+		});
+		
 		/* Listener for the delete button */
 		labelImgDel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -204,5 +213,9 @@ public class ViewListTournament extends JPanel {
 			if (viewAdd != null)
 				viewAdd.tournamentDeleted(tournament);
 		}
+	}
+	
+	private void changeView(Tournament t) {
+		fenetre.changeView(new ViewTournament(controller,t));
 	}
 }

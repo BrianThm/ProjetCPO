@@ -223,14 +223,14 @@ public class ViewMain extends JFrame {
 		displayTournaments.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				changeView(new ViewListTournament(controller, false));
+				changeView(ViewList(controller, false));
 			}
 		});
 		
 		deleteTournament.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				changeView(new ViewListTournament(controller, true));
+				changeView(ViewList(controller, true));
 			}
 		});
 
@@ -242,12 +242,16 @@ public class ViewMain extends JFrame {
 		this.setVisible(true);
 	}
 	
-	private void changeView(JPanel view) {
+	public void changeView(JPanel view) {
 		JScrollPane scrollPane = new JScrollPane(view);
 		cont.removeAll();
 		cont.add(scrollPane, BorderLayout.CENTER);
 		view.updateUI();
 		refresh();
+	}
+	
+	private ViewListTournament ViewList(Controller controller,boolean delete) {
+		return new ViewListTournament(controller, delete, this);
 	}
 
 	private void refresh() {
