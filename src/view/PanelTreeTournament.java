@@ -26,16 +26,14 @@ public class PanelTreeTournament extends JPanel {
 	public static final long serialVersionUID = -8123406571694511514L;
 
 	private Controller controller;
-	private static int x=1000;
-	private static int y=250;
+	private static int deltaY=30; 
+	private static int deltaX=120;
 	
 	public PanelTreeTournament(Controller controller, Tournament t) {
 		
 		this.controller = controller;
 		
 		mxGraph graph = new mxGraph();
-		//Object parent = graph.getDefaultParent();
-		//ArrayList<Object> tab_match = new ArrayList();
 		
 		graph.getModel().beginUpdate();
 		Match[] tab_temp = t.getMatchs();
@@ -51,29 +49,34 @@ public class PanelTreeTournament extends JPanel {
 		}
 			mxGraphComponent graphComponent = new mxGraphComponent(graph);
 			this.add(graphComponent);
-			graph.setCellsMovable(true);
+			graph.setCellsMovable(false);
 			graph.setCellsEditable(false);
+			graph.setAllowDanglingEdges(false);
 		}
 	
-	private void gauche(mxGraph graph, int xpere , int ypere, ArrayList<Match> list, int indice){
+	private void gauche(mxGraph graph, int x , int y, ArrayList<Match> list, int indice, int ecart){
 		if (indice< list.size()) {
-			graph.insertVertex(graph.getDefaultParent(), null, list.get(indice), xpere-(x/5), ypere+(y/6), 80, 30);
-			gauche(graph, xpere-(x/5), ypere+(y/3),list,indice*2+1);
-			droite(graph, xpere-(x/5), ypere+(y/3),list,indice*2);
+			graph.insertVertex(graph.getDefaultParent(), null, list.get(indice), x, y, 100, 30);
+			gauche(graph, x-deltaX, y+ecart*deltaY,list,indice*2+1, ecart/2);
+			droite(graph, x-deltaX, y-ecart*deltaY,list,indice*2, ecart/2);
 		}
 	}
 	
-	private void droite(mxGraph graph, int xpere , int ypere, ArrayList<Match> list, int indice){
+	private void droite(mxGraph graph, int x, int y, ArrayList<Match> list, int indice, int ecart){
 		if (indice< list.size()) {
-			graph.insertVertex(graph.getDefaultParent(), null, list.get(indice), xpere - (x/5), ypere-(y/6), 80, 30);
-			gauche(graph, xpere-(x/5), ypere-(y/3),list,indice*2+1);
-			droite(graph, xpere-(x/5), ypere-(y/3),list,indice*2);
+			graph.insertVertex(graph.getDefaultParent(), null, list.get(indice), x, y, 100, 30);
+			gauche(graph, x-deltaX, y+ecart*deltaY, list,indice*2+1, ecart/2);
+			droite(graph, x-deltaX, y-ecart*deltaY, list,indice*2, ecart/2);
 		}
 	}
 	
 	private void premierMatch(mxGraph graph, ArrayList<Match> list) {
-		graph.insertVertex(graph.getDefaultParent(), null, list.get(1), x, y, 80, 30);
-		gauche(graph, x, y+(y/6),list,3);
-		droite(graph, x, y-(y/6),list,2);
+		int nb_match_MAX_colonne = (int)(list.size()/2)+1;
+		int x = (int) (Math.sqrt(nb_match_MAX_colonne ) *deltaX);
+		int y = ((nb_match_MAX_colonne )*(deltaY+30))/2+15;
+		graph.insertVertex(graph.getDefaultParent(), null, list.get(1), x, y, 100, 30);
+		graph.addListener("Match", null);
+		gauche(graph, x-deltaX, y+nb_match_MAX_colonne/2*deltaY,list,3, nb_match_MAX_colonne/4 );
+		droite(graph, x-deltaX, y-nb_match_MAX_colonne/2*deltaY,list,2, nb_match_MAX_colonne/4 );
 	}
 }
