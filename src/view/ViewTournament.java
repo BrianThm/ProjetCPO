@@ -9,6 +9,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +21,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -54,18 +57,21 @@ public class ViewTournament extends JPanel {
 	private JTextField textTypeTournament;
 	private JTextField textGame;
 	private JList<Participant> listParticipant;
+	private JButton tree;
 	private Tournament tournament;
+	private ViewMain fenetre;
 
 	/**
 	 * Constructor to create the view with the lsit of games and the form to add a game.
 	 * @param controller The controller.
 	 */
-	public ViewTournament(Controller controller, Tournament t) {
+	public ViewTournament(Controller controller, Tournament t, ViewMain fenetre) {
 		super();
 		
 		/* Initialization of the attributes */
 		this.controller = controller;
 		this.tournament = t;
+		this.fenetre=fenetre;
 		this.setLayout(new BorderLayout());
 		this.content = new JPanel();
 		this.content.setLayout(new BoxLayout(this.content, BoxLayout.Y_AXIS));
@@ -96,8 +102,15 @@ public class ViewTournament extends JPanel {
 		
 		this.panelParticipants = new JPanel(new FlowLayout());
 		
-		this.setAutoscrolls(true);
+		this.tree = new JButton("Tree of the tournament !");
 
+		this.tree.addActionListener( new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new popup(new PanelTreeTournament(tournament.getMatchs()));
+			}
+		}
+				);
 		/* Initialization of the components */
 		JPanel panelName = new JPanel(new FlowLayout());
 		JLabel locationTournament = new JLabel("Location ");
@@ -112,8 +125,6 @@ public class ViewTournament extends JPanel {
 		
 		JPanel panelDate = new JPanel(new FlowLayout()); 
 		JLabel dateTournament = new JLabel("Date ");
-		
-		JPanel tree = new PanelTreeTournament(tournament.getMatchs()); 
 		
 		this.title = new JLabel("Tournament information");
 		title.setFont(new Font("defaultFont", Font.BOLD, 15));
@@ -155,6 +166,16 @@ public class ViewTournament extends JPanel {
 		this.add(content, BorderLayout.CENTER);
 		
 		this.displayTournament();
+	}
+	
+	private class popup extends JDialog{
+		public popup(JPanel jp) {
+			super( fenetre , "Tree Tournament"); 
+			super.setAlwaysOnTop(true);
+			super.add(jp);
+			super.pack();
+			super.setVisible(true);
+		}
 	}
 	
 	private void displayTournament() {
