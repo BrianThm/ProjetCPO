@@ -16,6 +16,7 @@ import tournament.exceptions.NotEnoughParticipantsException;
  * @author Group
  * @version 1.0
  */
+
 public class DoubleElimination extends Tournament {
 
 	private Match[] winnersBracket;
