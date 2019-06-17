@@ -29,18 +29,15 @@ public class PanelTreeTournament extends JPanel {
 	private static int deltaY=30; 
 	private static int deltaX=120;
 	
-	public PanelTreeTournament(Controller controller, Tournament t) {
-		
-		this.controller = controller;
+	public PanelTreeTournament(Match[] tabMatchs) {
 		
 		mxGraph graph = new mxGraph();
 		
 		graph.getModel().beginUpdate();
-		Match[] tab_temp = t.getMatchs();
 		
 		ArrayList<Match> tab_match = new ArrayList<Match>();
-		for (int i = 0 ; i<tab_temp.length;i++) {
-			tab_match.add(tab_temp[i]);
+		for (int i = 0 ; i<tabMatchs.length;i++) {
+			tab_match.add(tabMatchs[i]);
 		}
 		try {
 			premierMatch(graph, tab_match);
