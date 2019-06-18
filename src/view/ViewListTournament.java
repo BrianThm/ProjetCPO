@@ -216,6 +216,6 @@ public class ViewListTournament extends JPanel {
 	}
 	
 	private void changeView(Tournament t) {
-		fenetre.changeView(new ViewTournament(t, fenetre));
+		fenetre.changeView(new ViewTournament(controller, t, fenetre));
 	}
 }

@@ -32,6 +32,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.CompoundBorder;
 
+import controller.Controller;
 import tournament.Championship;
 import tournament.DoubleElimination;
 import tournament.Game;
@@ -65,6 +66,7 @@ public class ViewTournament extends JPanel {
 	private JTextField textWinner;
 	private JList<Participant> listParticipant;
 	private JButton tree;
+	private JButton ret;
 	private Tournament tournament;
 	private ViewMain fenetre;
 	private Match[] matchs;
@@ -72,14 +74,16 @@ public class ViewTournament extends JPanel {
 	private JPanel panelName;
 	private JPanel panelType;
 	private JPanel panelGame;
-	private JPanel panelButton;
+	private JPanel panelButtonTree;
+	private JPanel panelButtonReturn;
 	private JPanel panelDate;
 	private JPanel panelWinner; 
 
 	/**
 	 * Constructor to create the view with the lsit of games and the form to add a game.
+	 * @param controller TODO
 	 */
-	public ViewTournament(Tournament t, ViewMain fenetre) {
+	public ViewTournament(Controller controller, Tournament t, ViewMain fenetre) {
 		super();
 		
 		/* Initialization of the attributes */
@@ -124,6 +128,18 @@ public class ViewTournament extends JPanel {
 			}
 		});
 		
+		this.ret = new JButton("Return");
+		
+		this.ret.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fenetre.changeView(new ViewListTournament(controller, false, fenetre));
+				
+			}
+			
+		});
+		
 		this.textWinner = new JTextField(15);
 		this.textWinner.setEditable(false);
 		 
@@ -142,10 +158,14 @@ public class ViewTournament extends JPanel {
 		panelDate = new JPanel(new FlowLayout()); 
 		JLabel dateTournament = new JLabel("Date ");
 		
-		panelButton = new JPanel(new FlowLayout()); 
+		panelButtonTree = new JPanel(new FlowLayout()); 
+		
+		panelButtonReturn = new JPanel(new FlowLayout());
 		
 		panelWinner = new JPanel(new FlowLayout());
 		JLabel winnerTournament = new JLabel("Winner ");
+		
+		
 		
 		
 		this.title = new JLabel("Tournament information");
@@ -167,7 +187,8 @@ public class ViewTournament extends JPanel {
 		panelGame.add(textGame);
 		panelDate.add(dateTournament);
 		panelDate.add(textDate); 
-		panelButton.add(tree); 
+		panelButtonTree.add(tree); 
+		panelButtonReturn.add(ret);
 		
 		panelParticipants.add(participants);
 		panelParticipants.add(new JScrollPane(this.listParticipant));
@@ -181,6 +202,7 @@ public class ViewTournament extends JPanel {
 		
 		
 		this.add(content, BorderLayout.CENTER);
+		this.add(panelButtonReturn,BorderLayout.SOUTH);
 		this.setAutoscrolls(true);
 		this.displayTournament();
 		this.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20),
@@ -261,7 +283,7 @@ public class ViewTournament extends JPanel {
 		panelInformations.add(panelGame);
 		panelInformations.add(Box.createRigidArea(new Dimension(0, 20)));
 		panelInformations.add(panelParticipants);
-		panelMatchs.add(panelButton);
+		panelMatchs.add(panelButtonTree);
 		panelMatchs.add(Box.createRigidArea(new Dimension(0, 20)));
 		panelMatchs.add(panelWinner);
 		panelMatchs.add(Box.createRigidArea(new Dimension(0, 20)));
