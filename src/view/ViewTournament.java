@@ -133,7 +133,7 @@ public class ViewTournament extends JPanel {
 		this.title = new JLabel("Tournament information");
 		title.setFont(new Font("defaultFont", Font.BOLD, 15));
 		title.setAlignmentX(CENTER_ALIGNMENT);
-		//this.title.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
+		this.title.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
 		
 		List<Participant> listP = new ArrayList<Participant>(tournament.getParticipants());
 		Participant[] participantArray = listP.toArray(new Participant[listP.size()]);		
