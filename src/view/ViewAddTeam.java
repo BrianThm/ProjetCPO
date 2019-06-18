@@ -33,7 +33,6 @@ public class ViewAddTeam extends ViewAdd<Team> {
 
 	private JPanel panelCB, panelPlayers;
 	private JTextField textTeam;
-	private JLabel title;
 	private JLabel membersDisplay;
 	private JComboBox<Game> comboBox;
 	private Game preferredGame;
