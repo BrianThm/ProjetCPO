@@ -91,7 +91,7 @@ public abstract class Tournament implements Observer {
 	 * @return The location of the tournament.
 	 */
 	public String getLocation() {
-		return location;
+		return this.location;
 	}
 	
 	/**

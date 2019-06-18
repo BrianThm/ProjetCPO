@@ -77,7 +77,7 @@ public class ViewTournament extends JPanel {
 		this.content.setLayout(new BoxLayout(this.content, BoxLayout.Y_AXIS));
 		
 		this.textLocation = new JTextField(20);
-		this.textLocation.setText(tournament.getLocation());
+		this.textLocation.setText(this.tournament.getLocation());
 		this.textLocation.setEditable(false);
 		
 		this.textDate = new JTextField(20); 		
@@ -192,6 +192,7 @@ public class ViewTournament extends JPanel {
 	private void displayTournament() {
 		clear();
 		title.setText("Tournament informations");
+		textLocation.setText(tournament.getLocation());
 		content.remove(panelParticipants);
 		content.add(panelParticipants);
 		refreshPanel();
