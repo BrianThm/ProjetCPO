@@ -132,6 +132,8 @@ public class Match extends Observable {
 			// Avoid the modifications
 			this.winner = winnerTemp; 
 			this.draw = drawTemp;
+			score[0] = 0; 
+			score[1] = 0;
 			throw new MatchDrawException();
 		}
 	}
