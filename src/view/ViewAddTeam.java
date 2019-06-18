@@ -46,6 +46,7 @@ public class ViewAddTeam extends JPanel {
 	private ViewListTeam viewList;
 	private JTextField textTeam;
 	private JLabel title;
+	private JLabel membersDisplay;
 	private JComboBox<Game> comboBox;
 	private Game preferredGame;
 	private Team teamToEdit;
@@ -70,6 +71,7 @@ public class ViewAddTeam extends JPanel {
 		this.editCancel = new JPanel(new FlowLayout());
 		this.panelCB = new JPanel(new FlowLayout());
 		this.panelPlayers = new JPanel(new FlowLayout());
+		this.membersDisplay = new JLabel();
 		this.isEditing = false;
 
 		/* Initialization of the components */
@@ -178,6 +180,7 @@ public class ViewAddTeam extends JPanel {
 	}
 
 	void displayEditTeam(Team team) {
+		clear();
 		this.title.setText("Edit a team");
 		content.remove(panelCB);
 		this.remove(panelSave);
@@ -197,7 +200,17 @@ public class ViewAddTeam extends JPanel {
 		for (int i = 0; i < arraySelected.length; i++)
 			arraySelected[i] = selectedPlayers.get(i);
 		
+		ArrayList<Player> listEffectivePlayers = new ArrayList<Player>(team.getMembers());
+		membersDisplay.setText("Members: {");
+		for (int i=0; i<listEffectivePlayers.size()-1; i++) {
+			String texte = membersDisplay.getText();
+			membersDisplay.setText(texte + listEffectivePlayers.get(i).getName() + ", ");
+		}
+		membersDisplay.setText(membersDisplay.getText()+ listEffectivePlayers.get(listEffectivePlayers.size()-1).getName());
+		membersDisplay.setText(membersDisplay.getText() + "}");
+		
 		listPlayers.setSelectedIndices(arraySelected);
+		content.add(membersDisplay);
 		this.add(editCancel, BorderLayout.SOUTH);
 		refreshPanel();
 	}
@@ -285,6 +298,7 @@ public class ViewAddTeam extends JPanel {
 
 	private void clear() {
 		textTeam.setText("");
+		membersDisplay.setText("");
 		listPlayers.clearSelection();
 		comboBox.setSelectedItem(null);
 	}

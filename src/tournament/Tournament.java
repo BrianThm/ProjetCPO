@@ -138,7 +138,9 @@ public abstract class Tournament implements Observer {
 	 * Random draw of tournament participants.
 	 */
 	public void randomDraw() {
-		Collections.shuffle(participants);
+		List<Participant> parts = this.participants;
+		Collections.shuffle(parts);
+		this.participants = parts;
 	}
 	
 	/**
