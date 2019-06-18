@@ -32,7 +32,6 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.CompoundBorder;
 
-import controller.Controller;
 import tournament.Championship;
 import tournament.DoubleElimination;
 import tournament.Game;
@@ -53,8 +52,9 @@ import tournament.exceptions.MatchDrawException;
 @SuppressWarnings("serial")
 public class ViewTournament extends JPanel {
 
-	private Controller controller;
 	private JPanel content; 
+	private JPanel subContent; 
+	private JPanel panelInformations; 
 	private JPanel panelParticipants;
 	private JPanel panelMatchs;
 	private JTextField textLocation;
@@ -78,32 +78,39 @@ public class ViewTournament extends JPanel {
 
 	/**
 	 * Constructor to create the view with the lsit of games and the form to add a game.
-	 * @param controller The controller.
 	 */
-	public ViewTournament(Controller controller, Tournament t, ViewMain fenetre) {
+	public ViewTournament(Tournament t, ViewMain fenetre) {
 		super();
 		
 		/* Initialization of the attributes */
-		this.controller = controller;
 		this.tournament = t;
 		this.fenetre=fenetre;
 		this.setLayout(new BorderLayout());
-		this.content = new JPanel();
 		this.matchs = tournament.getMatchs();
+		this.content = new JPanel();
+		
 		
 		this.content.setLayout(new BoxLayout(this.content, BoxLayout.Y_AXIS));
 		
-		this.textLocation = new JTextField(20);
+		this.subContent = new JPanel(new FlowLayout());
+		
+		this.panelInformations = new JPanel(); 
+		this.panelInformations.setLayout(new BoxLayout(panelInformations, BoxLayout.Y_AXIS));
+		
+		this.panelMatchs = new JPanel(); 
+		this.panelMatchs.setLayout(new BoxLayout(panelMatchs, BoxLayout.Y_AXIS));
+		
+		this.textLocation = new JTextField(15);
 		this.textLocation.setEditable(false);
 		
-		this.textDate = new JTextField(20); 		
+		this.textDate = new JTextField(15); 		
 		this.textDate.setEditable(false);
 		
-		this.textTypeTournament = new JTextField(20);
+		this.textTypeTournament = new JTextField(15);
 		this.textTypeTournament.setEditable(false);
 		
 		
-		this.textGame= new JTextField(20);
+		this.textGame= new JTextField(15);
 		this.textGame.setEditable(false);
 		
 		this.panelParticipants = new JPanel(new FlowLayout());
@@ -117,10 +124,9 @@ public class ViewTournament extends JPanel {
 			}
 		});
 		
-		this.textWinner = new JTextField(20);
+		this.textWinner = new JTextField(15);
 		this.textWinner.setEditable(false);
-		
-		panelMatchs = new JPanel(new GridLayout()); 
+		 
 		/* Initialization of the components */
 	    panelName = new JPanel(new FlowLayout());
 		JLabel locationTournament = new JLabel("Location ");
@@ -150,7 +156,8 @@ public class ViewTournament extends JPanel {
 		List<Participant> listP = new ArrayList<Participant>(tournament.getParticipants());
 		Participant[] participantArray = listP.toArray(new Participant[listP.size()]);		
 		this.listParticipant = new JList<Participant>(participantArray);
-		this.listParticipant.setVisibleRowCount(5);
+		int nbPartDisplayed = listP.size()>8 ? 8 : listP.size();
+		this.listParticipant.setVisibleRowCount(nbPartDisplayed);
 		
 		panelName.add(locationTournament);
 		panelName.add(textLocation);
@@ -164,21 +171,15 @@ public class ViewTournament extends JPanel {
 		
 		panelParticipants.add(participants);
 		panelParticipants.add(new JScrollPane(this.listParticipant));
+		
 		panelWinner.add(winnerTournament); 
 		panelWinner.add(textWinner);
 				
 		matchsEditable = new ArrayList<Match>();
-		getMatchsEditable(matchsEditable, matchs, 1);
-		AdditionMatchsEditable();
 		
-		/* All is centered */
-		panelName.setAlignmentX(CENTER_ALIGNMENT);
-		panelType.setAlignmentX(CENTER_ALIGNMENT);
-		panelGame.setAlignmentX(CENTER_ALIGNMENT);
-		panelDate.setAlignmentX(CENTER_ALIGNMENT);
-		tree.setAlignmentX(CENTER_ALIGNMENT);
+		subContent.setAlignmentX(CENTER_ALIGNMENT);
 		
-		panelParticipants.setAlignmentX(CENTER_ALIGNMENT);
+		
 		this.add(content, BorderLayout.CENTER);
 		this.setAutoscrolls(true);
 		this.displayTournament();
@@ -244,17 +245,26 @@ public class ViewTournament extends JPanel {
 			this.textWinner.setText("?");
 		}
 		
-		content.removeAll();
-		content.add(panelParticipants);
-		content.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 5));
 		content.add(title);
-		content.add(Box.createRigidArea(new Dimension(0, 20)));
-		content.add(panelName);
-		content.add(panelType); 
-		content.add(panelGame);
-		content.add(panelParticipants);
-		content.add(panelButton); 
-		content.add(panelWinner);
+		content.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 5));
+		content.add(Box.createRigidArea(new Dimension(0, 40)));
+		content.add(subContent); 
+		subContent.add(panelInformations); 
+		subContent.add(panelMatchs); 
+		
+		
+		
+		panelInformations.add(panelName);
+		panelInformations.add(Box.createRigidArea(new Dimension(0, 20)));
+		panelInformations.add(panelType); 
+		panelInformations.add(Box.createRigidArea(new Dimension(0, 20)));
+		panelInformations.add(panelGame);
+		panelInformations.add(Box.createRigidArea(new Dimension(0, 20)));
+		panelInformations.add(panelParticipants);
+		panelMatchs.add(panelButton);
+		panelMatchs.add(Box.createRigidArea(new Dimension(0, 20)));
+		panelMatchs.add(panelWinner);
+		panelMatchs.add(Box.createRigidArea(new Dimension(0, 20)));
 		matchs = tournament.getMatchs();
 		getMatchsEditable(matchsEditable,matchs,1);
 		AdditionMatchsEditable();
@@ -263,6 +273,9 @@ public class ViewTournament extends JPanel {
 	
 	private void clear() {
 		content.removeAll();
+		subContent.removeAll();
+		panelMatchs.removeAll();
+		panelInformations.removeAll();
 		matchsEditable.clear();
 		title.setText("");
 		textLocation.setText("");
@@ -314,7 +327,9 @@ public class ViewTournament extends JPanel {
 			Match.add(P2);
 			Match.add(scorep2); 
 			Match.add(setScore);
-			content.add(Match);			
+			panelMatchs.add(Match);
+			panelMatchs.add(Box.createRigidArea(new Dimension(0, 20)));
+			panelMatchs.setAlignmentX(RIGHT_ALIGNMENT);
 		}
 	}
 
