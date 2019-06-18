@@ -68,7 +68,6 @@ public class ViewAddGame extends ViewAdd<Game> {
 		JPanel nameText = new JPanel(new FlowLayout());
 		JPanel checkBtn = new JPanel(new FlowLayout());
 
-		editCancel = new JPanel(new FlowLayout());
 		btnAddImg = new CustomButton("Add an image");
 		labelImage = new JLabel();
 		nameText.add(nameGame);

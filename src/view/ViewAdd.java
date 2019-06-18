@@ -66,7 +66,6 @@ public abstract class ViewAdd<T> extends JPanel {
 		
 		/* Adding all the components to the main panel */
 		this.add(content, BorderLayout.CENTER);
-		this.add(panelSave, BorderLayout.SOUTH);
 		this.displaySave();
 		
 		/* When the button to cancel an editing is clicked */
@@ -109,9 +108,9 @@ public abstract class ViewAdd<T> extends JPanel {
 	protected void displayEdit(T t) {
 		this.title.setText("Edit a " + name);
 		this.remove(panelSave);
+		this.add(editCancel, BorderLayout.SOUTH);
 		this.isEditing = true;
 		this.toEdit = t;
-		this.add(editCancel, BorderLayout.SOUTH);
 	}
 	
 	protected void deleted(T t) {
