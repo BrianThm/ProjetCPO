@@ -38,7 +38,7 @@ public class ViewAddGame extends ViewAdd<Game> {
 
 	private JLabel labelImage;
 	private ImageIcon imgGame;
-	private JTextField textGame;
+	private JTextField textGame = new JTextField(20);
 	private JCheckBox hasImage;
 	private JButton btnAddImg;
 	private boolean hasChecked;
@@ -60,7 +60,6 @@ public class ViewAddGame extends ViewAdd<Game> {
 	 */
 	public ViewAddGame(Controller controller) {
 		super(controller, "game");
-		this.textGame = new JTextField(20);
 		this.imgGame = null;
 		this.hasChecked = false;
 
