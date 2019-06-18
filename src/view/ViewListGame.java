@@ -31,7 +31,7 @@ public class ViewListGame extends ViewList<Game> {
 	 */
 	public ViewListGame(Controller controller, boolean deleteGame) {
 		/* Initialization of the attributes */
-		super(controller, deleteGame, "game");
+		super(controller, deleteGame, "games");
 	}
 
 	/**
