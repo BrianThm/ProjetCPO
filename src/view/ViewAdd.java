@@ -115,7 +115,7 @@ public abstract class ViewAdd<T> extends JPanel {
 		this.remove(panelSave);
 		this.isEditing = true;
 		this.toEdit = t;
-		this.add(panelSave, BorderLayout.SOUTH);
+		this.add(editCancel, BorderLayout.SOUTH);
 	}
 	
 	protected void deleted(T t) {
