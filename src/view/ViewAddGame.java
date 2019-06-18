@@ -38,7 +38,7 @@ public class ViewAddGame extends ViewAdd<Game> {
 
 	private JLabel labelImage;
 	private ImageIcon imgGame;
-	private JTextField textGame = new JTextField(20);
+	private JTextField textGame;
 	private JCheckBox hasImage;
 	private JButton btnAddImg;
 	private boolean hasChecked;
@@ -262,6 +262,8 @@ public class ViewAddGame extends ViewAdd<Game> {
 
 	@Override
 	protected void clear() {
+		if (this.textGame == null)
+			this.textGame = new JTextField(20);
 		textGame.setText("");
 		hasImage.setSelected(false);
 	}
