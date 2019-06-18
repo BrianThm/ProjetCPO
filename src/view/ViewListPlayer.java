@@ -21,7 +21,7 @@ import tournament.Team;
 public class ViewListPlayer extends ViewList<Player> {
 
 	public ViewListPlayer(Controller controller, boolean deletePlayer) {
-		super(controller, deletePlayer, "player");
+		super(controller, deletePlayer, "players");
 	}
 
 	private JPanel getPanel(Player player) {
@@ -96,6 +96,7 @@ public class ViewListPlayer extends ViewList<Player> {
 		return line;
 	}
 
+	@Override
 	void makeList() {
 		super.makeList();
 		
@@ -113,6 +114,7 @@ public class ViewListPlayer extends ViewList<Player> {
 		refreshList();
 	}
 
+	@Override
 	void delete(Player player, JPanel line) {
 		int answer = JOptionPane.showConfirmDialog(this,
 				"The player " + player.getName() + " will be removed from the list of players. Are you sure?",

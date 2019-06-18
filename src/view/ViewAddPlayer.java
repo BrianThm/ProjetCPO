@@ -82,6 +82,7 @@ public class ViewAddPlayer extends ViewAdd<Player> {
 		});
 	}
 
+	@Override
 	protected void displayEdit(Player player) {
 		super.displayEdit(player);
 		
@@ -96,6 +97,7 @@ public class ViewAddPlayer extends ViewAdd<Player> {
 		refreshPanel();
 	}
 
+	@Override
 	protected void displaySave() {
 		super.displaySave();
 		
@@ -111,6 +113,7 @@ public class ViewAddPlayer extends ViewAdd<Player> {
 		refreshPanel();
 	}
 
+	@Override
 	protected void edit() {
 		super.edit();
 
@@ -169,6 +172,7 @@ public class ViewAddPlayer extends ViewAdd<Player> {
 		return true;
 	}
 
+	@Override
 	protected void save() {
 		String nn = nickname.getText();
 		String fn = fname.getText();
@@ -197,6 +201,7 @@ public class ViewAddPlayer extends ViewAdd<Player> {
 		}
 	}
 
+	@Override
 	protected void clear() {
 		nickname.setText("");
 		fname.setText("");

@@ -2,87 +2,32 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.CompoundBorder;
 
 import controller.Controller;
 import tournament.Game;
 import tournament.Team;
 
 @SuppressWarnings("serial")
-public class ViewListTeam extends JPanel {
-
-	private Controller controller;
-	private ImageIcon imgDelete, imgEdit;
-	private JLabel title;
-	private boolean deleteTeam, editTeam;
-	private ViewAddTeam viewAdd;
+public class ViewListTeam extends ViewList<Team> {
 	
 	public ViewListTeam(Controller controller, boolean deleteTeam) {
-		/* Initialization of the attributes */
-		this.controller = controller;
-		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		this.deleteTeam = deleteTeam;
-		this.editTeam = false;
-
-		title = new JLabel("List of teams");
-		title.setFont(new Font("defaultFont", Font.BOLD, 15));
-		title.setAlignmentX(CENTER_ALIGNMENT);
-		title.setBorder(new CompoundBorder(
-				BorderFactory.createEmptyBorder(15, 0, 15, 0),
-				BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray)));
-
-		/* Creation of the edit image button */
-		imgEdit = new ImageIcon(getClass().getResource("/res/edit.png"));
-		Image imageEdit = imgEdit.getImage().getScaledInstance(28, 28, Image.SCALE_SMOOTH);
-		imgEdit = new ImageIcon(imageEdit);
-
-		/* Creation of the delete image button */
-		imgDelete = new ImageIcon(getClass().getResource("/res/delete.png"));
-		Image image = imgDelete.getImage().getScaledInstance(28, 28, Image.SCALE_SMOOTH);
-		imgDelete = new ImageIcon(image);
-
-		/* Creates and displays the list of games */
-		makeList();
-
-		/* Empty border for the outside (kind of margin) and gray border for the inside */
-		this.setBorder(new CompoundBorder(
-				BorderFactory.createEmptyBorder(20, 20, 20, 20),
-				BorderFactory.createMatteBorder(2, 2, 2, 2, Color.gray)));
-	}
-	
-	/**
-	 * This is used if the list of teams is used next to the view to add a team.
-	 * @param viewAdd The viewAddTeam to set.
-	 */
-	void setViewAddTeam(ViewAddTeam viewAdd) {
-		this.viewAdd = viewAdd;
-
-		// Adding a viewAddPlayer means that the players can be edited.
-		this.editTeam = true;
-
-		// The list has to be made again.
-		makeList();
+		super(controller, deleteTeam, "teams");
 	}
 
+	@Override
 	void makeList() {
+		super.makeList();
+		
 		Set<Team> teams = controller.getTeams();
-		this.removeAll();
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(title);
 
 		for (Team t : teams) {
 			this.add(getPanel(t));
@@ -90,7 +35,7 @@ public class ViewListTeam extends JPanel {
 
 		// When there isn't any team, the panel displays a sentence.
 		if (controller.getNbTeams() == 0) {
-			noTeam();
+			noElement();
 		}
 
 		refreshList();
@@ -131,7 +76,7 @@ public class ViewListTeam extends JPanel {
 		labelImgDel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				deleteTeam(team, line);
+				delete(team, line);
 			}
 		});
 
@@ -139,25 +84,26 @@ public class ViewListTeam extends JPanel {
 		labelImgEdit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				viewAdd.displayEditTeam(team);
+				viewAdd.displayEdit(team);
 			}
 		});
 
 		// If the user can edit a game, he can also delete it
-		if (editTeam) {
+		if (edit) {
 			JPanel panelImg = new JPanel(new GridLayout(0, 2));
 			panelImg.add(labelImgEdit);
 			panelImg.add(labelImgDel);
 			line.add(panelImg, BorderLayout.EAST);
-		} else if (deleteTeam) {
+		} else if (edit) {
 			line.add(labelImgDel, BorderLayout.EAST);
 		}
 
 		line.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
 		return line;
 	}
-	
-	private void deleteTeam(Team team, JPanel line) {
+
+	@Override
+	void delete(Team team, JPanel line) {
 		int answer = JOptionPane.showConfirmDialog(this,
 				"The team " + team.getName() + " will be removed from the list of teams. Are you sure?",
 				"Delete " + team.getName(), JOptionPane.YES_NO_OPTION);
@@ -166,32 +112,13 @@ public class ViewListTeam extends JPanel {
 			this.remove(line);
 
 			if (controller.getNbTeams() == 0)
-				noTeam();
+				noElement();
 
 			refreshList();
 
 			// Signal to the viewAddGame that the game has been deleted
 			if (viewAdd != null)
-				viewAdd.teamDeleted(team);
+				viewAdd.deleted(team);
 		}
-	}
-	
-	/**
-	 * This is called when there isn't any team to display.
-	 */
-	private void noTeam() {
-		this.removeAll();
-		this.setLayout(new GridBagLayout());
-		JLabel empty = new JLabel("There isn't any team. You can add one via the Team menu.");
-		this.add(empty);
-		refreshList();
-	}
-
-	/**
-	 * Refresh the list when a displays changes.
-	 */
-	private void refreshList() {
-		this.repaint();
-		this.revalidate();
 	}
 }

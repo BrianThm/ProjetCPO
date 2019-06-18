@@ -117,6 +117,7 @@ public class ViewAddGame extends ViewAdd<Game> {
 	 * Displays the edit and cancel buttons and fill the fields with the game to edit.
 	 * @param game The game to edit.
 	 */
+	@Override
 	protected void displayEdit(Game game) {
 		super.displayEdit(game);
 		
@@ -139,6 +140,7 @@ public class ViewAddGame extends ViewAdd<Game> {
 	 * Display the view to add a game, remove the edit and cancel buttons and 
 	 * displays the save button.
 	 */
+	@Override
 	protected void displaySave() {
 		super.displaySave();
 		imgGame = null;
@@ -148,6 +150,7 @@ public class ViewAddGame extends ViewAdd<Game> {
 	/**
 	 * Edits the game whith the filled fields.
 	 */
+	@Override
 	protected void edit() {
 		super.edit();
 

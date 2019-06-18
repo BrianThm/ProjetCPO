@@ -82,7 +82,9 @@ public abstract class ViewList<T> extends JPanel {
 	void noElement() {
 		this.removeAll();
 		this.setLayout(new GridBagLayout());
-		JLabel empty = new JLabel("There isn't any " + name + ". You can add one via the " + name.substring(0, 1).toUpperCase() + name.substring(1) + " menu.");
+		String singular = name.substring(0, name.length() - 1);
+		JLabel empty = new JLabel("There isn't any " + singular + ". You can add one via the "
+						+ singular.substring(0, 1).toUpperCase() + singular.substring(1) + " menu.");
 		this.add(empty);
 		refreshList();
 	}
