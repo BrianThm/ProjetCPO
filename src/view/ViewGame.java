@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 import controller.Controller;
+import tournament.Game;
 
 /**
  * View of the list of games and the view to add a game.
@@ -26,9 +27,9 @@ public class ViewGame extends JPanel {
 		this.setLayout(new GridLayout(0, 2));
 
 		// The two views need to be linked by each other when there is a modification in one of them.
-		ViewListGame listGame = new ViewListGame(this.controller, true);
-		ViewAddGame addGame = new ViewAddGame(this.controller, listGame);
-		listGame.setViewAddGame(addGame);
+		ViewList<Game> listGame = new ViewListGame(this.controller, true);
+		ViewAdd<Game> addGame = new ViewAddGame(this.controller, listGame);
+		listGame.setViewAdd(addGame);
 
 		this.add(listGame);
 		this.add(addGame);

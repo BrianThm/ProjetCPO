@@ -29,11 +29,6 @@ public abstract class ViewAdd<T> extends JPanel {
 	protected T toEdit;
 	protected boolean isEditing;
 	
-	public ViewAdd(Controller controller, ViewList<T> viewList, String name) {
-		this(controller, name);
-		this.viewList = viewList;
-	}
-	
 	public ViewAdd(Controller controller, String name) {
 		super();
 		/* Initialization of the attributes */
@@ -71,7 +66,6 @@ public abstract class ViewAdd<T> extends JPanel {
 		
 		/* Adding all the components to the main panel */
 		this.add(content, BorderLayout.CENTER);
-		this.add(panelSave, BorderLayout.SOUTH);
 		this.displaySave();
 		
 		/* When the button to cancel an editing is clicked */
@@ -108,14 +102,15 @@ public abstract class ViewAdd<T> extends JPanel {
 		this.isEditing = false;
 		title.setText("Add a " + name.toLowerCase());
 		this.remove(editCancel);
+		this.add(panelSave, BorderLayout.SOUTH);
 	}
 	
 	protected void displayEdit(T t) {
 		this.title.setText("Edit a " + name);
 		this.remove(panelSave);
+		this.add(editCancel, BorderLayout.SOUTH);
 		this.isEditing = true;
 		this.toEdit = t;
-		this.add(panelSave, BorderLayout.SOUTH);
 	}
 	
 	protected void deleted(T t) {
