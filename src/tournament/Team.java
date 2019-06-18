@@ -124,4 +124,9 @@ public class Team extends Participant {
 		
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getName();
+	}
 }

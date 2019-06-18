@@ -12,9 +12,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -32,6 +35,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.CompoundBorder;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+import javax.swing.JFormattedTextField.AbstractFormatter;
+import java.util.Calendar;
 
 import controller.Controller;
 import tournament.DoubleElimination;
@@ -51,8 +60,12 @@ public class ViewAddTournament extends JPanel {
 
 	private ViewMain fenetre;
 	private Controller controller;
-	private JPanel content, panelSave, editCancel;
+	private JPanel content, panelSave, editCancel, panelDate;
 	private JPanel panelType, panelCB, panelRadio, panelParticipants;
+	private UtilDateModel dateModel;
+	private JDatePanelImpl datePanel;
+	private JDatePickerImpl datePicker;
+	private Date selectedDate;
 	private ViewListTeam viewList;
 	private JTextField textLocation;
 	private JLabel title;
@@ -64,15 +77,21 @@ public class ViewAddTournament extends JPanel {
 	private JList<Participant> listParticipant;
 	private boolean isEditing;
 	private boolean isPlayerSelected;
-	private Date today = new Date(); 
 
 	public ViewAddTournament(Controller controller, ViewListTeam viewList) {
 		this(controller);
 		this.viewList = viewList;
 	}
 
+	@SuppressWarnings("deprecation")
 	public ViewAddTournament(Controller controller) {
 		super();
+		
+		Properties properties = new Properties();
+		properties.put("text.today", "Today");
+		properties.put("text.mouth", "Month");
+		properties.put("text.year", "Year");
+		
 		/* Initialization of the attributes */
 		this.controller = controller;
 		this.viewList = null;
@@ -80,6 +99,10 @@ public class ViewAddTournament extends JPanel {
 		this.content = new JPanel();
 		this.content.setLayout(new BoxLayout(this.content, BoxLayout.Y_AXIS));
 		this.textLocation = new JTextField(20);
+		this.panelDate = new JPanel(new FlowLayout());
+		this.dateModel = new UtilDateModel();
+		this.datePanel = new JDatePanelImpl(dateModel, properties);
+		this.datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());				
 		this.panelSave = new JPanel(new FlowLayout());
 		this.panelType = new JPanel(new FlowLayout());
 		this.panelCB = new JPanel(new FlowLayout());
@@ -90,6 +113,7 @@ public class ViewAddTournament extends JPanel {
 		/* Initialization of the components */
 		JPanel panelName = new JPanel(new FlowLayout());
 		JLabel locationTournament = new JLabel("Location ");
+		JLabel dateTournament = new JLabel("Date ");
 		JLabel typeTournament = new JLabel("Type ");
 		JLabel labelGame = new JLabel("Game of the tournament");
 		JRadioButton rbtnPlayers = new JRadioButton("Players");
@@ -116,9 +140,13 @@ public class ViewAddTournament extends JPanel {
 		this.listParticipant.setVisibleRowCount(5);
 		this.listParticipant.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		rbtnPlayers.setSelected(true);
+		dateModel.setSelected(true);
+		selectedDate = (Date) datePicker.getModel().getValue();	
 		
 		panelName.add(locationTournament);
 		panelName.add(textLocation);
+		panelDate.add(dateTournament);
+		panelDate.add(datePicker);
 		panelType.add(typeTournament);
 		panelType.add(cbTournament);
 		panelCB.add(labelGame);
@@ -144,6 +172,7 @@ public class ViewAddTournament extends JPanel {
 		/* All is centered */
 		title.setAlignmentX(CENTER_ALIGNMENT);
 		panelName.setAlignmentX(CENTER_ALIGNMENT);
+		datePicker.setAlignmentX(CENTER_ALIGNMENT);
 		panelType.setAlignmentX(CENTER_ALIGNMENT);
 		panelCB.setAlignmentX(CENTER_ALIGNMENT);
 		panelParticipants.setAlignmentX(CENTER_ALIGNMENT);
@@ -155,6 +184,13 @@ public class ViewAddTournament extends JPanel {
 		this.add(panelSave, BorderLayout.SOUTH);
 		this.displayAddTournament();
 
+		datePicker.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				selectedDate = (Date) datePicker.getModel().getValue();				
+			}
+		});
+		
 		/* Check the selected type of tournament */
 		cbTournament.addItemListener(new ItemListener() {
 			@Override
@@ -245,11 +281,14 @@ public class ViewAddTournament extends JPanel {
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (type != null) {
-					addTournament(game, textLocation.getText(), type);
-				} else {
+				if (type == null) {
 					JOptionPane.showMessageDialog(content, "You must select a type of tournament !",
-							"Any type selected !", JOptionPane.ERROR_MESSAGE); 
+							"Any type selected !", JOptionPane.ERROR_MESSAGE);
+				} else if (game == null) {
+					JOptionPane.showMessageDialog(content, "You must select a game for the tournament !",
+							"Any game selected !", JOptionPane.ERROR_MESSAGE);
+				} else {
+					addTournament(game, textLocation.getText(), type);
 				}
 			}
 		});
@@ -277,6 +316,7 @@ public class ViewAddTournament extends JPanel {
 		for (Game g : games) {
 			comboBox.addItem(g);
 		}
+		content.add(panelDate);
 		content.add(panelType);
 		content.add(panelCB);
 		content.remove(panelParticipants);
@@ -320,7 +360,7 @@ public class ViewAddTournament extends JPanel {
 	private void editTournament() {
 
 		List<Participant> newParticipants = listParticipant.getSelectedValuesList();
-		Tournament tournament = new SimpleElimination(today, tournamentToEdit.getGame());
+		Tournament tournament = new SimpleElimination(selectedDate, tournamentToEdit.getGame());
 		
 		for (Participant p : newParticipants)
 			tournament.addParticipant(p);
@@ -358,10 +398,10 @@ public class ViewAddTournament extends JPanel {
 		Tournament tournament;
 		if (type == "Simple Elimination") {
 			tournament = (location == null || location.length() == 0) 
-					? new SimpleElimination(today, game) : new SimpleElimination(today, game, location);
+					? new SimpleElimination(selectedDate, game) : new SimpleElimination(selectedDate, game, location);
 		} else {
 			tournament = (location == null || location.length() == 0) 
-					? new DoubleElimination(today, game) : new DoubleElimination(today, game, location);
+					? new DoubleElimination(selectedDate, game) : new DoubleElimination(selectedDate, game, location);
 		}
 		List<Participant> parts =  listParticipant.getSelectedValuesList();
 
@@ -392,7 +432,6 @@ public class ViewAddTournament extends JPanel {
 		}
 	}
 	
-	
 	private void clear() {
 		textLocation.setText("");
 		listParticipant.clearSelection();
@@ -405,5 +444,32 @@ public class ViewAddTournament extends JPanel {
 	private void refreshPanel() {
 		this.repaint();
 		this.revalidate();
+	}
+	
+	
+	
+	
+	/*
+	 * Private class which permit to format the date
+	 */
+	private class DateLabelFormatter extends AbstractFormatter {
+
+	    private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+
+	    @Override
+	    public Object stringToValue(String text) throws ParseException {
+	        return dateFormatter.parseObject(text);
+	    }
+
+	    @Override
+	    public String valueToString(Object value) throws ParseException {
+	        if (value != null) {
+	            Calendar cal = (Calendar) value;
+	            return dateFormatter.format(cal.getTime());
+	        }
+
+	        return "";
+	    }
+
 	}
 }

@@ -1,26 +1,16 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.CompoundBorder;
 
 import controller.Controller;
 import controller.exceptions.PlayerAlreadyExistsException;
@@ -28,35 +18,21 @@ import tournament.Game;
 import tournament.Player;
 
 @SuppressWarnings("serial")
-public class ViewAddPlayer extends JPanel {
+public class ViewAddPlayer extends ViewAdd<Player> {
 
-	private Controller controller;
-	private ViewListPlayer viewList;
-	private Player playerToEdit;
-	private JPanel content, panelSave, panelEditCancel, panelNN, panelFN, panelLN, panelCB;
+	private JPanel panelNN, panelFN, panelLN, panelCB;
 	private JTextField nickname, fname, lname;
 	private JComboBox<Game> comboBox;
-	private JLabel labelAdd;
 	private Game preferredGame;
-	private boolean isEditing;
 
-	public ViewAddPlayer(Controller controller, ViewListPlayer viewList) {
+	public ViewAddPlayer(Controller controller, ViewList<Player> viewList) {
 		this(controller);
 		this.viewList = viewList;
 	}
 
 	public ViewAddPlayer(Controller controller) {
-		super();
+		super(controller, "player");
 		/* Initialization of the attributes */
-		this.controller = controller;
-		this.viewList = null;
-		this.setLayout(new BorderLayout());
-		this.content = new JPanel();
-		this.content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
-		this.isEditing = false;
-		this.nickname = new JTextField(20);
-		this.fname = new JTextField(20);
-		this.lname = new JTextField(20);
 		this.preferredGame = null;
 
 		/* Initialization of the components */
@@ -65,20 +41,15 @@ public class ViewAddPlayer extends JPanel {
 		JLabel labelF = new JLabel("Firstname ");
 		JLabel labelL = new JLabel("Lastname ");
 		JLabel labelGame = new JLabel("Preferred game ");
-		JButton save = new CustomButton("Save the player");
-		JButton edit = new CustomButton("Edit the player");
-		JButton cancel = new CustomButton("Cancel");
 
-		labelAdd = new JLabel("Add a player");
-		labelAdd.setFont(new Font("defaultFont", Font.BOLD, 15));
-
+		nickname = new JTextField(20);
+		fname = new JTextField(20);
+		lname = new JTextField(20);
+		comboBox = new JComboBox<Game>();
+		panelCB = new JPanel(new FlowLayout());
 		panelNN = new JPanel(new FlowLayout());
 		panelFN = new JPanel(new FlowLayout());
 		panelLN = new JPanel(new FlowLayout());
-		panelCB = new JPanel(new FlowLayout());
-		panelSave = new JPanel(new FlowLayout());
-		panelEditCancel = new JPanel(new FlowLayout());
-		comboBox = new JComboBox<Game>();
 
 		panelNN.add(labelN);
 		panelNN.add(nickname);
@@ -88,31 +59,17 @@ public class ViewAddPlayer extends JPanel {
 		panelLN.add(lname);
 		panelCB.add(labelGame);
 		panelCB.add(comboBox);
-		panelSave.add(save);
-		panelEditCancel.add(edit);
-		panelEditCancel.add(cancel);
-		panelSave.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
-		panelEditCancel.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
 
-		content.add(labelAdd);
-		content.add(Box.createRigidArea(new Dimension(0, 20)));
 		content.add(panelNN);
 		content.add(panelFN);
 		content.add(panelLN);
-		this.add(content, BorderLayout.CENTER);
-		this.labelAdd.setBorder(new CompoundBorder(
-				BorderFactory.createEmptyBorder(15, 0, 15, 0),
-				BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray)));
 
-		labelAdd.setAlignmentX(CENTER_ALIGNMENT);
 		panelNN.setAlignmentX(CENTER_ALIGNMENT);
 		panelFN.setAlignmentX(CENTER_ALIGNMENT);
 		panelLN.setAlignmentX(CENTER_ALIGNMENT);
 		panelCB.setAlignmentX(CENTER_ALIGNMENT);
-		panelSave.setAlignmentX(CENTER_ALIGNMENT);
-		panelEditCancel.setAlignmentX(CENTER_ALIGNMENT);
-
-		displayAddPlayer();
+		
+		displaySave();
 
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent event) {
@@ -123,100 +80,63 @@ public class ViewAddPlayer extends JPanel {
 				}
 			}
 		});
-
-		save.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (checkFields())
-					addPlayer(nickname.getText(), fname.getText(), lname.getText(), preferredGame);
-			}
-		});
-
-		/* When the button to cancel an editing is clicked */
-		cancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				displayAddPlayer();
-			}
-		});
-
-		/* When the button to edit a player is clicked */
-		edit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				editPlayer();
-			}
-		});
-
-		/* Empty border outside, gray border inside */
-		this.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20),
-				BorderFactory.createMatteBorder(2, 2, 2, 2, Color.gray)));
 	}
 
-	void displayEditPlayer(Player player) {
-		this.labelAdd.setText("Edit a player");
+	protected void displayEdit(Player player) {
+		super.displayEdit(player);
+		
 		content.remove(panelCB);
-		this.remove(panelSave);
-		this.isEditing = true;
-		this.playerToEdit = player;
+		nickname.setText(toEdit.getName());
+		fname.setText(toEdit.getFName());
+		lname.setText(toEdit.getLName());
 
-		nickname.setText(playerToEdit.getName());
-		fname.setText(playerToEdit.getFName());
-		lname.setText(playerToEdit.getLName());
+		// TODO add the combobox with checkbox for the games
 
-		// TODO add the combobox with checkbox for the games, finish getGamesPlayer
-
-		this.add(panelEditCancel, BorderLayout.SOUTH);
+		this.add(editCancel, BorderLayout.SOUTH);
 		refreshPanel();
 	}
 
-	public void playerDeleted(Player player) {
-		if (isEditing && playerToEdit == player) {
-			displayAddPlayer();
-		}
-	}
-
-	private void displayAddPlayer() {
-		clear();
-		this.isEditing = false;
-		this.labelAdd.setText("Add a player");
-		this.remove(panelEditCancel);
+	protected void displaySave() {
+		super.displaySave();
+		
 		ArrayList<Game> games = (ArrayList<Game>) this.controller.getSortedGames();
 		comboBox.removeAllItems();
 		comboBox.addItem(null);
+		
 		for (Game g : games) {
 			comboBox.addItem(g);
 		}
+		
 		content.add(panelCB);
-		this.add(panelSave, BorderLayout.SOUTH);
 		refreshPanel();
 	}
 
-	private void editPlayer() {
-		if (!checkFields()) // Check all the fields
-			return;
+	protected void edit() {
+		super.edit();
 
 		Player player = new Player(fname.getText(), lname.getText(), nickname.getText());
-		if (controller.playerExists(playerToEdit, player)) {
+		if (controller.playerExists(toEdit, player)) {
 			JOptionPane.showMessageDialog(this, "The player " + nickname.getText() + " already exists!",
 					"Editing not possible", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-		playerToEdit.setName(nickname.getText());
-		playerToEdit.setFName(fname.getText());
-		playerToEdit.setLName(lname.getText());
+		toEdit.setName(nickname.getText());
+		toEdit.setFName(fname.getText());
+		toEdit.setLName(lname.getText());
 
-		JOptionPane.showMessageDialog(this, "The player " + playerToEdit.getName() + " has successfully been updated!",
+		JOptionPane.showMessageDialog(this, "The player " + toEdit.getName() + " has successfully been updated!",
 				"Player edited", JOptionPane.INFORMATION_MESSAGE);
 		isEditing = false;
-		displayAddPlayer();
 
 		if (viewList != null)
 			viewList.makeList();
+		
+		displaySave();
 	}
 
-	private boolean checkFields() {
+	@Override
+	protected boolean checkFields() {
 		int lengthNN = nickname.getText().length();
 		int lengthFN = fname.getText().length();
 		int lengthLN = lname.getText().length();
@@ -249,17 +169,20 @@ public class ViewAddPlayer extends JPanel {
 		return true;
 	}
 
-	private void addPlayer(String nn, String fn, String ln, Game game) {
+	protected void save() {
+		String nn = nickname.getText();
+		String fn = fname.getText();
+		String ln = lname.getText();
 		Player player = null;
 
-		if (fn.isEmpty() && ln.isEmpty() && game == null)
+		if (fn.isEmpty() && ln.isEmpty() && preferredGame == null)
 			player = new Player(nn);
-		else if (!fn.isEmpty() && !ln.isEmpty() && game == null)
+		else if (!fn.isEmpty() && !ln.isEmpty() && preferredGame == null)
 			player = new Player(fn, ln, nn);
-		else if (fn.isEmpty() && ln.isEmpty() && game != null)
-			player = new Player(nn, game);
-		else if (!fn.isEmpty() && !ln.isEmpty() && game != null)
-			player = new Player(fn, ln, nn, game);
+		else if (fn.isEmpty() && ln.isEmpty() && preferredGame != null)
+			player = new Player(nn, preferredGame);
+		else if (!fn.isEmpty() && !ln.isEmpty() && preferredGame != null)
+			player = new Player(fn, ln, nn, preferredGame);
 
 		try {
 			this.controller.addPlayer(player);
@@ -274,18 +197,10 @@ public class ViewAddPlayer extends JPanel {
 		}
 	}
 
-	private void clear() {
+	protected void clear() {
 		nickname.setText("");
 		fname.setText("");
 		lname.setText("");
 		comboBox.setSelectedItem(null);
-	}
-
-	/**
-	 * Refresh the panel when the display changes.
-	 */
-	private void refreshPanel() {
-		this.repaint();
-		this.revalidate();
 	}
 }
