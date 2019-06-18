@@ -40,6 +40,7 @@ public class ViewListGame extends ViewList<Game> {
 	 */
 	@Override
 	void makeList() {
+		super.makeList();
 		Set<Game> games = this.controller.getGames();
 		
 		for (Game game : games) {
