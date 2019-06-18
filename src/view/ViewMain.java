@@ -240,6 +240,7 @@ public class ViewMain extends JFrame {
 		this.setJMenuBar(menubar);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+		this.changeView(ViewList(controller, false));
 	}
 	
 	public void changeView(JPanel view) {

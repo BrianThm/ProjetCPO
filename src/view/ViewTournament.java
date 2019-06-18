@@ -29,13 +29,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.border.CompoundBorder;
 
 import controller.Controller;
 import tournament.Championship;
 import tournament.DoubleElimination;
-import tournament.Game;
 import tournament.Match;
 import tournament.Participant;
 import tournament.SimpleElimination;
