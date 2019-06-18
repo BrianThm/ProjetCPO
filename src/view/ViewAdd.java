@@ -29,11 +29,6 @@ public abstract class ViewAdd<T> extends JPanel {
 	protected T toEdit;
 	protected boolean isEditing;
 	
-	public ViewAdd(Controller controller, ViewList<T> viewList, String name) {
-		this(controller, name);
-		this.viewList = viewList;
-	}
-	
 	public ViewAdd(Controller controller, String name) {
 		super();
 		/* Initialization of the attributes */
