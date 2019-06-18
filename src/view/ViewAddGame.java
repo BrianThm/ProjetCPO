@@ -140,7 +140,6 @@ public class ViewAddGame extends ViewAdd<Game> {
 	protected void displaySave() {
 		super.displaySave();
 		imgGame = null;
-		this.add(panelSave, BorderLayout.SOUTH);
 		refreshPanel();
 	}
 

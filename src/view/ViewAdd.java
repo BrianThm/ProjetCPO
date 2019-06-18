@@ -103,6 +103,7 @@ public abstract class ViewAdd<T> extends JPanel {
 		this.isEditing = false;
 		title.setText("Add a " + name.toLowerCase());
 		this.remove(editCancel);
+		this.add(panelSave, BorderLayout.SOUTH);
 	}
 	
 	protected void displayEdit(T t) {
