@@ -98,8 +98,7 @@ public class PlayerTest extends SetupTest {
 		player1.playsIn(team1);
 		assertEquals("The team is not good !", team1, player1.getPreferredTeam());
 		player1.playsIn(team2);
-		assertEquals("The team is not good !", team1, player1.getPreferredTeam());
-		
+		assertEquals("The team is not good !", team2, player1.getPreferredTeam());
 	}
 
 	@Test

@@ -5,7 +5,9 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
@@ -99,7 +101,7 @@ public class TournamentTest extends SetupTest {
 	 */
 	@Test
 	public void testAddParticipant() {
-		Set<Participant> participantsTournament = new HashSet<Participant>();
+		List<Participant> participantsTournament = new ArrayList<Participant>();
 		assertEquals("Participants for tournament1 have not been add ! ", 0, tournament1.getParticipants().size());
 		assertEquals("Participants for tournament1 have not been correctly initialize! ", participantsTournament, tournament1.getParticipants());
 		tournament.addParticipant(participants.get(0));
@@ -120,7 +122,7 @@ public class TournamentTest extends SetupTest {
 		tournament.addParticipant(participants.get(0));
 		tournament.addParticipant(participants.get(3));
 		tournament.addParticipant(participants.get(8)); 
-		Set<Participant> participantsTournament = new HashSet<Participant>();
+		List<Participant> participantsTournament = new ArrayList<Participant>();
 		participantsTournament.add(participants.get(0)); 
 		participantsTournament.add(participants.get(3)); 
 		
@@ -145,8 +147,8 @@ public class TournamentTest extends SetupTest {
 	 */
 	@Test
 	public void testGetParticipants() {
-		assertEquals("Participants for tournament have not been initialize correctly!",new HashSet<Participant>(),tournament.getParticipants());
-		Set<Participant> participantsTournament1 = new HashSet<Participant>();
+		List<Participant> participantsTournament1 = new ArrayList<Participant>();
+		assertEquals("Participants for tournament have not been initialize correctly!",participantsTournament1,tournament.getParticipants());
 		participantsTournament1.add(participants.get(8)); 
 		participantsTournament1.add(participants.get(10)); 
 		

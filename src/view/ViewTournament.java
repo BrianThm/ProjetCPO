@@ -326,7 +326,12 @@ public class ViewTournament extends JPanel {
 					try {
 						int scoreP1 = Integer.parseInt(scorep1.getText());
 						int scoreP2 = Integer.parseInt(scorep2.getText());
-						m.setScore(scoreP1, scoreP2);
+						if (scoreP1 <0 || scoreP2 <0) {
+							JOptionPane.showMessageDialog(content, "The score must be positive !",
+									"Score is negative !", JOptionPane.ERROR_MESSAGE);
+						} else {
+							m.setScore(scoreP1, scoreP2);
+						}
 					}catch(NumberFormatException exc) {
 						JOptionPane.showMessageDialog(content, "You must put an number in the score !",
 								"Score is not a number !", JOptionPane.ERROR_MESSAGE);

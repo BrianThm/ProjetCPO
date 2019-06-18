@@ -116,6 +116,7 @@ public abstract class Participant {
 			if (times >= timesPlayed) {
 				game = g;
 				timesPlayed = times;
+				times = 0;
 			}
 		}
 		

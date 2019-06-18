@@ -50,10 +50,10 @@ public class ParticipantTest extends SetupTest{
 	@Test
 	public void testGetPreferredGame() {
 		participants.get(0).plays(game1);
-		participants.get(1).plays(game3);
-		participants.get(8).plays(game);
 		assertEquals(game1, participants.get(0).getPreferredGame());
+		participants.get(1).plays(game3);
 		assertEquals(game3, participants.get(1).getPreferredGame());
+		participants.get(8).plays(game);
 		assertEquals(game, participants.get(8).getPreferredGame());
 		assertEquals(null, participants.get(9).getPreferredGame());
 	}
@@ -198,17 +198,17 @@ public class ParticipantTest extends SetupTest{
 	 */
 	@Test
 	public void testToString() {
-		assertEquals("Player \""+pseudo1+"\", Game: "+game1, participants.get(1).toString());
-		assertEquals("Participant \""+nomTeam3+"\", Game: "+game3, participants.get(11).toString());
-		assertEquals("Participant \""+nomTeam+"\"", participants.get(8).toString());
+		assertEquals("The player is not displayed correctly!",pseudo1, participants.get(1).toString());
+		assertEquals(nomTeam3, participants.get(11).toString());
+		assertEquals(nomTeam, participants.get(8).toString());
 		
 		boolean found = false;
-		if (participants.get(3).toString().equals("Player "+firstname3+" \""+pseudo3+"\" "+name3+", Game: "+ game3)) {
+		if (participants.get(3).toString().equals(pseudo3+" "+firstname3+" "+name3)) {
 			found = true;
 		}
 		assertEquals(true, found);
 		found = false;
-		if (participants.get(9).toString().equals("Participant \""+ nomTeam1+"\"")) {
+		if (participants.get(9).toString().equals(nomTeam1)) {
 			found = true;
 		}
 		assertEquals(true, found);
