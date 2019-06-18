@@ -245,11 +245,14 @@ public class ViewAddTournament extends JPanel {
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (type != null) {
-					addTournament(game, textLocation.getText(), type);
-				} else {
+				if (type == null) {
 					JOptionPane.showMessageDialog(content, "You must select a type of tournament !",
-							"Any type selected !", JOptionPane.ERROR_MESSAGE); 
+							"Any type selected !", JOptionPane.ERROR_MESSAGE);
+				} else if (game == null) {
+					JOptionPane.showMessageDialog(content, "You must select a game for the tournament !",
+							"Any game selected !", JOptionPane.ERROR_MESSAGE);
+				} else {
+					addTournament(game, textLocation.getText(), type);
 				}
 			}
 		});
