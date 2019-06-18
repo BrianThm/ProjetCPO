@@ -24,6 +24,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -60,8 +61,9 @@ public class ViewAddTournament extends JPanel {
 
 	private ViewMain fenetre;
 	private Controller controller;
-	private JPanel content, panelSave, editCancel, panelDate;
-	private JPanel panelType, panelCB, panelRadio, panelParticipants;
+	private JPanel content, panelSave, editCancel;
+	private JPanel panelDate, panelType, panelCB;
+	private JPanel panelParticipants;
 	private UtilDateModel dateModel;
 	private JDatePanelImpl datePanel;
 	private JDatePickerImpl datePicker;
@@ -77,13 +79,13 @@ public class ViewAddTournament extends JPanel {
 	private JList<Participant> listParticipant;
 	private boolean isEditing;
 	private boolean isPlayerSelected;
+	private boolean randomDraw;
 
 	public ViewAddTournament(Controller controller, ViewListTeam viewList) {
 		this(controller);
 		this.viewList = viewList;
 	}
 
-	@SuppressWarnings("deprecation")
 	public ViewAddTournament(Controller controller) {
 		super();
 		
@@ -107,11 +109,15 @@ public class ViewAddTournament extends JPanel {
 		this.panelType = new JPanel(new FlowLayout());
 		this.panelCB = new JPanel(new FlowLayout());
 		this.panelParticipants = new JPanel(new FlowLayout());
-		this.panelRadio = new JPanel(new GridLayout(2, 0));
 		this.isEditing = false;
+		this.randomDraw = false;
 		
 		/* Initialization of the components */
 		JPanel panelName = new JPanel(new FlowLayout());
+		JPanel panelRadio = new JPanel(new GridLayout(2, 0));
+		JPanel panelRadListAdd = new JPanel(new FlowLayout());
+		JPanel panelShuffle = new JPanel();
+		panelShuffle.setLayout(new BoxLayout(panelShuffle, BoxLayout.Y_AXIS));;
 		JLabel locationTournament = new JLabel("Location ");
 		JLabel dateTournament = new JLabel("Date ");
 		JLabel typeTournament = new JLabel("Type ");
@@ -119,6 +125,7 @@ public class ViewAddTournament extends JPanel {
 		JRadioButton rbtnPlayers = new JRadioButton("Players");
 		JRadioButton rbtnTeams = new JRadioButton("Teams");
 		JButton addParticipant = new CustomButton("Add");
+		JCheckBox btnShuffleParts = new JCheckBox("Random draw");
 		JButton btnSave = new CustomButton("Save the tournament");
 		JButton btnEdit = new CustomButton("Edit the tournament");
 		JButton btnCancel = new CustomButton("Cancel");
@@ -155,9 +162,12 @@ public class ViewAddTournament extends JPanel {
 		btnGrp.add(rbtnTeams);
 		panelRadio.add(rbtnPlayers);
 		panelRadio.add(rbtnTeams);
-		panelParticipants.add(panelRadio);
-		panelParticipants.add(new JScrollPane(this.listParticipant));
-		panelParticipants.add(addParticipant);
+		panelRadListAdd.add(panelRadio);
+		panelRadListAdd.add(new JScrollPane(this.listParticipant));
+		panelRadListAdd.add(addParticipant);
+		panelShuffle.add(panelRadListAdd);
+		panelShuffle.add(btnShuffleParts);
+		panelParticipants.add(panelShuffle);
 		editCancel.add(btnEdit);
 		editCancel.add(btnCancel);
 		panelSave.add(btnSave);
@@ -258,6 +268,18 @@ public class ViewAddTournament extends JPanel {
 						    rbtnTeams.doClick();
 						 }
 					});
+				}
+			}
+		});
+		
+		/* If the user want to shuffle the participants into the tournament */
+		btnShuffleParts.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (btnShuffleParts.isSelected()) {
+					randomDraw = true;
+				} else {
+					randomDraw = false;
 				}
 			}
 		});
@@ -408,6 +430,10 @@ public class ViewAddTournament extends JPanel {
 		for (Participant p : parts)
 			tournament.addParticipant(p);
 
+		if (randomDraw) {
+			tournament.randomDraw();
+		}
+		
 		try {
 			tournament.initializeMatchs();
 			this.controller.addTournament(tournament);

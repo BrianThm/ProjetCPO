@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -32,6 +33,7 @@ public class ViewAddTeam extends ViewAdd<Team> {
 
 	private JPanel panelCB, panelPlayers;
 	private JTextField textTeam;
+	private JLabel membersDisplay;
 	private JComboBox<Game> comboBox;
 	private Game preferredGame;
 	private JList<Player> listPlayers;
@@ -47,6 +49,8 @@ public class ViewAddTeam extends ViewAdd<Team> {
 		this.textTeam = new JTextField(20);
 		this.panelCB = new JPanel(new FlowLayout());
 		this.panelPlayers = new JPanel(new FlowLayout());
+		this.membersDisplay = new JLabel();
+		this.isEditing = false;
 
 		/* Initialization of the components */
 		JPanel panelName = new JPanel(new FlowLayout());
@@ -105,9 +109,14 @@ public class ViewAddTeam extends ViewAdd<Team> {
 		refreshPanel();
 	}
 
+	
+		
+	
+		//content.remove(panelCB);
 	@Override
 	protected void displayEdit(Team team) {
 		super.displayEdit(team);
+		clear();
 		
 		textTeam.setText(toEdit.getName());
 
@@ -124,8 +133,18 @@ public class ViewAddTeam extends ViewAdd<Team> {
 		for (int i = 0; i < arraySelected.length; i++)
 			arraySelected[i] = selectedPlayers.get(i);
 		
+		ArrayList<Player> listEffectivePlayers = new ArrayList<Player>(team.getMembers());
+		membersDisplay.setText("Members: {");
+		for (int i=0; i<listEffectivePlayers.size()-1; i++) {
+			String texte = membersDisplay.getText();
+			membersDisplay.setText(texte + listEffectivePlayers.get(i).getName() + ", ");
+		}
+		membersDisplay.setText(membersDisplay.getText()+ listEffectivePlayers.get(listEffectivePlayers.size()-1).getName());
+		membersDisplay.setText(membersDisplay.getText() + "}");
+		
 		listPlayers.setSelectedIndices(arraySelected);
-
+		content.add(membersDisplay);
+		this.add(editCancel, BorderLayout.SOUTH);
 		refreshPanel();
 	}
 
@@ -209,6 +228,7 @@ public class ViewAddTeam extends ViewAdd<Team> {
 	@Override
 	protected void clear() {
 		textTeam.setText("");
+		membersDisplay.setText("");
 		listPlayers.clearSelection();
 		comboBox.setSelectedItem(null);
 	}

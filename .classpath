@@ -8,6 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="library/jgraphx.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Brian/cpo/ProjetCPO/library/jdatepicker-1.3.4.jar"/>
+	<classpathentry kind="lib" path="/home/romain/Documents/ENSEEIHT/SEMESTRE 6/POO Java/ProjetCPO/library/jdatepicker-1.3.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
