@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -67,6 +66,9 @@ public class ViewAddGame extends ViewAdd<Game> {
 		JLabel nameGame = new JLabel("Name: ");
 		JPanel nameText = new JPanel(new FlowLayout());
 		JPanel checkBtn = new JPanel(new FlowLayout());
+		
+		this.textGame = new JTextField(20);
+		this.hasImage = new JCheckBox("Image associated to the game");
 
 		btnAddImg = new CustomButton("Add an image");
 		labelImage = new JLabel();
@@ -115,8 +117,10 @@ public class ViewAddGame extends ViewAdd<Game> {
 	 * Displays the edit and cancel buttons and fill the fields with the game to edit.
 	 * @param game The game to edit.
 	 */
+	@Override
 	protected void displayEdit(Game game) {
 		super.displayEdit(game);
+		
 		textGame.setText(game.getName());
 
 		if (game.hasImage()) {
@@ -136,6 +140,7 @@ public class ViewAddGame extends ViewAdd<Game> {
 	 * Display the view to add a game, remove the edit and cancel buttons and 
 	 * displays the save button.
 	 */
+	@Override
 	protected void displaySave() {
 		super.displaySave();
 		imgGame = null;
@@ -145,6 +150,7 @@ public class ViewAddGame extends ViewAdd<Game> {
 	/**
 	 * Edits the game whith the filled fields.
 	 */
+	@Override
 	protected void edit() {
 		super.edit();
 
@@ -259,11 +265,6 @@ public class ViewAddGame extends ViewAdd<Game> {
 
 	@Override
 	protected void clear() {
-		if (this.textGame == null)
-			this.textGame = new JTextField(20);
-		
-		if (this.hasImage == null)
-			this.hasImage = new JCheckBox("Image associated to the game");
 		textGame.setText("");
 		hasImage.setSelected(false);
 	}

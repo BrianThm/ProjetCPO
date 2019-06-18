@@ -10,7 +10,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -20,8 +22,10 @@ import javax.swing.ImageIcon;
 import controller.exceptions.LoadImpossibleException;
 import controller.exceptions.SaveImpossibleException;
 import tournament.Game;
+import tournament.Match;
 import tournament.Participant;
 import tournament.Player;
+import tournament.SimpleElimination;
 import tournament.Team;
 import tournament.Tournament;
 
@@ -45,6 +49,7 @@ public class FileOperation {
 		List<Game> idGames = new ArrayList<Game>();
 		List<Player> idPlayers = new ArrayList<Player>();
 		List<Team> idTeams = new ArrayList<Team>();
+		List<SimpleElimination> idSimples = new ArrayList<SimpleElimination>();
 		File basicFile = null;
 		FileWriter file = null;
 		String name;
@@ -56,8 +61,13 @@ public class FileOperation {
 		for (Player player : players) {
 			idPlayers.add(player);
 		}
-		for(Team team : teams) {
+		for (Team team : teams) {
 			idTeams.add(team);
+		}
+		for (Tournament tournament : tournaments) {
+			if (tournament instanceof SimpleElimination) {
+				idSimples.add((SimpleElimination) tournament);
+			}
 		}
 		
 		try {
@@ -70,6 +80,7 @@ public class FileOperation {
 			saveGames(file, idGames, path.getParent().toString(), name);
 			savePlayers(file, idPlayers, idGames);
 			saveTeams(file, idTeams, idPlayers, idGames);
+			saveSimpleEliminations(file, idSimples, idTeams, idPlayers, idGames);
 		} catch (IOException e) {
 			throw new SaveImpossibleException(e.getMessage());
 		} finally {
@@ -180,6 +191,51 @@ public class FileOperation {
 		return -1;
 	}
 	
+	private static void saveSimpleEliminations(FileWriter file, List<SimpleElimination> simples, List<Team> teams, List<Player> players, List<Game> games) throws IOException {
+		String line;
+		SimpleElimination simple;
+		Match[] matchs;
+		int game, p1, p2, s1, s2;
+		boolean isPlayer;
+		Participant participant;
+		file.write("# simple eliminations #");
+		// location ; date ; index of game ; [ p(layer) | t(eam) ] ; [ participant 1, participant 2, score 1, score 2 ]
+		
+		for (int i = 0; i < simples.size(); i++) {
+			simple = simples.get(i);
+			isPlayer = simple.getParticipants().get(0) instanceof Player;
+			game = games.indexOf(simple.getGame());
+			matchs = simple.getMatchs();
+			line = simple.getLocation() + ";" + simple.getDate().getTime() + ";" + game + ";";
+			if (isPlayer) {
+				line += "p" + ";";
+			} else {
+				line += "t" + ";";
+			}
+			for (Match match : matchs) {
+				participant = match.getParticipant1();
+				if (isPlayer) {
+					p1 = players.indexOf(participant);
+				} else {
+					p1 = teams.indexOf(participant);
+				}
+				
+				participant = match.getParticipant2();
+				if (participant instanceof Player) {
+					p2 = players.indexOf(participant);
+				} else {
+					p2 = teams.indexOf(participant);
+				}
+				
+				s1 = match.getScore()[0];
+				s2 = match.getScore()[1];
+				
+				line += ";" + p1 + "," + p2 + "," + s1 + "," + s2;
+			}
+			file.write(line);
+		}
+	}
+	
 	/**
 	 * Load from a file informations about tournaments.
 	 * @param filename The filename to load from (path included).
@@ -198,6 +254,7 @@ public class FileOperation {
 		List<Game> idGames = new ArrayList<Game>();
 		List<Player> idPlayers = new ArrayList<Player>();
 		List<Team> idTeams = new ArrayList<Team>();
+		List<SimpleElimination> idSimples = new ArrayList<SimpleElimination>();
 		File basicFile = null;
 		FileReader file = null;
 		BufferedReader buffer = null;
@@ -215,6 +272,7 @@ public class FileOperation {
 			loadGames(buffer, idGames, path.getParent().toString(), name);
 			loadPlayers(buffer, idPlayers, idGames);
 			loadTeams(buffer, idTeams, idPlayers, idGames);
+			loadSimplesEliminations(buffer, idSimples, idTeams, idPlayers, idGames);
 		} catch (IOException e) {
 			throw new LoadImpossibleException(e.getMessage());
 		} catch (Throwable e) {
@@ -232,6 +290,7 @@ public class FileOperation {
 		games.addAll(idGames);
 		players.addAll(idPlayers);
 		teams.addAll(idTeams);
+		tournaments.addAll(idSimples);
 	}
 
 	private static void loadGames(BufferedReader buffer, List<Game> games, String path, String name) throws IOException, LoadImpossibleException {
@@ -299,7 +358,7 @@ public class FileOperation {
 		Game game;
 		Team team;
 		
-		while ((line = buffer.readLine()) != null && !line.equals("")) {
+		while ((line = buffer.readLine()) != null && !line.equals("# simple eliminations #")) {
 			args = line.split(";");
 			name = args[0];
 			if (!args[1].equals("-1")) {
@@ -315,6 +374,46 @@ public class FileOperation {
 			}
 			
 			idTeams.add(team);
+		}
+	}
+
+	private static void loadSimplesEliminations(BufferedReader buffer, List<SimpleElimination> idSimples, List<Team> idTeams, List<Player> idPlayers, List<Game> idGames) throws IOException, LoadImpossibleException, ParseException {
+		String line, args[], location, date, match[];
+		Match[] matchs;
+		Participant par1, par2;
+		Game game;
+		int g, p1, p2, s1, s2;
+		boolean isPlayer;
+		
+		while((line = buffer.readLine()) != null) {
+			args = line.split(";");
+			location = args[0];
+			date = args[1];
+			g = Integer.parseInt(args[2]);
+			game = idGames.get(g);
+			isPlayer = args[3].equals("p");
+			
+			matchs = new Match[args.length - 3];
+			for (int i = 4; i < args.length; i++) {
+				match = args[i].split(",");
+				p1 = Integer.parseInt(match[0]);
+				p2 = Integer.parseInt(match[1]);
+				s1 = Integer.parseInt(match[2]);
+				s2 = Integer.parseInt(match[3]);
+				
+				if (isPlayer) {
+					par1 = idPlayers.get(p1);
+					par2 = idPlayers.get(p2);
+				} else {
+					par1 = idTeams.get(p1);
+					par2 = idTeams.get(p2);
+				}
+				
+				matchs[i - 4] = new Match(par1, par2, game);
+				matchs[i - 4].setScore(s1, s2);
+			}
+			
+			idSimples.add(new SimpleElimination(new Date(Long.parseLong(date)), game, location));
 		}
 	}
 }

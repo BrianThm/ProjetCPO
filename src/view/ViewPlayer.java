@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 import controller.Controller;
+import tournament.Player;
 
 @SuppressWarnings("serial")
 public class ViewPlayer extends JPanel {
@@ -21,9 +22,9 @@ public class ViewPlayer extends JPanel {
 		this.setLayout(new GridLayout(0, 2));
 
 		// The two views need to be linked by each other when there is a modification in one of them.
-		ViewListPlayer listPlayer = new ViewListPlayer(this.controller, true);
-		ViewAddPlayer addPlayer = new ViewAddPlayer(this.controller, listPlayer);
-		listPlayer.setViewAddPlayer(addPlayer);
+		ViewList<Player> listPlayer = new ViewListPlayer(this.controller, true);
+		ViewAdd<Player> addPlayer = new ViewAddPlayer(this.controller, listPlayer);
+		listPlayer.setViewAdd(addPlayer);
 
 		this.add(listPlayer);
 		this.add(addPlayer);

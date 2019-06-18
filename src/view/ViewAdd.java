@@ -66,7 +66,9 @@ public abstract class ViewAdd<T> extends JPanel {
 		
 		/* Adding all the components to the main panel */
 		this.add(content, BorderLayout.CENTER);
-		this.displaySave();
+		this.isEditing = false;
+		title.setText("Add a " + name.toLowerCase());
+		this.add(panelSave, BorderLayout.SOUTH);
 		
 		/* When the button to cancel an editing is clicked */
 		btnCancel.addActionListener(new ActionListener() {
