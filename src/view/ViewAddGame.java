@@ -70,7 +70,6 @@ public class ViewAddGame extends ViewAdd<Game> {
 
 		editCancel = new JPanel(new FlowLayout());
 		btnAddImg = new CustomButton("Add an image");
-		hasImage = new JCheckBox("Image associated to the game");
 		labelImage = new JLabel();
 		nameText.add(nameGame);
 		nameText.add(textGame);
@@ -264,6 +263,9 @@ public class ViewAddGame extends ViewAdd<Game> {
 	protected void clear() {
 		if (this.textGame == null)
 			this.textGame = new JTextField(20);
+		
+		if (this.hasImage == null)
+			this.hasImage = new JCheckBox("Image associated to the game");
 		textGame.setText("");
 		hasImage.setSelected(false);
 	}
