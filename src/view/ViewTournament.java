@@ -133,7 +133,7 @@ public class ViewTournament extends JPanel {
 		this.title = new JLabel("Tournament information");
 		title.setFont(new Font("defaultFont", Font.BOLD, 15));
 		title.setAlignmentX(CENTER_ALIGNMENT);
-		this.title.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
+		//this.title.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
 		
 		List<Participant> listP = new ArrayList<Participant>(tournament.getParticipants());
 		Participant[] participantArray = listP.toArray(new Participant[listP.size()]);		
@@ -193,6 +193,17 @@ public class ViewTournament extends JPanel {
 		clear();
 		title.setText("Tournament informations");
 		textLocation.setText(tournament.getLocation());
+		if (SimpleElimination.class.isInstance(tournament)) {
+			textTypeTournament.setText("Simple Elimination");
+		} else if (DoubleElimination.class.isInstance(tournament)) {
+			textTypeTournament.setText("Double Elimination");
+		} else if (Championship.class.isInstance(tournament)) {
+			textTypeTournament.setText("Championship");
+		}
+		textGame.setText(tournament.getGame().getName());
+		SimpleDateFormat formater = new SimpleDateFormat("dd-MM-yyyy");
+		formater.format(tournament.getDate());
+		this.textDate.setText(""+formater);
 		content.remove(panelParticipants);
 		content.add(panelParticipants);
 		refreshPanel();
@@ -200,6 +211,9 @@ public class ViewTournament extends JPanel {
 	
 	private void clear() {
 		textLocation.setText("");
+		textDate.setText("");
+		textGame.setText("");
+		textTypeTournament.setText("");
 		listParticipant.clearSelection();
 	}
 
