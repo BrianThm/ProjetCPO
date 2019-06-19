@@ -1,24 +1,18 @@
-/**
- * 
- */
 package test;
 
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Test;
 
 import tournament.Participant;
 
 /**
- * @author Group
- * @version 1.0 
  * Class that test the interface Tournament
- *
+ * @author Group
+ * @version 1.0
  */
 public class TournamentTest extends SetupTest {
 
@@ -156,5 +150,4 @@ public class TournamentTest extends SetupTest {
 		tournament1.addParticipant(participants.get(10));
 		assertEquals("Participants for tournament have not been initialize correctly!",participantsTournament1,tournament1.getParticipants());
 	}
-
 }

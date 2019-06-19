@@ -1,7 +1,11 @@
 package test;
 
-import static org.junit.Assert.*;
-import org.junit.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.fail;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import tournament.Match;
 import tournament.Player;
@@ -85,13 +89,13 @@ public class DoubleEliminationTest extends SetupTest {
 	}
 	
 	@Test
-	public void testDrawMatch() throws NotEnoughParticipantsException {
+	public void testDrawMatch() throws NotEnoughParticipantsException, MatchDrawException {
 		tournament4.initializeMatchs();
 		matchs = tournament4.getMatchs();
 		try {
 			matchs[4].setScore(4, 3);
 			matchs[5].setScore(1, 1);
-			fail("Failed to throw MatchDraw exception.");
+			fail("Failed to throw MatchDrawException.");
 		} catch (MatchDrawException e) {}
 		
 		matchs = tournament4.getMatchs();
@@ -131,7 +135,7 @@ public class DoubleEliminationTest extends SetupTest {
 	}
 	
 	@Test
-	public void testUpdate1() throws NotEnoughParticipantsException {
+	public void testUpdate1() throws NotEnoughParticipantsException, MatchDrawException {
 		tournament4.initializeMatchs();
 		matchs = tournament4.getMatchs();
 		matchs[4].setScore(1,0);
@@ -152,7 +156,7 @@ public class DoubleEliminationTest extends SetupTest {
 	}
 	
 	@Test
-	public void testUpdate2() throws NotEnoughParticipantsException {
+	public void testUpdate2() throws NotEnoughParticipantsException, MatchDrawException {
 		testUpdate1();
 		matchs = tournament4.getMatchs();
 		// First matchs between the loosers
@@ -178,7 +182,7 @@ public class DoubleEliminationTest extends SetupTest {
 	}
 	
 	@Test
-	public void testUpdate3() throws NotEnoughParticipantsException {
+	public void testUpdate3() throws NotEnoughParticipantsException, MatchDrawException {
 		testUpdate2();
 		matchs = tournament4.getMatchs();
 		// Ending the 2nd turn of looser's bracket
@@ -202,7 +206,7 @@ public class DoubleEliminationTest extends SetupTest {
 	}
 	
 	@Test
-	public void testFinale_1() throws NotEnoughParticipantsException {
+	public void testFinale_1() throws NotEnoughParticipantsException, MatchDrawException {
 		testUpdate3();
 		matchs = tournament4.getMatchs();
 		// The winner of the winner's bracket win the finale
@@ -217,7 +221,7 @@ public class DoubleEliminationTest extends SetupTest {
 	}
 	
 	@Test
-	public void testFinale_2() throws NotEnoughParticipantsException {
+	public void testFinale_2() throws NotEnoughParticipantsException, MatchDrawException {
 		testUpdate3();
 		matchs = tournament4.getMatchs();
 		// The winner of the looser's bracket win the finale
@@ -236,7 +240,7 @@ public class DoubleEliminationTest extends SetupTest {
 	}
 	
 	@Test
-	public void fullTournamentWithTeams() throws NotEnoughParticipantsException {
+	public void fullTournamentWithTeams() throws NotEnoughParticipantsException, MatchDrawException {
 		testInitWithTeams();
 		matchs = tournament5.getMatchs();
 		

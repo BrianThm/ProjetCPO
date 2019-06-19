@@ -4,22 +4,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
+import tournament.exceptions.MatchDrawException;
 import tournament.exceptions.NotEnoughParticipantsException;
 
-@SuppressWarnings("deprecation")
 /**
  * Class Tournament, will be specified by each type of tournament.
  * @author Group
  * @version 1.0
  */
-public abstract class Tournament implements Observer {
+public abstract class Tournament {
 	
 	private Game game;
 	private String location;
-	private Date date; 
+	private Date date;
 	protected List<Participant> participants;
 	protected Participant winner;
 	protected Match[] matchs;
@@ -30,7 +28,7 @@ public abstract class Tournament implements Observer {
 	 * @param game The game of the tournament.
 	 */
 	public Tournament(Date date, Game game) {
-		this(date, game, ""); 
+		this(date, game, "");
 	}
 	
 	/**
@@ -83,7 +81,7 @@ public abstract class Tournament implements Observer {
 	public void setDate(Date date) {
 		assert date != null;
 		
-		this.date = date; 
+		this.date = date;
 	}
 	
 	/**
@@ -184,16 +182,7 @@ public abstract class Tournament implements Observer {
 	
 	/**
 	 * Update the tournament tree at the end of each match.
+	 * @throws MatchDrawException For some tournaments, there can't be a draw.
 	 */
-	public abstract void updateMatchs(Match m);
-	
-	
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		Match m = null;
-		if (arg0 instanceof Match) {
-			m = (Match) arg0;
-		}
-		this.updateMatchs(m);
-	}
+	public abstract void updateMatchs(Match m) throws MatchDrawException;
 }

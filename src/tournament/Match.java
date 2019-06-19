@@ -1,22 +1,18 @@
 package tournament;
 
-import java.util.Observable;
-
 import tournament.exceptions.MatchDrawException;
 
-@SuppressWarnings("deprecation")
 /**
  * Class Match. A match is played by two Participant. 
  * It can have a winner, or be a draw.
  * @author Group
  * @version 1.0
  */
-public class Match extends Observable {
+public class Match {
 	
-	private Participant part1, part2, winner;
-	private int[] score; 
-	private Game game;
-	private boolean draw;
+	private Tournament tournament;
+	private Participant part1, part2;
+	private int[] score = new int[2];
 	
 	/**
 	 * Constructor of a Match with two participants and a game.
@@ -24,17 +20,16 @@ public class Match extends Observable {
 	 * @param p2 The second participant.
 	 * @param game The match game.
 	 */
-	public Match(Participant p1, Participant p2, Game game) {
+	public Match(Tournament tournament, Participant p1, Participant p2) {
+		assert tournament != null;
 		assert p1 != null;
 		assert p2 != null;
-		assert game != null;
 		
-		this.score = new int[2];
+		this.tournament = tournament;
 		this.part1 = p1;
 		this.part2 = p2;
-		this.game = game;
-		this.winner = null;
-		this.draw = false;
+		score[0] = -1;
+		score[1] = -1;
 	}
 	
 	/**
@@ -51,11 +46,10 @@ public class Match extends Observable {
 	 */
 	public void setParticipant1(Participant part) {
 		assert part != null;
-		if (part.getClass().isInstance(part2)) {
-			if (part != part2) {
-				this.part1 = part;
-			}
-		}
+		assert part != part2;
+		assert part.getClass().isInstance(part2);
+		
+		this.part1 = part;
 	}
 	
 	/**
@@ -72,11 +66,10 @@ public class Match extends Observable {
 	 */
 	public void setParticipant2(Participant part) {
 		assert part != null;
-		if (part.getClass().isInstance(part1)) {
-			if (part != part1) {
-				this.part2 = part;
-			}
-		}
+		assert part != part1;
+		assert part.getClass().isInstance(part1);
+		
+		this.part2 = part;
 	}
 	
 	/**
@@ -84,57 +77,32 @@ public class Match extends Observable {
 	 * @return
 	 */
 	public int[] getScore() {
-		return score; 
+		return score;
 	}
 	
 	/**
 	 * Set the score of the match and initialize the winner
 	 * @param scorePart1 the score of the participant 1
 	 * @param scorePart2 the score of the participant 2
+	 * @throws MatchDrawException 
 	 */
-	public void setScore(int scorePart1, int scorePart2) {
-		assert scorePart1 >= 0; 
-		assert scorePart2 >= 0; 
+	public void setScore(int scorePart1, int scorePart2) throws MatchDrawException {
+		assert scorePart1 >= 0;
+		assert scorePart2 >= 0;
 		
-		score[0] = scorePart1; 
-		score[1] = scorePart2;
-		
-		Participant winnerTemp = this.winner; 
-		boolean drawTemp = this.draw; 
-		
-		boolean alreadyPlayed = false; 
-		
-		if (isPlayed()) {
-			alreadyPlayed = true;
-		}
-		
-		if (score[0] > score[1]) {
-			this.winner = part1;
-			this.draw = false;  
-		} else { 
-			if (score[1] > score[0]) {
-				this.winner = part2;
-				this.draw = false;  
-			} else {
-				this.winner = null;
-				this.draw = true;
-			}
- 		}
-		
-		if (!alreadyPlayed) {
+		if (!isPlayed()) {
 			gamePlayed();
 		}
 		
+		score[0] = scorePart1;
+		score[1] = scorePart2;
+		
 		try {
-			this.setChanged();
-			this.notifyObservers();	
-		} catch(MatchDrawException e) {
-			// Avoid the modifications
-			this.winner = winnerTemp; 
-			this.draw = drawTemp;
-			score[0] = 0; 
-			score[1] = 0;
-			throw new MatchDrawException();
+			tournament.updateMatchs(this);
+		} catch (MatchDrawException e) {
+			score[0] = -1;
+			score[1] = -1;
+			throw e;
 		}
 	}
 	
@@ -143,16 +111,15 @@ public class Match extends Observable {
 	 * @return True if the match has been played, false if not.
 	 */
 	public boolean isPlayed() {
-		return winner != null || draw;
+		return getWinner() != null || isDraw();
 	}
 	
 	/**
-	 * Method to indicate that the match 
+	 * Method to indicate that the match cas played
 	 */
-
 	private void gamePlayed() {
-		this.part1.plays(game);
-		this.part2.plays(game);
+		this.part1.plays(tournament.getGame());
+		this.part2.plays(tournament.getGame());
 	}
 	
 	/**
@@ -161,19 +128,23 @@ public class Match extends Observable {
 	 * there is no winner.
 	 */
 	public Participant getWinner() {
-		return this.winner;
+		if (score[0] > score[1]) {
+			return part1;
+		} else if (score[1] > score[0]) {
+			return part2;
+		}
+
+		return null;
 	}
 	
 	public Participant getLooser() {
-		Participant looser = null;
-		if (winner != null) {
-			if (this.winner.equals(this.part1)) {
-				looser = this.part2;
-			} else {
-				looser = this.part1;
-			}
+		if (score[0] > score[1]) {
+			return part2;
+		} else if (score[1] > score[0]) {
+			return part1;
 		}
-		return looser;
+		
+		return null;
 	}
 	
 	/**
@@ -181,11 +152,13 @@ public class Match extends Observable {
 	 * @return True if the match ended with a draw, false if not.
 	 */
 	public boolean isDraw() {
-		return this.draw;
+		if (score[0] == -1 || score[1] == -1)
+			return false;
+		
+		return score[0] == score[1];
 	}
 	
 	public String toString() {
-		return "" + part1.getName() + ": "+ score[0]+ "\n" + part2.getName()+": "+ score[1]+ "\n" ; 
+		return "" + part1.getName() + ": "+ score[0]+ "\n" + part2.getName()+": "+ score[1]+ "\n" ;
 	}
-	
 }

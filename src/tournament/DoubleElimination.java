@@ -7,7 +7,6 @@ import java.util.List;
 import tournament.exceptions.MatchDrawException;
 import tournament.exceptions.NotEnoughParticipantsException;
 
-@SuppressWarnings("deprecation")
 /**
  * A type of tournament. 
  * In the double elimination tournament, a participant can be 
@@ -59,8 +58,7 @@ public class DoubleElimination extends Tournament {
 	 * to set up the matchs list of the tournament.
 	 */
 	public Match[] mergeBrackets() {
-		Match[] matchs = new Match[this.winnersBracket.length 
-		                         + this.loosersBracket.length];
+		Match[] matchs = new Match[this.winnersBracket.length + this.loosersBracket.length];
 		
 		for (int i=0; i<this.winnersBracket.length; i++) {
 			matchs[i] = this.winnersBracket[i];
@@ -97,9 +95,7 @@ public class DoubleElimination extends Tournament {
 			this.loosersBracket[i] = null;
 		}
 		for (int i=(nbParts/2); i<(nbParts); i++) {
-			this.winnersBracket[i] = new Match(parts.get((i*2)-nbParts), 
-					parts.get(((i*2)-nbParts)+1), this.getGame());
-			this.winnersBracket[i].addObserver(this);
+			this.winnersBracket[i] = new Match(this, parts.get((i*2)-nbParts), parts.get(((i*2)-nbParts)+1));
 			this.loosersBracket[i] = null;
 		}
 		
@@ -107,7 +103,7 @@ public class DoubleElimination extends Tournament {
 	}
 
 	@Override
-	public void updateMatchs(Match m) {
+	public void updateMatchs(Match m) throws MatchDrawException {
 		if (m.isDraw()) {
 			throw new MatchDrawException();
 		}
@@ -127,8 +123,7 @@ public class DoubleElimination extends Tournament {
 			if (this.winnersBracket[i] != null
 						&& this.winnersBracket[i].getWinner() != null) {
 				if (this.winnersBracket[i/2] == null) {
-					this.winnersBracket[i/2] = new Match(defaultPart, defaultPart, this.getGame());
-					this.winnersBracket[i/2].addObserver(this);
+					this.winnersBracket[i/2] = new Match(this, defaultPart, defaultPart);
 				}				
 				if (i%2 == 0) {
 					this.winnersBracket[i/2].setParticipant1(this.winnersBracket[i].getWinner());
@@ -141,8 +136,7 @@ public class DoubleElimination extends Tournament {
 				if (i >= (nbParts/2)) {
 					int index = (i/2)-(nbParts/4);
 					if (this.loosersBracket[index] == null) {
-						this.loosersBracket[index] = new Match(defaultPart, defaultPart, this.getGame());
-						this.loosersBracket[index].addObserver(this);
+						this.loosersBracket[index] = new Match(this, defaultPart, defaultPart);
 					}
 					if (i%2 == 0) {
 						this.loosersBracket[index].setParticipant1(this.winnersBracket[i].getLooser());
@@ -165,8 +159,7 @@ public class DoubleElimination extends Tournament {
 		// 		vs loosers of winner's bracket (2nd turn) 
 		for (int i=(nbParts/4); i<(nbParts/2); i++) {
 			if (this.loosersBracket[i] == null) {
-				this.loosersBracket[i] = new Match(defaultPart, defaultPart, this.getGame());
-				this.loosersBracket[i].addObserver(this);
+				this.loosersBracket[i] = new Match(this, defaultPart, defaultPart);
 			}
 			if (this.loosersBracket[i-(nbParts/4)] != null
 					&& this.loosersBracket[i-(nbParts/4)].getWinner() != null) {
@@ -183,8 +176,7 @@ public class DoubleElimination extends Tournament {
 		int start=(nbParts/2);
 		for (int i=start; i<(start+(nbParts/8)); i++) {
 			if (this.loosersBracket[i] == null) {
-				this.loosersBracket[i] = new Match(defaultPart, defaultPart, this.getGame());
-				this.loosersBracket[i].addObserver(this);
+				this.loosersBracket[i] = new Match(this, defaultPart, defaultPart);
 			}
 			if (this.loosersBracket[(i/2)+j] != null
 					&& this.loosersBracket[(i/2)+j].getWinner() != null) {
@@ -203,8 +195,7 @@ public class DoubleElimination extends Tournament {
 		start = (nbParts/2)+(nbParts/8);
 		for (int i=start; i<(start+(nbParts/8)); i++) {
 			if (this.loosersBracket[i] == null) {
-				this.loosersBracket[i] = new Match(defaultPart, defaultPart, this.getGame());
-				this.loosersBracket[i].addObserver(this);
+				this.loosersBracket[i] = new Match(this, defaultPart, defaultPart);
 			}
 			if (this.loosersBracket[i-(nbParts/8)] != null
 					&& this.loosersBracket[i-(nbParts/8)].getWinner() != null) {
@@ -212,7 +203,7 @@ public class DoubleElimination extends Tournament {
 			}
 			if (this.winnersBracket[i-(nbParts/2)] != null
 					&& this.winnersBracket[i-(nbParts/2)].getWinner() != null) {
-				this.loosersBracket[i].setParticipant2(this.winnersBracket[i-(nbParts/2)].getLooser());		
+				this.loosersBracket[i].setParticipant2(this.winnersBracket[i-(nbParts/2)].getLooser());
 			}
 		}
 		// 5th turn
@@ -240,8 +231,7 @@ public class DoubleElimination extends Tournament {
 		for (int it=0; it<nbIteration; it++) {
 			for (int i=start; i<(start+(nbParts/8)); i++) {
 				if (this.loosersBracket[i] == null) {
-					this.loosersBracket[i] = new Match(defaultPart, defaultPart, this.getGame());
-					this.loosersBracket[i].addObserver(this);
+					this.loosersBracket[i] = new Match(this, defaultPart, defaultPart);
 				}
 				if (this.loosersBracket[i-index] != null
 						&& this.loosersBracket[i-index].getWinner() != null) {
@@ -257,8 +247,7 @@ public class DoubleElimination extends Tournament {
 			int position = (start + (nbParts/8));
 			for (int i=position; i<(position+(nbParts/16)); i++) {
 				if (this.loosersBracket[i] == null) {
-					this.loosersBracket[i] = new Match(defaultPart, defaultPart, this.getGame());
-					this.loosersBracket[i].addObserver(this);
+					this.loosersBracket[i] = new Match(this, defaultPart, defaultPart);
 				}
 				if (this.loosersBracket[i-(nbParts/8)] != null
 						&& this.loosersBracket[i-(nbParts/8)].getWinner() != null) {
@@ -285,8 +274,7 @@ public class DoubleElimination extends Tournament {
 		int index = (nbParts-2);
 		
 		if (this.loosersBracket[index] == null) {
-			this.loosersBracket[index] = new Match(defaultPart, defaultPart, this.getGame());
-			this.loosersBracket[index].addObserver(this);
+			this.loosersBracket[index] = new Match(this, defaultPart, defaultPart);
 		}
 		if (this.loosersBracket[index-1] != null
 				&& this.loosersBracket[index-1].getWinner() != null) {
@@ -304,10 +292,7 @@ public class DoubleElimination extends Tournament {
 					== this.loosersBracket[index].getParticipant1()) {
 				// Replay the finale
 				if (this.loosersBracket[index+1] == null ) {
-					this.loosersBracket[index+1] = new Match(this.loosersBracket[index].getParticipant1(),
-														this.loosersBracket[index].getParticipant2(), 
-														this.getGame());
-					this.loosersBracket[index+1].addObserver(this);
+					this.loosersBracket[index+1] = new Match(this, this.loosersBracket[index].getParticipant1(), this.loosersBracket[index].getParticipant2());
 				}
 			} else {
 				super.setWinner(this.loosersBracket[index].getParticipant2());

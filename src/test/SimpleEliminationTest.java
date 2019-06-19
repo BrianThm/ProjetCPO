@@ -10,13 +10,24 @@ import tournament.exceptions.*;
  * Class which test, with unit test, methods of the 
  * class SimpleElimination
  */
-public class SimpleEliminationTest extends SetupTest{
+public class SimpleEliminationTest extends SetupTest {
 
 	Match[] matchs;
 	
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
+		
+		tournament.removeParticipant(player);
+		tournament.removeParticipant(player3);
+		tournament.removeParticipant(player1);
+		tournament.removeParticipant(player2);
+		
+		tournament1.removeParticipant(team1);
+		tournament1.removeParticipant(team2);
+		tournament1.removeParticipant(team);
+		tournament1.removeParticipant(team3);
+		
 		for (int i=0; i<participants.size(); i++) {
 			if (participants.get(i) instanceof Player) {
 				tournament.addParticipant(participants.get(i));
@@ -96,7 +107,7 @@ public class SimpleEliminationTest extends SetupTest{
 	}
 	
 	@Test
-	public void testUpdateTree() throws NotEnoughParticipantsException {
+	public void testUpdateTree() throws NotEnoughParticipantsException, MatchDrawException {
 		tournament.initializeMatchs();
 		matchs = tournament.getMatchs();
 		
@@ -121,7 +132,7 @@ public class SimpleEliminationTest extends SetupTest{
 	}
 	
 	@Test
-	public void testFinale() throws NotEnoughParticipantsException {
+	public void testFinale() throws NotEnoughParticipantsException, MatchDrawException {
 		testUpdateTree();
 		matchs = tournament.getMatchs();
 		
@@ -150,7 +161,7 @@ public class SimpleEliminationTest extends SetupTest{
 	}
 	
 	@Test
-	public void testFullTournamentWithTeams() throws NotEnoughParticipantsException {
+	public void testFullTournamentWithTeams() throws NotEnoughParticipantsException, MatchDrawException {
 		testInitWithTeams();
 		matchs = tournament1.getMatchs();
 		

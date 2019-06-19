@@ -1,6 +1,3 @@
-/**
- * 
- */
 package test;
 
 import static org.junit.Assert.*;
@@ -17,23 +14,21 @@ import tournament.Game;
 import tournament.Player;
 
 /**
+ * Class which test the methods of the class Team
  * @author Group
  * @version 1.0
- * Class which test the methods of the class Team
- *
  */
 public class TeamTest extends SetupTest {
 
 	/**
 	 * Map of games that we will expect during the tests
 	 */
-	private Map<Game,Integer> expectedGames; 
-	
+	private Map<Game,Integer> expectedGames;
 	
 	/**
 	 * Set of players that we will expect during tests
 	 */
-	private Set<Player> listPlayers; 
+	private Set<Player> listPlayers;
 	
 	/**
 	 * Initialization of the set and the map. 
@@ -55,19 +50,19 @@ public class TeamTest extends SetupTest {
 		team.plays(game1);
 		team.plays(game1);
 		
-		expectedGames.put(game1, 2); 
+		expectedGames.put(game1, 2);
 		assertEquals("The plays have not been correctly added !", expectedGames, team.getGames()); 
 		for(Player p : team.getMembers()) {
 			assertEquals("The plays have not been correctly added to player !", expectedGames, p.getGames()); 
 		}
 		
-		expectedGames.remove(game1); 
+		expectedGames.remove(game1);
 		
-		team2.plays(game); 
+		team2.plays(game);
 		team2.plays(game3);
 		team2.plays(game3);
 		expectedGames.put(game,1);
-		expectedGames.put(game2, 0); 
+		expectedGames.put(game2, 0);
 		expectedGames.put(game3, 2);
 		assertEquals("The plays have not been correctly added !", expectedGames, team2.getGames());
 		expectedGames.remove(game2);
@@ -77,7 +72,7 @@ public class TeamTest extends SetupTest {
 		
 		expectedGames.remove(game);
 		expectedGames.remove(game2);
-		expectedGames.replace(game3, 1); 
+		expectedGames.replace(game3, 1);
 		team3.plays(game3);
 		assertEquals("The plays have not been correctly added !", expectedGames, team3.getGames()); 
 		for(Player p : team3.getMembers()) {
@@ -259,5 +254,4 @@ public class TeamTest extends SetupTest {
 		
 		assertEquals("The teams must be equals", true, team.equals(team1)); 
 	}
-
 }

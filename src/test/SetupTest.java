@@ -19,7 +19,6 @@ import tournament.SimpleElimination;
 import tournament.Team;
 import tournament.Tournament;
 
-
 /**
  * Class that permit to gathered initialization of 
  * many variables for class tests.
@@ -86,8 +85,8 @@ public abstract class SetupTest {
 	protected String location2;
 	protected String location3;
 	
-	protected Match match; 
-	protected Match match1; 
+	protected Match match;
+	protected Match match1;
 	
 	protected ArrayList<Participant> participants;
 	protected Set<Tournament> tournaments;
@@ -103,7 +102,7 @@ public abstract class SetupTest {
 		controller1 = new Controller();
 		
 		game = new Game("Overwatch");
-		game1 = new Game("CS:GO", new ImageIcon("Image test.jpg"));
+		game1 = new Game("CS:GO", new ImageIcon("ressources/imgTest1.jpg"));
 		game2 = new Game("PUBG");
 		game3 = new Game("Smash");
 		
@@ -159,8 +158,6 @@ public abstract class SetupTest {
 		player6 = new Player(pseudo6);
 		player7 = new Player(pseudo7);
 		
-		match = new Match(player, player3, game1);
-		
 		participants.add(player);
 		participants.add(player1);
 		participants.add(player2);
@@ -186,7 +183,20 @@ public abstract class SetupTest {
 		team3.addMember(player6);
 		team3.addMember(player7);
 		
-		match1 = new Match(team1, team2, game3); 
+		tournament.addParticipant(player);
+		tournament.addParticipant(player3);
+		tournament.addParticipant(player1);
+		tournament.addParticipant(player2);
+		tournament.initializeMatchs();
+		
+		tournament1.addParticipant(team1);
+		tournament1.addParticipant(team2);
+		tournament1.addParticipant(team);
+		tournament1.addParticipant(team3);
+		tournament1.initializeMatchs();
+
+		match = tournament.getMatchs()[2];
+		match1 = tournament1.getMatchs()[2];
 		
 		tournaments = new HashSet<Tournament>();
 		tournaments.add(tournament);

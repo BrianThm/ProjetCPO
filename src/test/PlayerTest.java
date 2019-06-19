@@ -11,7 +11,6 @@ import org.junit.Test;
  */
 public class PlayerTest extends SetupTest {
 
-
 	@Test
 	public void testPlayerString() {
 		assertEquals("His pseudonym is not the good one !", pseudo, player.getName());
@@ -98,6 +97,7 @@ public class PlayerTest extends SetupTest {
 		player1.playsIn(team1);
 		assertEquals("The team is not good !", team1, player1.getPreferredTeam());
 		player1.playsIn(team2);
+		player1.playsIn(team2);
 		assertEquals("The team is not good !", team2, player1.getPreferredTeam());
 	}
 
@@ -122,6 +122,5 @@ public class PlayerTest extends SetupTest {
 		assertEquals("The result must be false !", false, player2.equals(player3));
 		player2.setName(pseudo3);
 		assertEquals("The result must be true !", true, player2.equals(player3));
-		
 	}
 }

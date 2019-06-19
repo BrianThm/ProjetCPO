@@ -11,10 +11,9 @@ import tournament.*;
 import tournament.exceptions.*;
 
 /**
+ * Class which test the Abstract class Participant
  * @author Group
  * @version 1.0
- * Class which test the Abstract class Participant
- *
  */
 public class ParticipantTest extends SetupTest{
 	
@@ -23,7 +22,7 @@ public class ParticipantTest extends SetupTest{
 	 */
 	@Test
 	public void testGetName() {
-		assertEquals(pseudo, participants.get(0).getName() );
+		assertEquals(pseudo, participants.get(0).getName());
 		assertEquals(pseudo1, participants.get(1).getName());
 		assertEquals(nomTeam, participants.get(8).getName());
 		assertEquals(nomTeam3, participants.get(11).getName());
@@ -162,7 +161,6 @@ public class ParticipantTest extends SetupTest{
 		participants.get(8).addTournament(tournament);
 		participants.get(8).addTournament(tournament1);
 		assertEquals("The set returns is not good !",t,participants.get(8).getTournaments());
-		
 	}
 	
 	/**
