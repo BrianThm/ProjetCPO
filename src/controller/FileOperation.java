@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +30,7 @@ import tournament.SimpleElimination;
 import tournament.Team;
 import tournament.Tournament;
 import tournament.exceptions.MatchDrawException;
+import tournament.exceptions.NotEnoughParticipantsException;
 
 /**
  * This class permits to save & load a list of tournaments, games and participant.
@@ -199,7 +201,7 @@ public class FileOperation {
 		int game, p1, p2, s1, s2;
 		boolean isPlayer;
 		Participant participant;
-		file.write("# simple eliminations #");
+		file.write("# simple eliminations #\n");
 		// location ; date ; index of game ; [ p(layer) | t(eam) ] ; [ participant 1, participant 2, score 1, score 2 ]
 		
 		for (int i = 0; i < simples.size(); i++) {
@@ -207,31 +209,35 @@ public class FileOperation {
 			isPlayer = simple.getParticipants().get(0) instanceof Player;
 			game = games.indexOf(simple.getGame());
 			matchs = simple.getMatchs();
-			line = simple.getLocation() + ";" + simple.getDate().getTime() + ";" + game + ";";
+			line = simple.getLocation().replace(';', ',') + ";" + simple.getDate().getTime() + ";" + game + ";";
 			if (isPlayer) {
-				line += "p" + ";";
+				line += "p";
 			} else {
-				line += "t" + ";";
+				line += "t";
 			}
 			for (Match match : matchs) {
-				participant = match.getParticipant1();
-				if (isPlayer) {
-					p1 = players.indexOf(participant);
+				if (match == null) {
+					line += ";null";
 				} else {
-					p1 = teams.indexOf(participant);
+					participant = match.getParticipant1();
+					if (isPlayer) {
+						p1 = players.indexOf(participant);
+					} else {
+						p1 = teams.indexOf(participant);
+					}
+					
+					participant = match.getParticipant2();
+					if (participant instanceof Player) {
+						p2 = players.indexOf(participant);
+					} else {
+						p2 = teams.indexOf(participant);
+					}
+					
+					s1 = match.getScore()[0];
+					s2 = match.getScore()[1];
+					
+					line += ";" + p1 + "," + p2 + "," + s1 + "," + s2;
 				}
-				
-				participant = match.getParticipant2();
-				if (participant instanceof Player) {
-					p2 = players.indexOf(participant);
-				} else {
-					p2 = teams.indexOf(participant);
-				}
-				
-				s1 = match.getScore()[0];
-				s2 = match.getScore()[1];
-				
-				line += ";" + p1 + "," + p2 + "," + s1 + "," + s2;
 			}
 			file.write(line);
 		}
@@ -277,6 +283,7 @@ public class FileOperation {
 		} catch (IOException e) {
 			throw new LoadImpossibleException(e.getMessage());
 		} catch (Throwable e) {
+			e.printStackTrace();
 			throw new LoadImpossibleException("File format incorrect.");
 		} finally {
 			if (file != null) {
@@ -378,16 +385,17 @@ public class FileOperation {
 		}
 	}
 
-	private static void loadSimplesEliminations(BufferedReader buffer, List<SimpleElimination> idSimples, List<Team> idTeams, List<Player> idPlayers, List<Game> idGames) throws IOException, LoadImpossibleException, ParseException, MatchDrawException {
+	private static void loadSimplesEliminations(BufferedReader buffer, List<SimpleElimination> idSimples, List<Team> idTeams, List<Player> idPlayers, List<Game> idGames) throws IOException, LoadImpossibleException, ParseException, MatchDrawException, NotEnoughParticipantsException {
 		String line, args[], location, date, match[];
 		Match[] matchs;
 		SimpleElimination simple;
 		Participant par1, par2;
+		Set<Participant> participants;
 		Game game;
-		int g, p1, p2, s1, s2;
+		int g, p1, p2, score[][];
 		boolean isPlayer;
 		
-		while((line = buffer.readLine()) != null) {
+		while((line = buffer.readLine()) != null && !line.equals("")) {
 			args = line.split(";");
 			location = args[0];
 			date = args[1];
@@ -398,23 +406,46 @@ public class FileOperation {
 			simple = new SimpleElimination(new Date(Long.parseLong(date)), game, location);
 			
 			matchs = new Match[args.length - 3];
+			score = new int[args.length - 3][2];
+			participants = new HashSet<Participant>();
 			for (int i = 4; i < args.length; i++) {
-				match = args[i].split(",");
-				p1 = Integer.parseInt(match[0]);
-				p2 = Integer.parseInt(match[1]);
-				s1 = Integer.parseInt(match[2]);
-				s2 = Integer.parseInt(match[3]);
-				
-				if (isPlayer) {
-					par1 = idPlayers.get(p1);
-					par2 = idPlayers.get(p2);
+
+				if (args[i].equals("null")) {
+					matchs[i - 4] = null;
 				} else {
-					par1 = idTeams.get(p1);
-					par2 = idTeams.get(p2);
+					match = args[i].split(",");
+					
+					p1 = Integer.parseInt(match[0]);
+					p2 = Integer.parseInt(match[1]);
+					score[i - 4][0] = Integer.parseInt(match[2]);
+					score[i - 4][1] = Integer.parseInt(match[3]);
+					
+					if (isPlayer) {
+						par1 = idPlayers.get(p1);
+						par2 = idPlayers.get(p2);
+					} else {
+						par1 = idTeams.get(p1);
+						par2 = idTeams.get(p2);
+					}
+					
+					matchs[i - 4] = new Match(simple, par1, par2);
+					participants.add(par1);
+					participants.add(par2);
 				}
+			}
+			
+			for (Participant participant : participants) {
+				simple.addParticipant(participant);
+			}
+			
+			simple.initializeMatchs();
+			simple.setMatchs(matchs);
+			
+			for (int i = 0; i < args.length - 3; i++) {
+				if (matchs[i] == null)
+					continue;
 				
-				matchs[i - 4] = new Match(simple, par1, par2);
-				matchs[i - 4].setScore(s1, s2);
+				matchs[i].setScore(score[i][0], score[i][1]);
 			}
 			
 			simple.setMatchs(matchs);

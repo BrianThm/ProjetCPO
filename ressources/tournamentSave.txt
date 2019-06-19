@@ -1,24 +1,25 @@
 # games #
 Minecraft;0.png
-Hearthstone;1.png
-World of Warcraft;2.png
-League of Legends;3.png
-CS GO;4.png
-Fortnite;5.png
+CS GO;1.png
+Hearthstone;2.png
+Fortnite;3.png
+World of Warcraft;4.png
+League of Legends;5.png
 # players #
-Morgane;Enaxom;Cadeau;4
-William;Wyzedix;Mateille;4
-Antoine;Nems;Unknown;0
-Ravioli;ViviFluffy;Chat;-1
-Pierre-Alexis;Domingo;Bizot;3
-Epsilon;EpsiSkinny;Chat;-1
-Jeff;Houngoungagne;Unknown;4
-Nathan;Natoux31;Dias;3
+Morgane;Enaxom;Cadeau;-1
 Adrien;Zerator;Nougaret;-1
 Aymeric;Aypierre;Pierre;0
+Antoine;Nems;Unknown;0
+Pierre-Alexis;Domingo;Bizot;5
+Jeff;Houngoungagne;Unknown;-1
+Epsilon;EpsiSkinny;Chat;-1
+William;Wyzedix;Mateille;-1
+Ravioli;ViviFluffy;Chat;-1
+Nathan;Natoux31;Dias;5
 # teams #
-PGM;-1;6;8
-CSDreamTeam;4;0;1;6
-Humans4TheWin;-1;0;2;1;4;6;9;7;8
-KTP;0;2;9;7;8
-CatAttack;-1;3;5
+PGM;-1;1;5
+KTP;0;2;1;3;9
+CSDreamTeam;-1;0;5;7
+CatAttack;-1;6;8
+Humans4TheWin;-1;0;2;1;3;4;5;7;9
+# simple eliminations #
