@@ -159,6 +159,9 @@ public class Match {
 	}
 	
 	public String toString() {
-		return "" + part1.getName() + ": "+ score[0]+ "\n" + part2.getName()+": "+ score[1]+ "\n" ;
+		if (score[0] == -1 || score[1] == -1) {
+			return part1.getName() + "\n" + part2.getName();
+		}
+		return part1.getName() + ": "+ score[0]+ "\n" + part2.getName()+": "+ score[1]+ "\n" ;
 	}
 }
