@@ -32,6 +32,7 @@ import tournament.Team;
 public class ViewAddTeam extends ViewAdd<Team> {
 
 	private JPanel panelCB, panelPlayers;
+	private JPanel panelMembersDisplay;
 	private JTextField textTeam;
 	private JLabel membersDisplay;
 	private JComboBox<Game> comboBox;
@@ -58,6 +59,7 @@ public class ViewAddTeam extends ViewAdd<Team> {
 		this.textTeam = new JTextField(20);
 		this.panelCB = new JPanel(new FlowLayout());
 		this.panelPlayers = new JPanel(new FlowLayout());
+		this.panelMembersDisplay = new JPanel(new FlowLayout());
 		this.membersDisplay = new JLabel();
 		this.isEditing = false;
 
@@ -66,6 +68,7 @@ public class ViewAddTeam extends ViewAdd<Team> {
 		JLabel nameTeam = new JLabel("Name ");
 		JLabel labelGame = new JLabel("Preferred game ");
 		JLabel members = new JLabel("Members of the team ");
+		JLabel membersToDisplay = new JLabel("Members: ");
 		List<Player> listP = this.controller.getSortedPlayers();
 		Player[] playersArray = listP.toArray(new Player[listP.size()]);
 		
@@ -80,11 +83,14 @@ public class ViewAddTeam extends ViewAdd<Team> {
 		panelCB.add(comboBox);
 		panelPlayers.add(members);
 		panelPlayers.add(new JScrollPane(this.listPlayers));
+		panelMembersDisplay.add(membersToDisplay);
+		panelMembersDisplay.add(membersDisplay);
 		content.add(panelName);
 
 		/* All is centered */
 		panelName.setAlignmentX(CENTER_ALIGNMENT);
 		panelCB.setAlignmentX(CENTER_ALIGNMENT);
+		panelMembersDisplay.setAlignmentX(CENTER_ALIGNMENT);
 
 		this.displaySave();
 
@@ -139,16 +145,21 @@ public class ViewAddTeam extends ViewAdd<Team> {
 			arraySelected[i] = selectedPlayers.get(i);
 		
 		ArrayList<Player> listEffectivePlayers = new ArrayList<Player>(team.getMembers());
-		membersDisplay.setText("Members: {");
+		membersDisplay.setText("<html>{");
 		for (int i=0; i<listEffectivePlayers.size()-1; i++) {
-			String texte = membersDisplay.getText();
-			membersDisplay.setText(texte + listEffectivePlayers.get(i).getName() + ", ");
+			membersDisplay.setText(membersDisplay.getText() + listEffectivePlayers.get(i).getName() + ", ");
+			if (i>0 && ((i+1)%4 == 0)) {
+				System.out.println(listEffectivePlayers.get(i));
+				membersDisplay.setText(membersDisplay.getText() + "<br/>");
+			}
 		}
-		membersDisplay.setText(membersDisplay.getText()+ listEffectivePlayers.get(listEffectivePlayers.size()-1).getName());
-		membersDisplay.setText(membersDisplay.getText() + "}");
+		if (listEffectivePlayers.size() > 0) {
+			membersDisplay.setText(membersDisplay.getText()+ listEffectivePlayers.get(listEffectivePlayers.size()-1).getName());
+		}
+		membersDisplay.setText(membersDisplay.getText() + "}</html>");
 		
 		listPlayers.setSelectedIndices(arraySelected);
-		content.add(membersDisplay);
+		content.add(panelMembersDisplay);
 		this.add(editCancel, BorderLayout.SOUTH);
 		refreshPanel();
 	}

@@ -213,7 +213,6 @@ public class DoubleElimination extends Tournament {
 		
 		// Last turn
 		lastTurnUpdate();
-		// IN PROGRESS
 	}
 	
 	/*
