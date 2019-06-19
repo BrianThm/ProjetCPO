@@ -10,20 +10,22 @@ import javax.swing.JPanel;
 import tournament.Match;
 
 /**
- * The ViewTreeTournament is the view the view that 
- * displays the tree of a tournament
+ * The ViewTreeTournament is the view which displays the tree of a tournament.
  * @author Group
  * @version 1.0
  */
-
 public class PanelTreeTournament extends JPanel {
 
-	/** Pour éviter un warning venant du JFrame */
+	/** To avoid a waring from JFrame */
 	public static final long serialVersionUID = -8123406571694511514L;
 
 	private static int deltaY=30; 
 	private static int deltaX=120;
 
+	/**
+	 * Constructor which creates a PanelTreeTournament.
+	 * @param tabMatchs The matches of the tournament.
+	 */
 	public PanelTreeTournament(Match[] tabMatchs) {
 
 		mxGraph graph = new mxGraph();

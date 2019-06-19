@@ -16,13 +16,26 @@ import controller.Controller;
 import tournament.Game;
 import tournament.Team;
 
+/**
+ * ViewListTeam is a subclass of ViewList<Team>. Displays the list of teams.
+ * @author Group
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 public class ViewListTeam extends ViewList<Team> {
 	
+	/**
+	 * Constructor of ViewListTeam. Initialize the edit and delete image and set the borders.
+	 * @param controller The controller.
+	 * @param deleteTeam If the user is allowed to delete a team via the displayed list.
+	 */
 	public ViewListTeam(Controller controller, boolean deleteTeam) {
 		super(controller, deleteTeam, "teams");
 	}
 
+	/**
+	 * Makes the list of teams.
+	 */
 	@Override
 	void makeList() {
 		super.makeList();
@@ -102,6 +115,9 @@ public class ViewListTeam extends ViewList<Team> {
 		return line;
 	}
 
+	/**
+	 * Delete a team and remove the line which displays it.
+	 */
 	@Override
 	void delete(Team team, JPanel line) {
 		int answer = JOptionPane.showConfirmDialog(this,

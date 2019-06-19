@@ -7,6 +7,11 @@ import javax.swing.JPanel;
 import controller.Controller;
 import tournament.Player;
 
+/**
+ * ViewPlayer which displays the ViewListPlayer next to the ViewAddPlayer.
+ * @author Group
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 public class ViewPlayer extends JPanel {
 

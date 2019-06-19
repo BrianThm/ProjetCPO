@@ -17,9 +17,19 @@ import tournament.Game;
 import tournament.Player;
 import tournament.Team;
 
+/**
+ * Class ViewListPlayer subclass of ViewList<Player>. Displays the list of players.
+ * @author Group
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 public class ViewListPlayer extends ViewList<Player> {
 
+	/**
+	 * Constructor of ViewListPlayer. Initialize the edit and delete image and set the borders.
+	 * @param controller The controller.
+	 * @param deletePlayer If the lsit allows the user to delete a player.
+	 */
 	public ViewListPlayer(Controller controller, boolean deletePlayer) {
 		super(controller, deletePlayer, "players");
 	}
@@ -96,6 +106,9 @@ public class ViewListPlayer extends ViewList<Player> {
 		return line;
 	}
 
+	/**
+	 * Makes the list of players.
+	 */
 	@Override
 	void makeList() {
 		super.makeList();
@@ -114,6 +127,9 @@ public class ViewListPlayer extends ViewList<Player> {
 		refreshList();
 	}
 
+	/**
+	 * Delete a player and remove the line which displays it.
+	 */
 	@Override
 	void delete(Player player, JPanel line) {
 		int answer = JOptionPane.showConfirmDialog(this,

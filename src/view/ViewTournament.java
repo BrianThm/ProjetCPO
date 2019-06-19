@@ -34,12 +34,9 @@ import tournament.Tournament;
 import tournament.exceptions.MatchDrawException;
 
 /**
- * @author group 
- * @version 1.0 
- * 
- * Class that permit to display all informations 
- * of a tournament in a panel.
- *
+ * ViewTournament which displays the information of a tournament.
+ * @author Group
+ * @version 1.0
  */
 @SuppressWarnings("serial")
 public class ViewTournament extends JPanel {
@@ -70,6 +67,12 @@ public class ViewTournament extends JPanel {
 	private JPanel panelDate;
 	private JPanel panelWinner; 
 
+	/**
+	 * Constructor of the ViewTournament which displays the information of a tournament.
+	 * @param controller The controller.
+	 * @param t The tournament to display.
+	 * @param fenetre The main window.
+	 */
 	public ViewTournament(Controller controller, Tournament t, ViewMain fenetre) {
 		super();
 		

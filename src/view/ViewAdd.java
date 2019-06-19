@@ -18,6 +18,12 @@ import javax.swing.border.CompoundBorder;
 
 import controller.Controller;
 
+/**
+ * Abstract ViewAdd, generates the base ViewAdd. Used to add a tournament, player, game and team.
+ * @author Group
+ * @param <T> The wanted type. Can be Tournament, Player, Game, and Team.
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 public abstract class ViewAdd<T> extends JPanel {
 
@@ -29,6 +35,11 @@ public abstract class ViewAdd<T> extends JPanel {
 	protected T toEdit;
 	protected boolean isEditing;
 	
+	/**
+	 * Constructor of the ViewAdd.
+	 * @param controller The controller.
+	 * @param name The name associated to the view, can be "tournament", "game", "player", and "team".
+	 */
 	public ViewAdd(Controller controller, String name) {
 		super();
 		/* Initialization of the attributes */

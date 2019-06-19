@@ -17,6 +17,11 @@ import controller.exceptions.PlayerAlreadyExistsException;
 import tournament.Game;
 import tournament.Player;
 
+/**
+ * View to add a player, subclass of ViewAdd<Player>.
+ * @author Group
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 public class ViewAddPlayer extends ViewAdd<Player> {
 
@@ -25,11 +30,20 @@ public class ViewAddPlayer extends ViewAdd<Player> {
 	private JComboBox<Game> comboBox;
 	private Game preferredGame;
 
+	/**
+	 * Constructor of the ViewAddPlayer when there is a ViewList associated to it.
+	 * @param controller The controller.
+	 * @param viewList The ViewList<Player> which displays all the players.
+	 */
 	public ViewAddPlayer(Controller controller, ViewList<Player> viewList) {
 		this(controller);
 		this.viewList = viewList;
 	}
 
+	/**
+	 * Constructor of the ViewAddPlayer when there isn't a ViewList.
+	 * @param controller The controller
+	 */
 	public ViewAddPlayer(Controller controller) {
 		super(controller, "player");
 		/* Initialization of the attributes */

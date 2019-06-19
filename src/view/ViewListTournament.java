@@ -27,12 +27,12 @@ import tournament.Game;
 import tournament.SimpleElimination;
 import tournament.Tournament;
 
-@SuppressWarnings("serial")
 /**
- * View which displays the list of all the tournaments.
- * A tournament cannot be modified.
+ * View which displays the list of all the tournaments. A tournament cannot be modified.
  * @author Group
+ * @version 1.0
  */
+@SuppressWarnings("serial")
 public class ViewListTournament extends JPanel {
 
 	private Controller controller;
@@ -42,6 +42,12 @@ public class ViewListTournament extends JPanel {
 	private ViewAdd<Tournament> viewAdd;
 	private ViewMain fenetre;
 	
+	/**
+	 * Constructor of the ViewListTournament. Initialize the image to delete or see info and creates the list.
+	 * @param controller The controller.
+	 * @param deleteTournament If the tournaments can be deleted.
+	 * @param fenetre The main window.
+	 */
 	public ViewListTournament(Controller controller, boolean deleteTournament, ViewMain fenetre) {
 		super();
 		this.controller = controller;
@@ -75,7 +81,6 @@ public class ViewListTournament extends JPanel {
 				BorderFactory.createMatteBorder(2, 2, 2, 2, Color.gray)));
 	}
 	
-	
 	private void makeList() {
 		Set<Tournament> tournaments = controller.getTournaments();
 		this.removeAll();
@@ -93,7 +98,6 @@ public class ViewListTournament extends JPanel {
 		
 		refreshList();
 	}
-	
 	
 	private JPanel getPanel(Tournament tournament) {
 		JPanel line = new JPanel(new BorderLayout());
@@ -172,7 +176,7 @@ public class ViewListTournament extends JPanel {
 	}
 	
 	/**
-	 * Display a message if the is'nt any tournament already created.
+	 * Display a message if the isn't any tournament already created.
 	 */
 	private void noTournament() {
 		this.removeAll();
@@ -184,7 +188,7 @@ public class ViewListTournament extends JPanel {
 	}
 	
 	/**
-	 * Refresh the list when a displays changes.
+	 * Refresh the list when the display changes.
 	 */
 	private void refreshList() {
 		this.repaint();
@@ -194,7 +198,7 @@ public class ViewListTournament extends JPanel {
 	/**
 	 * Delete a tournament of the tournament's list.
 	 * @param tournament The tournament to delete.
-	 * @param line The panel the delete.
+	 * @param line The panel to delete.
 	 */
 	private void deleteTournament(Tournament tournament, JPanel line) {
 		int answer = JOptionPane.showConfirmDialog(this,

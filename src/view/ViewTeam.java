@@ -7,6 +7,11 @@ import javax.swing.JPanel;
 import controller.Controller;
 import tournament.Team;
 
+/**
+ * ViewTeam which displays the ViewListTeam next to the ViewAddTeam.
+ * @author Group
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 public class ViewTeam extends JPanel {
 	private Controller controller;

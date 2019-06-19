@@ -29,12 +29,22 @@ import controller.Controller;
 import controller.exceptions.LoadImpossibleException;
 import controller.exceptions.SaveImpossibleException;
 
+/**
+ * Main View which displays a home page and allow the user to use all the application functionalities.
+ * @author Group
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
 public class ViewMain extends JFrame {
 
 	private Container cont;
 	private Controller controller;
 
+	/**
+	 * Constructor of the ViewMain which displays the menuBar and a home page.
+	 * @param controller The controller
+	 * @param title The frame title.
+	 */
 	public ViewMain(Controller controller, String title) {
 		super(title);
 		this.controller = controller;
@@ -348,6 +358,10 @@ public class ViewMain extends JFrame {
 		cont.add(panelLoad);
 	}
 	
+	/**
+	 * Changes the view of the main window.
+	 * @param view The view to display.
+	 */
 	public void changeView(JPanel view) {
 		cont.setLayout(new BorderLayout());
 		JScrollPane scrollPane = new JScrollPane(view);
