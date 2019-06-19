@@ -39,7 +39,7 @@ public class ViewListTournament extends JPanel {
 	private ImageIcon imgSeeInfo, imgDelete;
 	private boolean deleteTournament;
 	private JLabel title;
-	private ViewAddTournament viewAdd;
+	private ViewAdd<Tournament> viewAdd;
 	private ViewMain fenetre;
 	
 	public ViewListTournament(Controller controller, boolean deleteTournament, ViewMain fenetre) {
@@ -209,9 +209,9 @@ public class ViewListTournament extends JPanel {
 
 			refreshList();
 
-			// Signal to the viewAddGame that the game has been deleted
+			// Signal to the viewAddTournament that the tournament has been deleted
 			if (viewAdd != null)
-				viewAdd.tournamentDeleted(tournament);
+				viewAdd.deleted(tournament);
 		}
 	}
 	

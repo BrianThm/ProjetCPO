@@ -1,10 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,8 +15,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -35,7 +29,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.CompoundBorder;
 
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
@@ -57,61 +50,47 @@ import tournament.exceptions.NotEnoughParticipantsException;
  * @version 1.0
  */
 @SuppressWarnings("serial")
-public class ViewAddTournament extends JPanel {
+public class ViewAddTournament extends ViewAdd<Tournament> {
 
 	private ViewMain fenetre;
-	private Controller controller;
-	private JPanel content, panelSave, editCancel;
-	private JPanel panelDate, panelType, panelCB;
-	private JPanel panelParticipants;
+	private JPanel panelDate, panelType, panelCB, panelParticipants;
 	private UtilDateModel dateModel;
 	private JDatePanelImpl datePanel;
 	private JDatePickerImpl datePicker;
 	private Date selectedDate;
-	private ViewListTeam viewList;
 	private JTextField textLocation;
-	private JLabel title;
 	private JComboBox<String> cbTournament;
 	private JComboBox<Game> comboBox;
 	private String type;
 	private Game game;
-	private Tournament tournamentToEdit;
 	private JList<Participant> listParticipant;
-	private boolean isEditing;
 	private boolean isPlayerSelected;
 	private boolean randomDraw;
 
-	public ViewAddTournament(Controller controller, ViewListTeam viewList) {
+	public ViewAddTournament(Controller controller, ViewList<Tournament> viewList) {
 		this(controller);
 		this.viewList = viewList;
 	}
 
 	public ViewAddTournament(Controller controller) {
-		super();
-		
+		super(controller, "tournament");
+
 		Properties properties = new Properties();
 		properties.put("text.today", "Today");
 		properties.put("text.mouth", "Month");
 		properties.put("text.year", "Year");
-		
+
 		/* Initialization of the attributes */
-		this.controller = controller;
-		this.viewList = null;
-		this.setLayout(new BorderLayout());
-		this.content = new JPanel();
-		this.content.setLayout(new BoxLayout(this.content, BoxLayout.Y_AXIS));
 		this.textLocation = new JTextField(20);
 		this.panelDate = new JPanel(new FlowLayout());
 		this.dateModel = new UtilDateModel();
 		this.datePanel = new JDatePanelImpl(dateModel, properties);
-		this.datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());				
-		this.panelSave = new JPanel(new FlowLayout());
+		this.datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		this.panelType = new JPanel(new FlowLayout());
 		this.panelCB = new JPanel(new FlowLayout());
 		this.panelParticipants = new JPanel(new FlowLayout());
-		this.isEditing = false;
 		this.randomDraw = false;
-		
+
 		/* Initialization of the components */
 		JPanel panelName = new JPanel(new FlowLayout());
 		JPanel panelRadio = new JPanel(new GridLayout(2, 0));
@@ -126,21 +105,13 @@ public class ViewAddTournament extends JPanel {
 		JRadioButton rbtnTeams = new JRadioButton("Teams");
 		JButton addParticipant = new CustomButton("Add");
 		JCheckBox btnShuffleParts = new JCheckBox("Random draw");
-		JButton btnSave = new CustomButton("Save the tournament");
-		JButton btnEdit = new CustomButton("Edit the tournament");
-		JButton btnCancel = new CustomButton("Cancel");
 		ButtonGroup btnGrp = new ButtonGroup();
-		
+
 		/* By default, players are displayed */
 		isPlayerSelected = true;
 		List<Participant> listP = new ArrayList<Participant>(this.controller.getSortedPlayers());
 		Participant[] playersArray = listP.toArray(new Participant[listP.size()]);
-		
-		this.panelSave = new JPanel(new FlowLayout());
-		this.title = new JLabel("Add a tournament");
-		this.title.setFont(new Font("defaultFont", Font.BOLD, 15));
-		this.title.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
-		this.editCancel = new JPanel(new FlowLayout());
+
 		this.cbTournament = new JComboBox<String>();
 		this.comboBox = new JComboBox<Game>();
 		this.listParticipant = new JList<Participant>(playersArray);
@@ -149,7 +120,7 @@ public class ViewAddTournament extends JPanel {
 		rbtnPlayers.setSelected(true);
 		dateModel.setSelected(true);
 		selectedDate = (Date) datePicker.getModel().getValue();	
-		
+
 		panelName.add(locationTournament);
 		panelName.add(textLocation);
 		panelDate.add(dateTournament);
@@ -168,31 +139,17 @@ public class ViewAddTournament extends JPanel {
 		panelShuffle.add(panelRadListAdd);
 		panelShuffle.add(btnShuffleParts);
 		panelParticipants.add(panelShuffle);
-		editCancel.add(btnEdit);
-		editCancel.add(btnCancel);
-		panelSave.add(btnSave);
-		content.add(title);
-		content.add(Box.createRigidArea(new Dimension(0, 20)));
 		content.add(panelName);
-
-		content.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 5));
-		panelSave.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
-		editCancel.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
-
+		
 		/* All is centered */
-		title.setAlignmentX(CENTER_ALIGNMENT);
 		panelName.setAlignmentX(CENTER_ALIGNMENT);
 		datePicker.setAlignmentX(CENTER_ALIGNMENT);
 		panelType.setAlignmentX(CENTER_ALIGNMENT);
 		panelCB.setAlignmentX(CENTER_ALIGNMENT);
 		panelParticipants.setAlignmentX(CENTER_ALIGNMENT);
-		editCancel.setAlignmentX(CENTER_ALIGNMENT);
-		panelSave.setAlignmentX(CENTER_ALIGNMENT);
 
 		/* Adding all the components to the main panel */
-		this.add(content, BorderLayout.CENTER);
-		this.add(panelSave, BorderLayout.SOUTH);
-		this.displayAddTournament();
+		this.displaySave();
 
 		datePicker.addActionListener(new ActionListener() {
 			@Override
@@ -200,7 +157,7 @@ public class ViewAddTournament extends JPanel {
 				selectedDate = (Date) datePicker.getModel().getValue();				
 			}
 		});
-		
+
 		/* Check the selected type of tournament */
 		cbTournament.addItemListener(new ItemListener() {
 			@Override
@@ -212,7 +169,7 @@ public class ViewAddTournament extends JPanel {
 				}
 			}
 		});
-		
+
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent event) {
 				if (event.getStateChange() == ItemEvent.SELECTED) {
@@ -222,7 +179,7 @@ public class ViewAddTournament extends JPanel {
 				}
 			}
 		});
-		
+
 		/* When a radio button is selected to display players
 		 * or teams in the list of participants */
 		rbtnPlayers.addActionListener(new ActionListener() {
@@ -235,7 +192,7 @@ public class ViewAddTournament extends JPanel {
 				refreshPanel();
 			}
 		});
-		
+
 		rbtnTeams.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -246,7 +203,7 @@ public class ViewAddTournament extends JPanel {
 				refreshPanel();
 			}
 		});
-		
+
 		/* When the button add participant is clicked, a popup will appear 
 		 * to add players or teams.
 		 * When the popup is closed by the user, listParticpant is updated. 
@@ -258,20 +215,20 @@ public class ViewAddTournament extends JPanel {
 					JDialog popup = new popup(new ViewAddPlayer(controller));
 					popup.addWindowListener(new WindowAdapter() {
 						public void windowClosing(WindowEvent e) {
-						    rbtnPlayers.doClick();
-						 }
+							rbtnPlayers.doClick();
+						}
 					});
 				} else {
 					JDialog popup = new popup(new ViewAddTeam(controller));
 					popup.addWindowListener(new WindowAdapter() {
 						public void windowClosing(WindowEvent e) {
-						    rbtnTeams.doClick();
-						 }
+							rbtnTeams.doClick();
+						}
 					});
 				}
 			}
 		});
-		
+
 		/* If the user want to shuffle the participants into the tournament */
 		btnShuffleParts.addActionListener(new ActionListener() {
 			@Override
@@ -283,76 +240,51 @@ public class ViewAddTournament extends JPanel {
 				}
 			}
 		});
-		
-		/* When the button to cancel an editing is clicked */
-		btnCancel.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				displayAddTournament();
-			}
-		});
-
-		/* When the button to edit a player is clicked */
-		btnEdit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				editTournament();
-			}
-		});
-
-		btnSave.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (type == null) {
-					JOptionPane.showMessageDialog(content, "You must select a type of tournament !",
-							"Any type selected !", JOptionPane.ERROR_MESSAGE);
-				} else if (game == null) {
-					JOptionPane.showMessageDialog(content, "You must select a game for the tournament !",
-							"Any game selected !", JOptionPane.ERROR_MESSAGE);
-				} else {
-					addTournament(game, textLocation.getText(), type);
-				}
-			}
-		});
-
-		/* Empty border outside, gray border inside */
-		this.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20),
-				BorderFactory.createMatteBorder(2, 2, 2, 2, Color.gray)));
 	}
 	
-
-	private void displayAddTournament() {
-		clear();
-		this.isEditing = false;
-		title.setText("Add a tournament");
-		this.remove(editCancel);
+	@Override
+	protected boolean checkFields() {
+		if (type == null) {
+			JOptionPane.showMessageDialog(content, "You must select a type of tournament !",
+					"Any type selected !", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else if (game == null) {
+			JOptionPane.showMessageDialog(content, "You must select a game for the tournament !",
+					"Any game selected !", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+	
+	protected void displaySave() {
+		super.displaySave();
+		
 		ArrayList<Game> games = (ArrayList<Game>) this.controller.getSortedGames();
 
 		cbTournament.removeAllItems();
 		cbTournament.addItem(null);
 		cbTournament.addItem("Simple Elimination");
-		cbTournament.addItem("Double Elimination");		
-		
+		//cbTournament.addItem("Double Elimination");		
+
 		comboBox.removeAllItems();
 		comboBox.addItem(null);
+		
 		for (Game g : games) {
 			comboBox.addItem(g);
 		}
+		
 		content.add(panelDate);
 		content.add(panelType);
 		content.add(panelCB);
 		content.remove(panelParticipants);
 		content.add(panelParticipants);
-		this.add(panelSave, BorderLayout.SOUTH);
+
 		refreshPanel();
 	}
 
-	void displayEditTournament(Tournament tournament) {
-		this.title.setText("Edit a tournament");
-		content.remove(panelCB);
-		this.remove(panelSave);
-		this.isEditing = true;
-		this.tournamentToEdit = tournament;
+	@Override
+	protected void displayEdit(Tournament tournament) {
+		super.displayEdit(tournament);
 
 		textLocation.setText(tournament.getLocation());
 
@@ -363,61 +295,51 @@ public class ViewAddTournament extends JPanel {
 				selectedParticipants.add(i);
 		}
 		int[] arraySelected = new int[selectedParticipants.size()];
-		
+
 		for (int i = 0; i < arraySelected.length; i++)
 			arraySelected[i] = selectedParticipants.get(i);
-		
+
 		listParticipant.setSelectedIndices(arraySelected);
-		this.add(editCancel, BorderLayout.SOUTH);
+
 		refreshPanel();
 	}
 
-	public void tournamentDeleted(Tournament tournament) {
-		if (isEditing && tournamentToEdit == tournament) {
-			displayAddTournament();
-		}
-	}
-
-	
-	private void editTournament() {
+	@Override
+	protected void edit() {
 
 		List<Participant> newParticipants = listParticipant.getSelectedValuesList();
-		Tournament tournament = new SimpleElimination(selectedDate, tournamentToEdit.getGame());
-		
+		Tournament tournament = new SimpleElimination(selectedDate, toEdit.getGame());
+
 		for (Participant p : newParticipants)
 			tournament.addParticipant(p);
 		
-		/*if (controller.teamExists(teamToEdit, team)) {
-			JOptionPane.showMessageDialog(this, "The team " + textTeam.getText() + " already exists!",
-					"Editing not possible", JOptionPane.ERROR_MESSAGE);
-			return;
-		}*/
-
-		tournamentToEdit.setLocation(textLocation.getText());
-		List<Participant> oldParticipants = tournamentToEdit.getParticipants();
+		toEdit.setLocation(textLocation.getText());
+		List<Participant> oldParticipants = toEdit.getParticipants();
 
 		for (Participant p : new ArrayList<Participant>(oldParticipants)) {
 			if (!newParticipants.contains(p))
-				tournamentToEdit.removeParticipant(p);
-		}
-		
-		for (Participant p : new ArrayList<Participant>(newParticipants)) {
-			if (!oldParticipants.contains(p))
-				tournamentToEdit.addParticipant(p);
+				toEdit.removeParticipant(p);
 		}
 
-		JOptionPane.showMessageDialog(this, "The tournament on " + tournamentToEdit.getGame() + " has successfully been updated!",
+		for (Participant p : new ArrayList<Participant>(newParticipants)) {
+			if (!oldParticipants.contains(p))
+				toEdit.addParticipant(p);
+		}
+
+		JOptionPane.showMessageDialog(this, "The tournament on " + toEdit.getGame() + " has successfully been updated!",
 				"Team edited", JOptionPane.INFORMATION_MESSAGE);
 		isEditing = false;
-		displayAddTournament();
+		displaySave();
 
 		if (viewList != null)
 			viewList.makeList();
 	}
 
-	
-	private void addTournament(Game game, String location, String type) {
+	@Override
+	protected void save() {
+		String location = textLocation.getText();
 		Tournament tournament;
+		
 		if (type == "Simple Elimination") {
 			tournament = (location == null || location.length() == 0) 
 					? new SimpleElimination(selectedDate, game) : new SimpleElimination(selectedDate, game, location);
@@ -425,6 +347,7 @@ public class ViewAddTournament extends JPanel {
 			tournament = (location == null || location.length() == 0) 
 					? new DoubleElimination(selectedDate, game) : new DoubleElimination(selectedDate, game, location);
 		}
+		
 		List<Participant> parts =  listParticipant.getSelectedValuesList();
 
 		for (Participant p : parts)
@@ -433,15 +356,16 @@ public class ViewAddTournament extends JPanel {
 		if (randomDraw) {
 			tournament.randomDraw();
 		}
-		
+
 		try {
 			tournament.initializeMatchs();
 			this.controller.addTournament(tournament);
 			JOptionPane.showMessageDialog(this, "The tournament on "+ game + " has been successfully added!", "Tournament " + game + " added", JOptionPane.INFORMATION_MESSAGE);
 		} catch (NotEnoughParticipantsException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Bad number of participants !", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Wrong number of participants !", JOptionPane.ERROR_MESSAGE);
+			return;
 		}
-		
+
 		if (viewList != null)
 			viewList.makeList();
 
@@ -452,50 +376,41 @@ public class ViewAddTournament extends JPanel {
 		public popup(JPanel jp) {
 			super(fenetre, "Add");
 			super.setAlwaysOnTop(true);
+			super.setLocationRelativeTo(null);
 			super.add(jp);
 			super.pack();
 			super.setVisible(true);
 		}
 	}
-	
-	private void clear() {
+
+	@Override
+	protected void clear() {
 		textLocation.setText("");
 		listParticipant.clearSelection();
 		comboBox.setSelectedItem(null);
 	}
 
-	/**
-	 * Refresh the panel when the display changes.
-	 */
-	private void refreshPanel() {
-		this.repaint();
-		this.revalidate();
-	}
-	
-	
-	
-	
 	/*
 	 * Private class which permit to format the date
 	 */
 	private class DateLabelFormatter extends AbstractFormatter {
 
-	    private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+		private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
 
-	    @Override
-	    public Object stringToValue(String text) throws ParseException {
-	        return dateFormatter.parseObject(text);
-	    }
+		@Override
+		public Object stringToValue(String text) throws ParseException {
+			return dateFormatter.parseObject(text);
+		}
 
-	    @Override
-	    public String valueToString(Object value) throws ParseException {
-	        if (value != null) {
-	            Calendar cal = (Calendar) value;
-	            return dateFormatter.format(cal.getTime());
-	        }
+		@Override
+		public String valueToString(Object value) throws ParseException {
+			if (value != null) {
+				Calendar cal = (Calendar) value;
+				return dateFormatter.format(cal.getTime());
+			}
 
-	        return "";
-	    }
+			return "";
+		}
 
 	}
 }

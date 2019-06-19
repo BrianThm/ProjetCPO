@@ -1,27 +1,20 @@
-/**
- * 
- */
 package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -207,10 +200,11 @@ public class ViewTournament extends JPanel {
 				BorderFactory.createMatteBorder(2, 2, 2, 2, Color.gray)));
 	}
 	
-	private class popup extends JDialog{
+	private class popup extends JDialog {
 		public popup(JPanel jp) {
-			super( fenetre , "Tree Tournament"); 
+			super(fenetre , "Tree Tournament"); 
 			super.setAlwaysOnTop(true);
+			super.setLocationRelativeTo(null);
 			super.add(jp);
 			super.pack();
 			super.setVisible(true);

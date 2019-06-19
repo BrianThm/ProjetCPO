@@ -1,14 +1,22 @@
  package view;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -24,12 +32,12 @@ import controller.exceptions.SaveImpossibleException;
 @SuppressWarnings("serial")
 public class ViewMain extends JFrame {
 
-	//private Controller controller;
 	private Container cont;
+	private Controller controller;
 
 	public ViewMain(Controller controller, String title) {
 		super(title);
-		//this.controller = controller;
+		this.controller = controller;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		cont = this.getContentPane();
@@ -80,9 +88,6 @@ public class ViewMain extends JFrame {
 		menuTournament.add(addTournament);
 		menuTournament.add(displayTournaments);
 		menuTournament.add(deleteTournament);
-
-
-		cont.setLayout(new BorderLayout());
 
 		saveData.addActionListener(new ActionListener() {
 			@Override
@@ -235,15 +240,116 @@ public class ViewMain extends JFrame {
 		});
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		homePage();
 		this.setBounds(0, 0, screenSize.width, screenSize.height);
-
-		this.setJMenuBar(menubar);
+		this.setJMenuBar(menubar);		
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-		this.changeView(ViewList(controller, false));
+	}
+	
+	private void homePage() {
+		cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
+		
+		JLabel title = new JLabel("Welcome to Esport tournament management software!");
+
+		title.setFont(new Font("defaultFont", Font.BOLD, 30));
+		title.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.gray));
+		
+		JLabel info = new JLabel("This application allows you to manage esport tournaments.");
+
+		JPanel panelInfo = new JPanel(new FlowLayout());
+		JPanel panelGame = new JPanel(new FlowLayout());
+		JPanel panelPlayer = new JPanel(new FlowLayout());
+		JPanel panelTeam = new JPanel(new FlowLayout());
+		JPanel panelTournament = new JPanel(new FlowLayout());
+		JPanel panelLoad = new JPanel(new FlowLayout());
+		
+		JLabel labelGame = new JLabel("Add a game via the games manager ");
+		JLabel labelPlayer = new JLabel("Add a player via the players manager ");
+		JLabel labelTeam = new JLabel("If you have any player, you can add a team via the teams manager ");
+		JLabel labelTournament = new JLabel("You're now able to add a tournament ");
+		JLabel labelLoad = new JLabel("If you've already saved your data, you can load it here ");
+		
+		JButton manageGame = new CustomButton("Manage games");
+		JButton managePlayer = new CustomButton("Manage players");
+		JButton manageTeam = new CustomButton("Manage teams");
+		JButton manageTournament = new CustomButton("Add a tournament");
+		JButton loadFile = new CustomButton("Load previous save");
+		
+		manageGame.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				changeView(new ViewGame(controller));
+			}
+		});
+		
+		managePlayer.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				changeView(new ViewPlayer(controller));
+			}
+		});
+		
+		manageTeam.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				changeView(new ViewTeam(controller));
+			}
+		});
+		
+		manageTournament.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				changeView(new ViewAddTournament(controller));
+			}
+		});
+		
+		loadFile.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileFilter(new FileNameExtensionFilter("Tournaments save", "txt"));
+				fileChooser.showOpenDialog(null);
+
+				File file = fileChooser.getSelectedFile();
+				if (file == null) {
+					return;
+				}
+
+				String filename = file.toString();
+				try {
+					controller.load(filename);
+				} catch (LoadImpossibleException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
+		panelInfo.add(info);
+		panelGame.add(labelGame);
+		panelGame.add(manageGame);
+		panelPlayer.add(labelPlayer);
+		panelPlayer.add(managePlayer);
+		panelTeam.add(labelTeam);
+		panelTeam.add(manageTeam);
+		panelTournament.add(labelTournament);
+		panelTournament.add(manageTournament);
+		panelLoad.add(labelLoad);
+		panelLoad.add(loadFile);
+		
+		cont.add(title);
+		cont.add(Box.createRigidArea(new Dimension(0, 50)));
+		cont.add(panelInfo);
+		cont.add(panelGame);
+		cont.add(panelPlayer);
+		cont.add(panelTeam);
+		cont.add(panelTournament);
+		cont.add(panelLoad);
 	}
 	
 	public void changeView(JPanel view) {
+		cont.setLayout(new BorderLayout());
 		JScrollPane scrollPane = new JScrollPane(view);
 		cont.removeAll();
 		cont.add(scrollPane, BorderLayout.CENTER);
