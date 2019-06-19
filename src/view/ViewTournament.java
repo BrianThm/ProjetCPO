@@ -70,10 +70,6 @@ public class ViewTournament extends JPanel {
 	private JPanel panelDate;
 	private JPanel panelWinner; 
 
-	/**
-	 * Constructor to create the view with the lsit of games and the form to add a game.
-	 * @param controller TODO
-	 */
 	public ViewTournament(Controller controller, Tournament t, ViewMain fenetre) {
 		super();
 		
@@ -236,7 +232,7 @@ public class ViewTournament extends JPanel {
 	
 	private void displayTournament() {
 		clear();
-		title.setText("Tournament informations");
+		title.setText("Tournament information");
 		textLocation.setText(tournament.getLocation());
 		
 		if (SimpleElimination.class.isInstance(tournament)) {
