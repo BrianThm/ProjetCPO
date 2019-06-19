@@ -6,14 +6,14 @@ Fortnite;3.png
 World of Warcraft;4.png
 League of Legends;5.png
 # players #
-Morgane;Enaxom;Cadeau;-1
-Adrien;Zerator;Nougaret;-1
+Morgane;Enaxom;Cadeau;1
+Adrien;Zerator;Nougaret;4
 Aymeric;Aypierre;Pierre;0
 Antoine;Nems;Unknown;0
 Pierre-Alexis;Domingo;Bizot;5
-Jeff;Houngoungagne;Unknown;-1
+Jeff;Houngoungagne;Unknown;1
 Epsilon;EpsiSkinny;Chat;-1
-William;Wyzedix;Mateille;-1
+William;Wyzedix;Mateille;1
 Ravioli;ViviFluffy;Chat;-1
 Nathan;Natoux31;Dias;5
 # teams #
