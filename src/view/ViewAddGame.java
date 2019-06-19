@@ -152,7 +152,8 @@ public class ViewAddGame extends ViewAdd<Game> {
 	 */
 	@Override
 	protected void edit() {
-		super.edit();
+		if (!checkFields()) // Check all the fields
+			return;
 
 		// Check if the game the user is trying to edit already exists
 		Game game = new Game(textGame.getText());

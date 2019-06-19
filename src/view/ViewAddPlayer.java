@@ -115,7 +115,8 @@ public class ViewAddPlayer extends ViewAdd<Player> {
 
 	@Override
 	protected void edit() {
-		super.edit();
+		if (!checkFields()) // Check all the fields
+			return;
 
 		Player player = new Player(fname.getText(), lname.getText(), nickname.getText());
 		if (controller.playerExists(toEdit, player)) {

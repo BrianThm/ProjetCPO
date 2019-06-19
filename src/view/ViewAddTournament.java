@@ -306,7 +306,9 @@ public class ViewAddTournament extends ViewAdd<Tournament> {
 
 	@Override
 	protected void edit() {
-
+		if (!checkFields()) // Check all the fields
+			return;
+		
 		List<Participant> newParticipants = listParticipant.getSelectedValuesList();
 		Tournament tournament = new SimpleElimination(selectedDate, toEdit.getGame());
 

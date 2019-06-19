@@ -150,7 +150,8 @@ public class ViewAddTeam extends ViewAdd<Team> {
 
 	@Override
 	protected void edit() {
-		super.edit();
+		if (!checkFields()) // Check all the fields
+			return;
 		
 		List<Player> newPlayers = listPlayers.getSelectedValuesList();
 		Team team = new Team(textTeam.getText());

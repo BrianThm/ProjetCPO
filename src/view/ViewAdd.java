@@ -120,11 +120,6 @@ public abstract class ViewAdd<T> extends JPanel {
 			displaySave();
 	}
 	
-	protected void edit() {
-		if (!checkFields()) // Check all the fields
-			return;
-	}
-	
 	/**
 	 * Refresh the panel when the display changes.
 	 */
@@ -132,6 +127,8 @@ public abstract class ViewAdd<T> extends JPanel {
 		this.repaint();
 		this.revalidate();
 	}
+	
+	protected abstract void edit();
 	
 	protected abstract void save();
 	
