@@ -28,6 +28,7 @@ import tournament.Player;
 import tournament.SimpleElimination;
 import tournament.Team;
 import tournament.Tournament;
+import tournament.exceptions.MatchDrawException;
 
 /**
  * This class permits to save & load a list of tournaments, games and participant.
@@ -377,9 +378,10 @@ public class FileOperation {
 		}
 	}
 
-	private static void loadSimplesEliminations(BufferedReader buffer, List<SimpleElimination> idSimples, List<Team> idTeams, List<Player> idPlayers, List<Game> idGames) throws IOException, LoadImpossibleException, ParseException {
+	private static void loadSimplesEliminations(BufferedReader buffer, List<SimpleElimination> idSimples, List<Team> idTeams, List<Player> idPlayers, List<Game> idGames) throws IOException, LoadImpossibleException, ParseException, MatchDrawException {
 		String line, args[], location, date, match[];
 		Match[] matchs;
+		SimpleElimination simple;
 		Participant par1, par2;
 		Game game;
 		int g, p1, p2, s1, s2;
@@ -392,6 +394,8 @@ public class FileOperation {
 			g = Integer.parseInt(args[2]);
 			game = idGames.get(g);
 			isPlayer = args[3].equals("p");
+			
+			simple = new SimpleElimination(new Date(Long.parseLong(date)), game, location);
 			
 			matchs = new Match[args.length - 3];
 			for (int i = 4; i < args.length; i++) {
@@ -409,11 +413,12 @@ public class FileOperation {
 					par2 = idTeams.get(p2);
 				}
 				
-				matchs[i - 4] = new Match(par1, par2, game);
+				matchs[i - 4] = new Match(simple, par1, par2);
 				matchs[i - 4].setScore(s1, s2);
 			}
 			
-			idSimples.add(new SimpleElimination(new Date(Long.parseLong(date)), game, location));
+			simple.setMatchs(matchs);
+			idSimples.add(simple);
 		}
 	}
 }

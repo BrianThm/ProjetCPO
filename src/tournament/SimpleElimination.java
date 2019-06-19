@@ -7,7 +7,6 @@ import java.util.List;
 import tournament.exceptions.MatchDrawException;
 import tournament.exceptions.NotEnoughParticipantsException;
 
-@SuppressWarnings("deprecation")
 /**
  * A type of tournament. 
  * This is the most simple tournament, where the looser of a match loose the tournament. 
@@ -44,54 +43,43 @@ public class SimpleElimination extends Tournament {
 			throw new NotEnoughParticipantsException();
 		}
 		
-		super.matchs = new Match[nbParts];
+		matchs = new Match[nbParts];
 		List<Participant> parts = new ArrayList<>(participants);
 		
-		for (int i=1; i<(nbParts/2); i++) {
-			super.matchs[i] = null;
-		}
-		for (int i=(nbParts/2); i<(nbParts); i++) {
-			super.matchs[i] = new Match(parts.get((i*2)-nbParts), 
-					parts.get(((i*2)-nbParts)+1), this.getGame());
-			super.matchs[i].addObserver(this);
+		for (int i = nbParts/2; i < nbParts; i++) {
+			matchs[i] = new Match(this, parts.get((i*2)-nbParts), parts.get(((i*2)-nbParts)+1));
 		}
 	}
 	
 	@Override
-	public void updateMatchs(Match m) {
-		int nbParts = participants.size();
-		Participant defaultPart;
-		
-		if (participants.iterator().next() instanceof Player) {
-			defaultPart = new Player("?");
-		} else {
-			defaultPart = new Team("?");
-		}
-		
+	public void updateMatchs(Match m) throws MatchDrawException {
 		if (m.isDraw()) {
 			throw new MatchDrawException();
 		}
 		
-		for (int i=2; i<nbParts; i++) {
-			if ((super.matchs[i] != null) 
-					&& (super.matchs[i].getWinner() != null)) {
-				if (super.matchs[i/2] == null) {
-					// default match
-					super.matchs[i/2] = new Match(defaultPart, defaultPart, this.getGame());
-					super.matchs[i/2].addObserver(this);
+		int nbParts = participants.size();
+		Participant defaultPart = new Team("?");
+		
+		if (participants.iterator().next() instanceof Player) {
+			defaultPart = new Player("?");
+		}
+		
+		for (int i = 2; i < nbParts; i++) {
+			if (matchs[i] == m) { // match updated
+				if (matchs[i / 2] == null) { // default match
+					matchs[i/2] = new Match(this, defaultPart, defaultPart);
 				}
+				
 				if (i%2 == 0) {
-					super.matchs[i/2].setParticipant1(super.matchs[i].getWinner());
+					matchs[i / 2].setParticipant1(matchs[i].getWinner());
 				} else {
-					super.matchs[i/2].setParticipant2(super.matchs[i].getWinner());
+					matchs[i / 2].setParticipant2(matchs[i].getWinner());
 				}
 			}
 		}
-		if (super.matchs[1] != null 
-				&& super.matchs[1].getWinner() != null) {
-			super.setWinner(super.matchs[1].getWinner());
+		
+		if (matchs[1] != null) {
+			setWinner(matchs[1].getWinner());
 		}
 	}
-	
-	
 }
