@@ -19,7 +19,6 @@ import tournament.SimpleElimination;
 import tournament.Team;
 import tournament.Tournament;
 
-
 /**
  * Class that permit to gathered initialization of 
  * many variables for class tests.
@@ -86,8 +85,8 @@ public abstract class SetupTest {
 	protected String location2;
 	protected String location3;
 	
-	protected Match match; 
-	protected Match match1; 
+	protected Match match;
+	protected Match match1;
 	
 	protected ArrayList<Participant> participants;
 	protected Set<Tournament> tournaments;
@@ -103,7 +102,7 @@ public abstract class SetupTest {
 		controller1 = new Controller();
 		
 		game = new Game("Overwatch");
-		game1 = new Game("CS:GO", new ImageIcon("Image test.jpg"));
+		game1 = new Game("CS:GO", new ImageIcon("ressources/imgTest1.jpg"));
 		game2 = new Game("PUBG");
 		game3 = new Game("Smash");
 		

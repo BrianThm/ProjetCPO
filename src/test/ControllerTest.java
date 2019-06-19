@@ -30,7 +30,7 @@ public class ControllerTest extends SetupTest {
 	private Set<Tournament> expectedListTournaments;
 	private Set<Team> expectedListTeams;
 	
-	@Before 
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		expectedListTournaments = new HashSet<Tournament>();
@@ -405,14 +405,14 @@ public class ControllerTest extends SetupTest {
 		ArrayList<Player> expectedSortedPlayers = new ArrayList<Player>();
 		assertEquals("The list of sortedPLayers returned is not correct !", expectedSortedPlayers, controller1.getSortedPlayers());
 		
-		expectedSortedPlayers.add(player1); 
-		expectedSortedPlayers.add(player3); 
-		expectedSortedPlayers.add(player6); 
-		expectedSortedPlayers.add(player2); 
-		expectedSortedPlayers.add(player5); 
-		expectedSortedPlayers.add(player); 
-		expectedSortedPlayers.add(player7); 
-		expectedSortedPlayers.add(player4); 
+		expectedSortedPlayers.add(player1);
+		expectedSortedPlayers.add(player3);
+		expectedSortedPlayers.add(player6);
+		expectedSortedPlayers.add(player2);
+		expectedSortedPlayers.add(player5);
+		expectedSortedPlayers.add(player);
+		expectedSortedPlayers.add(player7);
+		expectedSortedPlayers.add(player4);
 		
 		assertEquals("The list of sortedPLayers returned is not correct !", expectedSortedPlayers, controller.getSortedPlayers());
 	}

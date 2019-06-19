@@ -13,7 +13,6 @@ import org.junit.Test;
  */
 public class GameTest extends SetupTest {
 
-
 	/**
 	 * Test method for {@link tournament.Game#Game(java.lang.String)}.
 	 */
@@ -29,7 +28,7 @@ public class GameTest extends SetupTest {
 	@Test
 	public void testGameStringImageIcon() {
 		assertEquals("Le nom doit être CS:GO !", "CS:GO", game1.getName());
-		assertEquals("L'image doit être la même que 'image test.jpg'", new ImageIcon("Image test.jpg").getImage(), game1.getImage().getImage());
+		assertEquals("L'image doit être la même que 'imgTest1.jpg'", new ImageIcon("ressources/imgTest1.jpg").getImage(), game1.getImage().getImage());
 	}
 
 	/**
@@ -57,9 +56,9 @@ public class GameTest extends SetupTest {
 	 */
 	@Test
 	public void testGetImage() {
-		game.setImage(new ImageIcon("ImageTest2.jpg"));
-		assertEquals("L'image doit être ImageTest2.jpg !", new ImageIcon("ImageTest2.jpg").getImage(), game.getImage().getImage());
-		assertEquals("L'image doit être Image test.jpg !", new ImageIcon("Image test.jpg").getImage(), game1.getImage().getImage());
+		game.setImage(new ImageIcon("ressources/imgTest2.jpg"));
+		assertEquals("L'image doit être imgTest2.jpg !", new ImageIcon("ressources/imgTest2.jpg").getImage(), game.getImage().getImage());
+		assertEquals("L'image doit être imgTest1.jpg !", new ImageIcon("ressources/imgTest1.jpg").getImage(), game1.getImage().getImage());
 	}
 
 	/**
@@ -67,10 +66,10 @@ public class GameTest extends SetupTest {
 	 */
 	@Test
 	public void testSetImage() {
-		game.setImage(new ImageIcon("Image test.jpg"));
-		game1.setImage(new ImageIcon("ImageTest2.jpg"));
-		assertEquals("L'image doit être Image test.jpg !", new ImageIcon("Image test.jpg").getImage(), game.getImage().getImage());
-		assertEquals("L'image doit être ImageTest2.jpg !", new ImageIcon("ImageTest2.jpg").getImage(), game1.getImage().getImage());
+		game.setImage(new ImageIcon("ressources/imgTest1.jpg"));
+		game1.setImage(new ImageIcon("ressources/imgTest2.jpg"));
+		assertEquals("L'image doit être imgTest1.jpg !", new ImageIcon("ressources/imgTest1.jpg").getImage(), game.getImage().getImage());
+		assertEquals("L'image doit être imgTest2.jpg !", new ImageIcon("ressources/imgTest2.jpg").getImage(), game1.getImage().getImage());
 	}
 
 	/**
@@ -89,7 +88,7 @@ public class GameTest extends SetupTest {
 	public void testEqualsObject() {
 		assertEquals("Il doit renvoyer faux car les deux gamex sont diff�rents ! ", false, game.equals(game1));
 		game.setName("CS:GO");
-		game.setImage(new ImageIcon("Image test.jpg"));
+		game.setImage(new ImageIcon("ressources/imgTest1.jpg"));
 		assertEquals("Il doit renvoyer vrai car ils sont egaux maintenant !", true, game.equals(game1));
 	}
 

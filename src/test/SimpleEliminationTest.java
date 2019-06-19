@@ -10,7 +10,7 @@ import tournament.exceptions.*;
  * Class which test, with unit test, methods of the 
  * class SimpleElimination
  */
-public class SimpleEliminationTest extends SetupTest{
+public class SimpleEliminationTest extends SetupTest {
 
 	Match[] matchs;
 	

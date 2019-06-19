@@ -155,7 +155,7 @@ public class Controller {
 			added = false;
 			
 			for (int i = 0; i < list.size(); i++) {
-				if (game.getName().compareTo(list.get(i).getName()) < 0) {
+				if (game.getName().compareToIgnoreCase(list.get(i).getName()) < 0) {
 					list.add(i, game);
 					added = true;
 					break;
@@ -250,7 +250,7 @@ public class Controller {
 			added = false;
 			
 			for (int i = 0; i < list.size(); i++) {
-				if (player.toString().compareTo(list.get(i).toString()) < 0) {
+				if (player.toString().compareToIgnoreCase(list.get(i).toString()) < 0) {
 					list.add(i, player);
 					added = true;
 					break;
@@ -344,7 +344,7 @@ public class Controller {
 			added = false;
 			
 			for (int i = 0; i < list.size(); i++) {
-				if (team.getName().compareTo(list.get(i).getName()) < 0) {
+				if (team.getName().compareToIgnoreCase(list.get(i).getName()) < 0) {
 					list.add(i, team);
 					added = true;
 					break;

@@ -1,21 +1,16 @@
-/**
- * 
- */
 package test;
 
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Field;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
 import tournament.Participant;
 
 /**
+ * Class which test methods of class Match
  * @author Group
  * @version 1.0
- * Class which test methods of class Match
- *
  */
 public class MatchTest extends SetupTest {
 
@@ -218,5 +213,4 @@ public class MatchTest extends SetupTest {
 		assertEquals("the match has not been correctly transformed into String!", ""+player.getName()+": 3\n"+player3.getName()+": 1\n", match.toString());
 		assertEquals("the match has not been correctly transformed into String!", ""+team1.getName()+": 1\n"+team2.getName()+": 5\n", match1.toString());
 	}
-
 }
