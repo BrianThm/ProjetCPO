@@ -38,11 +38,20 @@ public class ViewAddTeam extends ViewAdd<Team> {
 	private Game preferredGame;
 	private JList<Player> listPlayers;
 
+	/**
+	 * Constructor of ViewAddTeam when there is a ViewList<Team> associated to it.
+	 * @param controller The controller.
+	 * @param viewList The viewList associated to it.
+	 */
 	public ViewAddTeam(Controller controller, ViewList<Team> viewList) {
 		this(controller);
 		this.viewList = viewList;
 	}
 
+	/**
+	 * Constructor of ViewAddTeam when there isn't the list displayed next.
+	 * @param controller The controller;
+	 */
 	public ViewAddTeam(Controller controller) {
 		super(controller, "team");
 		/* Initialization of the attributes */
@@ -109,10 +118,6 @@ public class ViewAddTeam extends ViewAdd<Team> {
 		refreshPanel();
 	}
 
-	
-		
-	
-		//content.remove(panelCB);
 	@Override
 	protected void displayEdit(Team team) {
 		super.displayEdit(team);

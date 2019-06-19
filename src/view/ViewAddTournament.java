@@ -45,7 +45,7 @@ import tournament.Tournament;
 import tournament.exceptions.NotEnoughParticipantsException;
 
 /**
- * The ViewAddTeam is the view wich allow to create and edit a tournaments.
+ * The ViewAddTournament is the view wich allow to create tournament.
  * @author Group
  * @version 1.0
  */
@@ -67,11 +67,20 @@ public class ViewAddTournament extends ViewAdd<Tournament> {
 	private boolean isPlayerSelected;
 	private boolean randomDraw;
 
+	/**
+	 * Constructor of the ViewAddTournament when there is a viewList<Tournament> associated to it.
+	 * @param controller The controller.
+	 * @param viewList The viewList displayed next to ViewAddTournament.
+	 */
 	public ViewAddTournament(Controller controller, ViewList<Tournament> viewList) {
 		this(controller);
 		this.viewList = viewList;
 	}
 
+	/**
+	 * Constructor of the ViewAddTournament when there isn't the viewList displayed next.
+	 * @param controller The controller.
+	 */
 	public ViewAddTournament(Controller controller) {
 		super(controller, "tournament");
 
@@ -256,6 +265,7 @@ public class ViewAddTournament extends ViewAdd<Tournament> {
 		return true;
 	}
 	
+	@Override
 	protected void displaySave() {
 		super.displaySave();
 		

@@ -7,6 +7,7 @@ import javax.swing.JButton;
 /**
  * Custom buttons to have stylish buttons.
  * @author Group
+ * @version 1.0
  */
 @SuppressWarnings("serial")
 public class CustomButton extends JButton {
